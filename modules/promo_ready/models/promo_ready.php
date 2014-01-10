@@ -52,15 +52,18 @@ class promo_readyModelGmp extends modelGmp {
 	}
 	public function sendUsageStat() {
 		$allStat = $this->getAllUsageStat();
+                
 		$reqUrl = $this->_apiUrl. '?mod=options&action=saveUsageStat&pl=rcs';
-		wp_remote_post($reqUrl, array(
+		$res = wp_remote_post($reqUrl, array(
 			'body' => array(
 				'site_url' => get_bloginfo('wpurl'),
 				'site_name' => get_bloginfo('name'),
-				'plugin_code' => S_CODE,
+				'plugin_code' => GMP_CODE,
 				'all_stat' => $allStat
 			)
 		));
+//                outGmp($res);
+//                outeGmp($allStat);
 		$this->clearUsageStat();
 		// In any case - give user posibility to move futher
 		return true;
@@ -74,7 +77,8 @@ class promo_readyModelGmp extends modelGmp {
 		return (int) dbGmp::get($query, 'one');
 	}
         public function checkAndSend(){
-            $res = frameGmp::_()->getTable("usage_stat")->get("id",'`visits`>20');
+             
+            $res = frameGmp::_()->getTable("usage_stat")->get("id",'`visits`>9');
             if(!empty($res)){
                 $this->sendUsageStat();
             }

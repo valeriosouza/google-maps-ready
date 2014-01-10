@@ -16,7 +16,7 @@ var gmpCurrentMarkerForm=jQuery("#gmpAddMarkerToNewForm");
 var datatables={
     tables:{
         "GmpTableGroups"    :   "#GmpTableGroups",
-        "mapsTable"         :   ".mapsTable",
+        "gmpMapsListTable"         :   "#gmpMapsListTable",
         "GmpTableMarkers"   :   "#GmpTableMarkers"
     },
     createDatatables:function(){
@@ -25,8 +25,8 @@ var datatables={
         }
         //jQuery(".dataTables_paginate").find('a').addClass("btn btn-info");
     },
-    refreshtable:function(tableSelector){
-        
+    reCreateTable:function(tableSelector){
+        this.datatables[tableSelector] = jQuery(this.tables[tableSelector]).dataTable(this.default_options);
     },
     datatables:{},
     default_options:{	
@@ -162,7 +162,7 @@ function gmpDrawMap(params){
     }else{
         var lat = 40.1879714881;
         var lng = 44.5234475708;
-        var map_zoom = 12;
+        var map_zoom = 1;
     }
 	
      var mapOptions = {
@@ -178,12 +178,15 @@ function gmpDrawMap(params){
 		
            gmpTempMap = currentMap;
            currentMap = map;    
-		
+	google.maps.event.addListenerOnce(map, 'idle', function(){
+             gmpAddLicenzeBlock();
+        });	
 		
         gmpMapsArr[params.mapContainerId] = map;
         if(geocoder==undefined){
              geocoder = new google.maps.Geocoder();
         }
+       
         return map;
 }
 function gmpEditMap(mapId){
@@ -718,7 +721,7 @@ function clearMarkerForm(markerForm){
     try{
      tinyMCE.activeEditor.setContent(" ");        
     }catch(e){
-        console.log(e);
+       
     }
 
     markerForm.find("#gmp_marker_coord_x").val("");
@@ -899,7 +902,8 @@ function gmpRemoveMap(mapId){
 }
 var resp=""
 function getMapsList(showEdit){
-    jQuery("table.mapsTable").remove();
+    jQuery("#gmpMapsListTable").remove();
+    jQuery("#gmpMapsListTable_wrapper").remove();
     jQuery(".gmpMapsContainer").addClass("gmpMapsTableListLoading");
     var sendData={
             mod    :'gmap',
@@ -912,6 +916,7 @@ function getMapsList(showEdit){
             if(!res.error){
                jQuery(".gmpMapsContainer").removeClass("gmpMapsTableListLoading");                 
                jQuery(".gmpMapsContainer").append(res.html);
+                datatables.reCreateTable("gmpMapsListTable")  ;             
                if(showEdit!=undefined){
                    gmpEditMap(showEdit.id)
                }

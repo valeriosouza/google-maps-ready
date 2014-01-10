@@ -93,7 +93,7 @@
                    <?php
 
 
-                    echo htmlGmp::selectbox('map_opts[map_zoom]',array('attrs'=>" class='gmpMap_zoom gmpInputSmall' id='gmpMap_zoom' ",'options'=>$this->map_opts['zoom'],'value'=>8))
+                    echo htmlGmp::selectbox('map_opts[map_zoom]',array('attrs'=>" class='gmpMap_zoom gmpInputSmall' id='gmpMap_zoom' ",'options'=>$this->map_opts['zoom'],'value'=>1))
                    ?>
                    <label for="gmpMap_zoom" class="gmpFormLabel">
                          <?php langGmp::_e('Map Zoom')?>
@@ -346,9 +346,7 @@
                       
                   </div>
                   <div class='gmpNewMapPreview' id='mapPreviewToNewMap'></div>
-                  <div class='gmpNewMapPreview gmpEditMapsContainer'>
-                      
-                  </div>
+                 
              </div>
         
             <!-- Map End-->
@@ -362,23 +360,4 @@
 
     </div>
 </div>    
-<script type='text/javascript'>
-    function refreshMapsList(){
-        console.log('active');
-    }
-    jQuery(document).ready(function(){
-        jQuery(".ui-tabs-nav").click(function(){
-            //if(!confirm("Leave Maps tab without save?"));
-            if(this.id=="gmpAllMaps" && !jQuery(this).hasClass("ui-state-active")){
-                refreshMapsList();
-            }else{
-                
-            }
-        })
-        jQuery("li.ui-tabs-active").each(function(){
-                if(jQuery(this).hasClass('ui-state-active')&& this.id=="gmpAllMaps"){
-                    refreshMapsList();
-                }
-           })
-    })
-</script>    
+    

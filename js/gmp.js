@@ -46,7 +46,7 @@ function toggleBounce(marker,animType) {
     if(animType==0){
         return false;   
     }
-    console.log(animType);
+
     if (marker.getAnimation() != null) {
       marker.setAnimation(null);
     } else if(animType==2) {	
@@ -123,3 +123,14 @@ jQuery(document).ready(function(){
     gmpChangeTab(jQuery("#gmpTabForNewMapOpts"),true);
     //gmpActiveTab['submenu'] = jQuery("#gmpTabForNewMapOpts");
 })
+function gmpGetLicenseBlock(){
+       return '<a style="color: rgb(68, 68, 68); text-decoration: none; cursor: pointer;margin-right: 2px;margin-left: -21px;background-color: rgba(255, 255, 255, 0.37);" href="http://readyshoppingcart.com/product/google-maps-plugin/" target="_blank">' +'Google Maps WordPress Plugin'+'</a>';
+
+}
+function gmpAddLicenzeBlock(){
+
+    var befElem = jQuery('.gmnoprint').find('.gm-style-cc');
+    befElem.css('float', 'right');
+    befElem.css('width', '400px');
+    befElem.find('a').after(gmpGetLicenseBlock());
+}

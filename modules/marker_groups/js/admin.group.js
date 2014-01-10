@@ -17,9 +17,11 @@ function gmpRefreshGroupList(){
             if(!res.error){
                 jQuery(".gmpGTablecon").removeClass("gmpMapsTableListLoading")
                 jQuery(".gmpGTablecon").html(res.html)
+                datatables.reCreateTable("GmpTableGroups");
             }
         }
     })     
+       
 }
 function gmpEditGroupItem(groupId){
 

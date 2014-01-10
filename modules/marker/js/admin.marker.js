@@ -100,7 +100,7 @@ function gmpEditMarkerItem(markerId){
             try{
 		tinyMCE.editors[1].setContent(formParams[id]); 
             }catch(e){
-                console.log(e);
+                
             }
         }else{
            currentMarkerForm.find("#"+id).val(formParams[id]);            
@@ -122,7 +122,8 @@ function gmpRefreshMarkerList(){
         onSuccess:function(res){
             if(!res.error){
                 jQuery(".gmpMTablecon").removeClass("gmpMapsTableListLoading")
-                jQuery(".gmpMTablecon").html(res.html)
+                jQuery(".gmpMTablecon").html(res.html);
+                datatables.reCreateTable("GmpTableMarkers");
             }else{
                
             }

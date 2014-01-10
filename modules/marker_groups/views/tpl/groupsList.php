@@ -21,7 +21,7 @@
             echo htmlGmp::formStart("gmpGroupForm", array("attrs"=>" id='gmpGroupForm' "));
         ?>
         <fieldset>
-            <legend><?php langGmp::_e("Add New Group")?></legend>
+            <legend><?php langGmp::_e("Save Group")?></legend>
             <div class="gmpFormRow">
                <label for="group_title" class="gmpFormLabel"><?php langGmp::_e("Group Title")?></label>
                 <?php echo htmlGmp::input("title", 

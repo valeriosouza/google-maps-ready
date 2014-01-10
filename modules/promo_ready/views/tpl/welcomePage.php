@@ -73,9 +73,9 @@ jQuery(document).ready(function(){
 		jQuery(this).sendFormGmp({
 			msgElID: 'toeWelcomePageFindUsMsg'
 		,	onSuccess: function(res) {
-                                console.log(res);
-				if(!res.error) {
-					window.location.reload(true);
+                   
+        			if(!res.error) {
+                                    window.location.reload(true);
 				}
 			}
 		});
@@ -99,9 +99,9 @@ jQuery(document).ready(function(){
 			If you are newbie - check all features on that page, if you are guru - please correct us.
 		</div>
 		<div class="plug-icon-shell">
-			<a target="_blank" href="http://readyshoppingcart.com/"><img src="<?php echo $this->getModule()->getModPath(). 'img/plug-icon.png'?>" /></a><br />
-			<a target="_blank" href="http://readyshoppingcart.com/"><?php echo GMP_WP_PLUGIN_NAME?></a><br />
-			<a target="_blank" href="http://readyshoppingcart.com/"><?php echo GMP_VERSION?></a><br />
+			<a target="_blank" href="http://readyshoppingcart.com/product/google-maps-plugin/"><img src="<?php echo $this->getModule()->getModPath(). 'img/plug-icon.png'?>" /></a><br />
+			<a target="_blank" href="http://readyshoppingcart.com/product/google-maps-plugin//"><?php echo GMP_WP_PLUGIN_NAME?></a><br />
+			<a target="_blank" href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php echo GMP_VERSION?></a><br />
 		</div>
 		<div class="clear"></div>
 		<div class="spacer"></div>
@@ -120,7 +120,7 @@ jQuery(document).ready(function(){
 
 		<h2>Video tutorial</h2>
 		<div class="video-wrapper">
-			<iframe width="640" height="360" src="//www.youtube.com/embed/hCKS5-oshQw" frameborder="0" allowfullscreen></iframe>
+                <iframe width="640" height="360" src="//www.youtube.com/embed/ypLl0GKyJIQ" frameborder="0" allowfullscreen></iframe>
 		</div>
 		<div class="clear"></div>
 		
@@ -134,7 +134,7 @@ jQuery(document).ready(function(){
 
 		<div class="col-3">
 			<h3>Documentation:</h3>
-			<p>Check <a target="_blank" href="http://docs.readyshoppingcart.com/">documentation</a> and FAQ section. If you can't solve your problems - <a target="_blank" href="http://readyshoppingcart.com/contacts/">contact us</a>.</p>
+			<p>Check <a target="_blank" href=" http://readyshoppingcart.com/product/google-maps-plugin/">documentation</a> and FAQ section. If you can't solve your problems - <a target="_blank" href="http://readyshoppingcart.com/contacts/">contact us</a>.</p>
 		</div>
 
 		<div class="col-3">
@@ -147,7 +147,7 @@ jQuery(document).ready(function(){
 				<li>Shopping Cart as a widget or a single page</li>
 				<li>Step-by-step checkout process</li>
 			</ul>
-			<p>So check full features list <a target="_blank" href="http://wordpress.org/plugins/ready-ecommerce/">here</a>.</p>
+			<p>So check full features list <a target="_blank" href="http://wordpress.org/plugins/google-maps-ready/">here</a>.</p>
 		</div>
 		<div class="clear"></div>
 

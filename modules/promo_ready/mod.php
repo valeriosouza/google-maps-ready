@@ -38,9 +38,9 @@ class promo_readyGmp extends moduleGmp {
 	}
 	public function showAdminSendStatNote() {
            
-                if($this->canShowSendStats()){
+        if($this->canShowSendStats()){
 			$this->getController()->getView()->showAdminSendStatNote();                    
-                }
+        }
 
 	}
 	public function detectAdminStat() {
@@ -75,7 +75,6 @@ class promo_readyGmp extends moduleGmp {
 		return 'welcome-to-ready-ecommerce|return='. $this->_encodeSlug($menuSlug);
 	}
 	public function addWelcomePageToMenus($options) {
-            exit('zzzzzzzzzzzzzzzzzzzz');
 		$firstTimeLookedToPlugin = !installerGmp::isUsed();
 		if($firstTimeLookedToPlugin) {
 			foreach($options as $i => $opt) {
@@ -92,8 +91,7 @@ class promo_readyGmp extends moduleGmp {
 		return $option;
 	}
 	public function showWelcomePage() {
-        	$firstTimeLookedToPlugin = !installerGmp::isUsed();
-//                var_dump($firstTimeLookedToPlugin);exit;
+        $firstTimeLookedToPlugin = !installerGmp::isUsed();
 		if($firstTimeLookedToPlugin){
                     $this->getView()->showWelcomePage();
 		}

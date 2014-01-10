@@ -14,7 +14,7 @@
 <script type='text/javascript'>
             var existsMapsArr=JSON.parse('<?php echo utilsGmp::listToJson($this->mapsArr);?>');
 </script> 
-    <table class='gmpTable mapsTable'>
+    <table class='gmpTable mapsTable' id='gmpMapsListTable'>
         <thead>
         <tr>
             <th class='gmpTableThMini'>

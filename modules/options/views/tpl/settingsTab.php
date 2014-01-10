@@ -31,7 +31,7 @@
 		jQuery("#gmpPluginSettingsForm").sendFormGmp({
 			msgElID: 'gmpPluginOptsMsg'
 		,	onSuccess: function(res) {
-                                console.log(res);
+                                
                                 return false;
 			}
 		});

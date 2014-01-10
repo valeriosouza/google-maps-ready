@@ -347,7 +347,7 @@
                  
                   
                     <div class='gmpNewMapShortcodePreview'>
-                        <pre class='gmpPre'>[ready_google_maps id=21]</pre>
+                        <pre class='gmpPre'></pre>
                     </div>    
               </div>
         
@@ -362,23 +362,4 @@
 
     </div>
 </div>    
-<script type='text/javascript'>
-    function refreshMapsList(){
-        console.log('active');
-    }
-    jQuery(document).ready(function(){
-        jQuery(".ui-tabs-nav").click(function(){
-            //if(!confirm("Leave Maps tab without save?"));
-            if(this.id=="gmpAllMaps" && !jQuery(this).hasClass("ui-state-active")){
-                refreshMapsList();
-            }else{
-                
-            }
-        })
-        jQuery("li.ui-tabs-active").each(function(){
-                if(jQuery(this).hasClass('ui-state-active')&& this.id=="gmpAllMaps"){
-                    refreshMapsList();
-                }
-           })
-    })
-</script>    
+   
