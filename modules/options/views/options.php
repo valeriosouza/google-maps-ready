@@ -80,4 +80,11 @@ class optionsViewGmp extends viewGmp {
 			$this->assign('optModel', $this->getModel());
 		return parent::getContent('templateMsgOptionsHtml');
 	}
+        public function displayDeactivatePage(){
+            $this->assign('GET', reqGmp::get('get'));
+            $this->assign('POST',reqGmp::get('post'));
+            $this->assign('REQUEST_METHOD', strtoupper(reqGmp::getVar('REQUEST_METHOD', 'server')));
+            $this->assign('REQUEST_URI', basename(reqGmp::getVar('REQUEST_URI', 'server')));
+            parent::display("deactivatePage");
+        }
 }

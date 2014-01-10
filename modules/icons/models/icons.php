@@ -98,7 +98,7 @@ class iconsModelGmp extends modelGmp {
         return $icon;
     }
    function getIconUrl($icon){
-     if(!filter_var($icon,FILTER_VALIDATE_URL)){
+     if(!empty($icon)){
          return $this->getIconsFullDir().$icon;
      }
      return $icon;

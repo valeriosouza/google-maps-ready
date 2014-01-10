@@ -4,7 +4,7 @@ Donate link: http://readyshoppingcart.com/product/google-maps-plugin/
 Tags: googló map, google maps, map, maps, location, direction, marker, geocoder, post map, widget map, widget, google map widget, custom marker icons and text, custom marker text, geo, google map short code,  google map styles, openstreetmap, latitude, longitude, placemarker, pronamic, reverse geocode, v3, wp map, wp maps
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 0.4.2
+Stable tag: 0.4.3
 License: GPLv2 or later
 
 Display custom Google Maps. Set markers and locations with text, images, categories and links. Customize google map without any programming skills
@@ -39,6 +39,11 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 1. [How to add marker to the Google Map](http://readyshoppingcart.com/product/google-maps-plugin/ "Google Maps plugin")
 
 == Changelog ==
+
+= 0.4.3 =
+* Downgrade PHP version required to 5.2 or 5.1
+* Fix bug with welcome screen
+* Added map marker groups 
 
 = 0.4.2 =
 * Minor bugs fixed

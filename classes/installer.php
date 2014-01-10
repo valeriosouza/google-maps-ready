@@ -277,40 +277,35 @@ class installerGmp {
 		return false;
 	}
 	static public function delete() {
-		global $wpdb;
-		$wpPrefix = $wpdb->prefix; /* add to 0.0.3 Versiom */
-		$deleteOptions = reqGmp::getVar('deleteOptions');
-		if(frameGmp::_()->getModule('pages')) {
-			if(is_null($deleteOptions)) {
-				frameGmp::_()->getModule('pages')->getView()->displayDeactivatePage();
-				exit();
-			}
-			//Delete All pages, that was installed with plugin
-			$pages = frameGmp::_()->getModule('pages');
-			if(is_object($pages)) {
-				$pages = $pages->getAll();
-				if($pages) {
-					foreach($pages as $p) {
-						wp_delete_post($p->page_id, true);
-					}
-				}
-			}
-		}
-		if((bool) $deleteOptions) {
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."modules`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."icons`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."maps`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."options`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."htmltype`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."markers`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."marker_groups`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."files`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."options_categories`");
-			$wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."access`");
-		}
-		delete_option($wpPrefix. 'gmp_def_icons_installed');
-		delete_option($wpPrefix. 'db_version');
-		delete_option($wpPrefix. 'db_installed');
+            global $wpdb;
+            $wpPrefix = $wpdb->prefix; /* add to 0.0.3 Versiom */
+            $deleteOptions = reqGmp::getVar('deleteAllData');
+
+            if(is_null($deleteOptions)) {
+                    frameGmp::_()->getModule('options')->getView()->displayDeactivatePage();
+                    exit();
+            }
+           
+            if((bool)$deleteOptions){
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."modules`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."icons`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."maps`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."options`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."htmltype`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."markers`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."marker_groups`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."files`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."options_categories`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."access`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."modules_type`");
+               $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."usage_stat`");
+
+               delete_option($wpPrefix. 'gmp_def_icons_installed');
+               delete_option($wpPrefix. 'db_version');
+               delete_option($wpPrefix. 'db_installed');
+               delete_option($wpPrefix. 'plug_was_used');       
+            }
+                       
 	}
 	static protected function _addPageToWP($post_title, $post_parent = 0) {
 		return wp_insert_post(array(
