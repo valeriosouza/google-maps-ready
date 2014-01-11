@@ -73,9 +73,9 @@ jQuery(document).ready(function(){
 		jQuery(this).sendFormGmp({
 			msgElID: 'toeWelcomePageFindUsMsg'
 		,	onSuccess: function(res) {
-                   
-        			if(!res.error) {
-                                    window.location.reload(true);
+				if(!res.error) {
+					if(res.data.redirect)
+						toeRedirect(res.data.redirect);
 				}
 			}
 		});

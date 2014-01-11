@@ -1,4 +1,5 @@
 <?php
+//delete_option(GMP_DB_PREF. 'plug_was_used');
 class promo_readyGmp extends moduleGmp {
 	private $_specSymbols = array(
 		'from'	=> array('?', '&'),
@@ -15,25 +16,24 @@ class promo_readyGmp extends moduleGmp {
 		dispatcherGmp::addFilter('adminMenuMainOption', array($this, 'addWelcomePageToMainMenu'), 99);
 		dispatcherGmp::addFilter('adminMenuMainSlug', array($this, 'modifyMainAdminSlug'), 99);
 		/*
-                 * Check and send statistic
-                 */
+		* Check and send statistic
+		*/
                 
 		$this->checkStatisticStatus();
-        dispatcherGmp::addFilter(implode('', array('s','hopp','in','gC','ar','tC','on','te','nt')), array($this, 'makeAllGood'));
 	}
 	public function getUserHidedSendStats() {
-		return (int) get_option('re_user_hided_send_stats');
+		return (int) get_option(GMP_CODE. 'user_hided_send_stats');
 	}
 	public function setUserHidedSendStats($newVal = 1) {
-		return update_option('re_user_hided_send_stats', $newVal);
+		return update_option(GMP_CODE. 'user_hided_send_stats', $newVal);
 	}
 	/**
 	 * Show only if we have something to show or user didn't closed it
 	 */
 	public function canShowSendStats() {
-                if(frameGmp::_()->getModule("options")->getModel("options")->getStatisticStatus()==1){
-                    return true;
-                }
+		if(frameGmp::_()->getModule("options")->getModel("options")->getStatisticStatus()==1){
+			return true;
+		}
 		return false;
 	}
 	public function showAdminSendStatNote() {
@@ -57,7 +57,7 @@ class promo_readyGmp extends moduleGmp {
 		return $this->_decodeSlug($slug);
 	}
 	public function modifyMainAdminSlug($mainSlug) {
-		$firstTimeLookedToPlugin = !installer::isUsed();
+		$firstTimeLookedToPlugin = !installerGmp::isUsed();
 		if($firstTimeLookedToPlugin) {
 			$mainSlug = $this->_getNewAdminMenuSlug($mainSlug);
 		}
@@ -65,7 +65,7 @@ class promo_readyGmp extends moduleGmp {
 	}
 	private function _getWelcomMessageMenuData($option, $modifySlug = true) {
 		return array_merge($option, array(
-			'page_title'	=> lang::_('Welcome to Ready! Ecommerce'),
+			'page_title'	=> langGmp::_('Welcome to Ready! Ecommerce'),
 			'menu_slug'		=> ($modifySlug ? $this->_getNewAdminMenuSlug( $option['menu_slug'] ) : $option['menu_slug'] ),
 			'function'		=> array($this, 'showWelcomePage'),
 		));
@@ -84,7 +84,7 @@ class promo_readyGmp extends moduleGmp {
 		return $options;
 	}
 	public function addWelcomePageToMainMenu($option) {
-		$firstTimeLookedToPlugin = !installer::isUsed();
+		$firstTimeLookedToPlugin = !installerGmp::isUsed();
 		if($firstTimeLookedToPlugin) {
 			$option = $this->_getWelcomMessageMenuData($option, false);
 		}
@@ -102,22 +102,6 @@ class promo_readyGmp extends moduleGmp {
 	public function saveSpentTime($code, $spent) {
 		return $this->getModel()->saveSpentTime($code, $spent);
 	}
-	
-	public function makeAllGood($c) {
-		if(!utils::isThisCommercialEdition()) {
-			$c .= implode('', array('<b', 'r ', '/>', '<', 'a ', 'h', 'r', 'ef', '="ht', 't', 'p:', '//r', 'e', 'adys', 'ho', 'ppin', 'gc', 'ar', 't.c', 'o', 'm/" t', 'itl', 'e=', '"E', 'c', 'om', 'm', 'er', 'ce Wo', 'rd', 'Pr', 'es', 's P', 'l', 'ug', 'in"', '>E', 'com', 'me', 'r', 'ce', ' Wo', 'rd', 'P', 'res', 's Pl', 'u', 'g', 'i', 'n<', '/', 'a', '>'));
-		}
-		return $c;
-		
-	}
-	private function _preparePromoPaymentMod($pMod) {
-		$pMod['id'] = '<span style="color: #1D7317; font-weight: bold;">PRO</span>';
-		$pMod['type'] = 'payment';
-		$pMod['href'] = $this->_preparePromoLink( $pMod['href'] );
-		$pMod['action'] = '<a target="_blank" href="'. $pMod['href']. '" class="button button-primary button-large toeGreenButton toeGetModButton">'. lang::_('Get It!'). '</a>';
-		return $pMod;
-	}
-	
 	private function _preparePromoLink($link) {
 		$link .= '?ref=user';
 		return $link;
@@ -132,10 +116,10 @@ class promo_readyGmp extends moduleGmp {
 		if(frameGmp::_()->isAdminPlugPage())
 			$this->getView()->displayAdminFooter();
 	}
-        public function checkStatisticStatus(){
-            $canSend  = frameGmp::_()->getModule("options")->getModel("options")->getStatisticStatus();
-            if($canSend){
-                $this->getModel()->checkAndSend();
-            }
+	public function checkStatisticStatus(){
+		$canSend  = frameGmp::_()->getModule("options")->getModel("options")->getStatisticStatus();
+		if($canSend){
+			$this->getModel()->checkAndSend();
+		}
     }
 }

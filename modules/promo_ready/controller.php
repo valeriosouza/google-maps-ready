@@ -1,11 +1,11 @@
 <?php
 class promo_readyControllerGmp extends controllerGmp {
 	public function welcomePageSaveInfo() {
-		$res = new response();
+		$res = new responseGmp();
                 
-		if($this->getModel()->welcomePageSaveInfo(req::get('post'))) {
-			$res->addMessage(lang::_('Information was saved. Thank you!'));
-			$originalPage = req::getVar('original_page');
+		if($this->getModel()->welcomePageSaveInfo(reqGmp::get('post'))) {
+			$res->addMessage(langGmp::_('Information was saved. Thank you!'));
+			$originalPage = reqGmp::getVar('original_page');
 			$returnArr = explode('|', $originalPage);
 			$return = $this->getModule()->decodeSlug(str_replace('return=', '', $returnArr[1]));
 			$return = admin_url( strpos($return, '?') ? $return : 'admin.php?page='. $return);
@@ -17,20 +17,20 @@ class promo_readyControllerGmp extends controllerGmp {
 		return $res->ajaxExec();
 	}
 	public function saveUsageStat() {
-		$res = new response();
-		$code = req::getVar('code');
+		$res = new responseGmp();
+		$code = reqGmp::getVar('code');
 		if($code)
 			$this->getModel()->saveUsageStat($code);
 		return $res->ajaxExec();
 	}
 	public function sendUsageStat() {
-		$res = new response();
+		$res = new responseGmp();
 		$this->getModel()->sendUsageStat();
-		$res->addMessage(lang::_('Information was saved. Thank you for your support!'));
+		$res->addMessage(langGmp::_('Information was saved. Thank you for your support!'));
 		return $res->ajaxExec();
 	}
 	public function hideUsageStat() {
-		$res = new response();
+		$res = new responseGmp();
 		$this->getModule()->setUserHidedSendStats();
 		return $res->ajaxExec();
 	}

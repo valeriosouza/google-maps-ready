@@ -13,14 +13,15 @@ class adminmenuViewGmp extends viewGmp {
         parent::init();
     }
     public function initMenu() {
-		
-	//$this->_options = dispatcherGmp::applyFilters('adminMenuOptions', $this->_options);
-        add_menu_page(langGmp::_('Ready! Google Maps'),
-                      langGmp::_('Ready! Google Maps'), 10,
-                      $this->_mainSlug, 
-                       array(frameGmp::_()->getModule('options')->getView(), 
-                      'getAdminPage')
-                    );
+		$mainSlug = dispatcherGmp::applyFilters('adminMenuMainSlug', $this->_mainSlug);
+		$mainMenuPageOptions = array(
+			'page_title' => langGmp::_('Ready! Google Maps'), 
+			'menu_title' => langGmp::_('Ready! Google Maps'), 
+			'capability' => 'manage_options',
+			'menu_slug' => $mainSlug,
+			'function' => array(frameGmp::_()->getModule('options')->getView(), 'getAdminPage'));
+		$mainMenuPageOptions = dispatcherGmp::applyFilters('adminMenuMainOption', $mainMenuPageOptions);
+        add_menu_page($mainMenuPageOptions['page_title'], $mainMenuPageOptions['menu_title'], $mainMenuPageOptions['capability'], $mainMenuPageOptions['menu_slug'], $mainMenuPageOptions['function']);
     }
     public function getFile() {
         return $this->_file;
