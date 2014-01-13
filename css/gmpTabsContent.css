@@ -317,18 +317,25 @@ a{
 .gmpUp{
         background-image: url(../img/arrow-up.png) !important;
 }        
+
 .gmpAddressAutocomplete {
+        display: none;
+        float: left;
+        width: 100.5%;
+        position: relative;
+}
+.gmpAddressAutocomplete ul{
     z-index: 9999;
-    display: none;
     position: absolute;
     background-color: white;
-    margin-top: 29px;
-    width: 287px;
+    width: 100%;
     overflow-y: auto;
     border-bottom: 1px solid #2956A7;
     border-right: 1px solid #2956A7;
     border-left: 1px solid #2956A7;
     max-height: 250px;
+    margin: 0 0px 0 -1px;
+    width: 100%;
 }
 .gmpAddressAutocomplete li {
     display: block;
@@ -339,7 +346,7 @@ a{
     margin: 0;
 }
 .gmpAddressAutocomplete ul{
-    margin:0;
+
 }
 .gmpAddressAutocomplete li:hover {
     background-color: rgba(41, 86, 167, 0.96);
@@ -651,4 +658,14 @@ div.refreshMapsList {
 #gmpGroupForm {
     width: 537px;
     margin: 0 auto;
+}
+#gmp_marker_address {
+    float: left;
+    width: 100%;
+}
+.dataTables_filter {
+    float: right;
+}
+.dataTables_length {
+    float: left;
 }

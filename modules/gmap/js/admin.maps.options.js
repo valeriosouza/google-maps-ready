@@ -517,9 +517,12 @@ function drawMarker(params){
     google.maps.event.addListener(markerArr[randId].markerObj, 'dragend', function(e) {
         markerArr[this.id].coord_x=this.position.lng();
         markerArr[this.id].coord_y=this.position.lat();
+        gmpChangeTab(gmpActiveTab.submenu,true)
         changeFormParams(this);
+        editMarker(markerArr[randId]);
+
     });
-       var countOfInfoWindows = infoWindows.length;    
+    var countOfInfoWindows = infoWindows.length;    
         infoWindows[randId]= new google.maps.InfoWindow({
                               content   : getInfoWindow(markerTitle,markerDesc),
                               markerId  : randId 
@@ -537,7 +540,6 @@ function drawMarker(params){
             gmpChangeTab(gmpActiveTab.submenu,true)
             editMarker(markerArr[randId]);
             toggleBounce(markerArr[randId].markerObj,markerArr[randId].animation);
-
       });
 
   var bounds = new google.maps.LatLngBounds();
@@ -871,6 +873,35 @@ jQuery(document).ready(function(){
        gmpDropDownObj["markerEditForm"]= jQuery("#gmpDropDownIconsSelect_MarkerEdit").msDropDown({visibleRows:4});
        
        
+       jQuery("body").on("click","li.gmpAutoCompRes > a.autoCompRes",function(){
+            var latlng=this.id.split("__");
+             if(latlng.length<2){
+                return false;
+            }
+            var selectedAddress =jQuery(this).text();
+            var currentForm = jQuery(this).parents('form');
+            currentForm.find("#gmp_marker_coord_x").val(parseFloat(latlng[1]));
+            currentForm.find("#gmp_marker_coord_y").val(parseFloat(latlng[0]));
+            currentForm.find("#gmp_marker_address").val(selectedAddress);
+
+
+            return false;
+        })  
+
+        jQuery(document).click(function(e) { 
+              if(!jQuery(e.target).is('.gmpAddressAutocomplete')){
+                    if(jQuery(e.target).is(".gmp_marker_address")){
+                        jQuery('.gmpAddressAutocomplete').toggle();                        
+                    }else{
+                      jQuery('.gmpAddressAutocomplete').hide();                  
+                    }
+                }
+        })
+      
+       
+       
+       
+       
        datatables.createDatatables();
 })
 
@@ -1040,19 +1071,9 @@ function startSearchAddress(address,form){
         jQuery(this).removeClass('gmpUp');        
     }
 })
-jQuery("body").on("click","li.gmpAutoCompRes > a.autoCompRes",function(){
-    var latlng=this.id.split("__");
-     if(latlng.length<2){
-        return false;
-    }
-    var selectedAddress =jQuery(this).text();
-    var currentForm = jQuery(this).parents('form');
-    currentForm.find("#gmp_marker_coord_x").val(parseFloat(latlng[1]));
-    currentForm.find("#gmp_marker_coord_y").val(parseFloat(latlng[0]));
-    currentForm.find("#gmp_marker_address").val(selectedAddress);
-    currentForm.find(".gmpAutocompleteArrow").trigger("click");
-    return false;
-})
+
+
+
 function gmpCancelMapEdit(){
         clearMarkerForm(jQuery("#gmpAddMarkerToEditMap"));
         clearMarkerForm();

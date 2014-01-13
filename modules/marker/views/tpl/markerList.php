@@ -104,9 +104,8 @@
                 <small><i><?php langGmp::_e("Type address")?></i></small>
               <?php
                  echo htmlGmp::input('marker_opts[address]',
-                            array('attrs'=>" class='gmpInputLarge gmp_marker_address' style='float:left' id='gmp_marker_address' "));
-              ?> <span class='gmpAutocompleteArrow button gmpUp'>
-                 </span>
+                            array('attrs'=>" class=' gmp_marker_address'  id='gmp_marker_address' "));
+              ?> 
                 <div class='gmpAddressAutocomplete'>
                     <ul>
                     </ul>

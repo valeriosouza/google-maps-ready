@@ -19,11 +19,12 @@ class  gmapGmp extends moduleGmp {
 
 	
         public function drawMapFromShortcode($params=null){
-                        frameGmp::_()->addStyle('gmapCss',$this->getModule()->getModPath()."css/map.css");
+            frameGmp::_()->addStyle('gmapCss',$this->getModule()->getModPath()."css/map.css");
+                    
+            
             if(!isset($params['id'])){
                 return $this->getController()->getDefaultMap();
             }
-            
             return $this->getController()->getView()->drawMap($params);
 
         }

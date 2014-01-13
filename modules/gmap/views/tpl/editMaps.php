@@ -268,10 +268,7 @@
 
                    
               
-                <div class="gmpEditMarkerOpts">
-                    <a class="btn btn-success gmpSaveEditedMarker" id="gmpSaveEditedMarker"><?php langGmp::_e("Save Marker")?></a>                       <input type='hidden' id='gmpEditedMarkerLocalId' value='' />
-                    <a class="btn btn-danger gmpCancelMarkerEditing" id="gmpCancelMarkerEditing" ><?php langGmp::_e("Cancel")?></a>  
-                </div>   
+  
              </div>
         
             <div class='gmpFormRow'>
@@ -285,9 +282,8 @@
                 <small><i><?php langGmp::_e("Type address")?></i></small>
               <?php
                  echo htmlGmp::input('marker_opts[address]',
-                            array('attrs'=>" class='gmpInputLarge gmp_marker_address' style='float:left' id='gmp_marker_address' "));
-              ?> <span class='gmpAutocompleteArrow button gmpUp'>
-                 </span>
+                            array('attrs'=>" class=' gmp_marker_address'  id='gmp_marker_address' "));
+              ?> 
                 <div class='gmpAddressAutocomplete'>
                     <ul>
                     </ul>
@@ -328,6 +324,15 @@
                     ?>
 
                </div>
+                <div class="gmpEditMarkerOpts">
+                            <a class="btn btn-success gmpSaveEditedMarker" id="gmpSaveEditedMarker">
+                                <?php langGmp::_e("Save Marker")?>
+                            </a>
+                    <input type='hidden' id='gmpEditedMarkerLocalId' value='' />
+                          <a class="btn btn-danger gmpCancelMarkerEditing" id="gmpCancelMarkerEditing" >
+                              <?php langGmp::_e("Cancel")?>
+                          </a>  
+                </div> 
          <?php
          echo htmlGmp::formEnd();
          ?>

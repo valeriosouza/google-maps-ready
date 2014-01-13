@@ -14,14 +14,29 @@ class gmapViewGmp extends viewGmp {
        }
         public function drawMap($params){
             $mapObj = frameGmp::_()->getModule('gmap')->getModel()->getMapById($params['id']);
-            $this->assign('currentMap', $mapObj);
+
+            
+            $shortCodeHtmlParams = array('width','height','align');
+            foreach($shortCodeHtmlParams as $code){
+                if(isset($params[$code])){
+                    $mapObj['html_options'][$code]= $params[$code];
+
+                }
+            }
+            $shortCodeMapParams = array('map_display_mode','language','type','zoom','enable_zoom',
+                                        'enable_mouse_zoom');
+
+            foreach($shortCodeMapParams as $code){
+                if(isset($params[$code])){
+                   
+                    $mapObj['params'][$code]= $params[$code];
+                }
+            }            
             if($mapObj['params']['map_display_mode']=='popup'){
                 frameGmp::_()->addScript('bpopup',GMP_JS_PATH."/bpopup.js");      
             }
-
             frameGmp::_()->addScript('map.options',$this->getModule()->getModPath()."js/map.options.js");
-                
-    
+            $this->assign('currentMap', $mapObj);
             return parent::getContent('mapPreview');
         }
         public function addNewMapData(){

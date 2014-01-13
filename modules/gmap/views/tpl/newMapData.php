@@ -260,17 +260,7 @@
 
                 
               
-                <div class="gmpEditMarkerOpts">
-                    <a class="btn btn-success gmpSaveEditedMarker" id="gmpSaveEditedMarker">
-                    <span class='gmpIcon gmpIconSuccess'></span>
-                        <?php langGmp::_e("Save Marker")?>
-                    </a>
-                    <input type='hidden' id='gmpEditedMarkerLocalId' value='' />
-                    <a class="btn btn-danger gmpCancelMarkerEditing" id="gmpCancelMarkerEditing" >
-                    <span class='gmpIcon gmpIconReset'></span>                        
-                        <?php langGmp::_e("Cancel")?>
-                    </a>  
-                </div>   
+                
              </div> 
                     
                     
@@ -290,9 +280,8 @@
                 <small><i><?php langGmp::_e("Type address")?></i></small>
               <?php
                  echo htmlGmp::input('marker_opts[address]',
-                            array('attrs'=>" class='gmpInputLarge gmp_marker_address' style='float:left' id='gmp_marker_address' "));
-              ?> <span class='gmpAutocompleteArrow button gmpUp'>
-                 </span>
+                            array('attrs'=>" class=' gmp_marker_address'  id='gmp_marker_address' "));
+              ?> 
                 <div class='gmpAddressAutocomplete'>
                     <ul>
                     </ul>
@@ -329,7 +318,18 @@
                               'value'=>"<span class='gmpIcon gmpIconAdd'></span>".langGmp::_("Add Marker")));
                ?>
 
-               </div>
+          </div>
+              <div class="gmpEditMarkerOpts">
+                    <a class="btn btn-success gmpSaveEditedMarker" id="gmpSaveEditedMarker">
+                    <span class='gmpIcon gmpIconSuccess'></span>
+                        <?php langGmp::_e("Save Marker")?>
+                    </a>
+                    <input type='hidden' id='gmpEditedMarkerLocalId' value='' />
+                    <a class="btn btn-danger gmpCancelMarkerEditing" id="gmpCancelMarkerEditing" >
+                    <span class='gmpIcon gmpIconReset'></span>                        
+                        <?php langGmp::_e("Cancel")?>
+                    </a>  
+              </div>   
          <?php
          echo htmlGmp::formEnd();
          ?>

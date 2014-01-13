@@ -11,7 +11,7 @@ if(empty($this->currentMap)){
     $width=$this->currentMap['html_options']['width'];
     $height=$this->currentMap['html_options']['height'];
     $classname=$this->currentMap['html_options']['classname'];
-    
+    $align = $this->currentMap['html_options']['align'];
     $mapId = "ready_google_map_".$this->currentMap['id'];
     $ln = $this->currentMap['params']['language'];
     if($this->currentMap['params']['map_display_mode']=="popup"){
@@ -66,10 +66,19 @@ if(empty($this->currentMap)){
         #<?php echo $mapId;?>{
             width:<?php echo $width;?>px;
             height:<?php echo $height;?>px;
+            float:<?php echo $align;  ?>;
         }
         .map-preview-iumg-container img {
             width: 175px;
             cursor:pointer;
+        }
+        .gmp_map_opts {
+            float: left;
+            width: 100%;
+        }
+        .map_container {
+            float: left;
+            width: 100%;
         }
     </style>
 <div class='gmp_map_opts'>
