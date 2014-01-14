@@ -74,8 +74,7 @@ jQuery(document).ready(function(){
 			msgElID: 'toeWelcomePageFindUsMsg'
 		,	onSuccess: function(res) {
 				if(!res.error) {
-					if(res.data.redirect)
-						toeRedirect(res.data.redirect);
+					window.location.reload(true);
 				}
 			}
 		});

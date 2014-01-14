@@ -6,7 +6,7 @@
 	</div>
 	<div class="gmpAdminFooterCell">|</div>
 
-	<div class="gmpAdminFooterCell">|</div>
+	
 	<div class="gmpAdminFooterCell">
 		<a target="_blank" href=" http://wordpress.org/support/plugin/google-maps-ready"><?php langGmp::_e('Support')?></a>
 	</div>

@@ -2,6 +2,7 @@ var gmpActiveTab={};
 var  gmpMapConstructParams={
              mapContainerId:"mapPreviewToNewMap"
      };
+var nochange = false;     
 function gmpChangeTab(elem,sub){
     var tabId;
     
@@ -10,6 +11,11 @@ function gmpChangeTab(elem,sub){
     }catch(e){
         tabId = elem;
     }
+   
+    if(gmpActiveTab.mainmenu=="#gmpEditMaps" && tabId!="#gmpEditMaps" && sub==undefined){
+        gmpCancelMapEdit({changeTab:false});
+    }
+    
     
     if(sub!= undefined){
        gmpActiveTab.submenu=tabId; 
@@ -21,6 +27,8 @@ function gmpChangeTab(elem,sub){
        gmpActiveTab.mainmenu=tabId;
     }    
 
+
+    
     if(typeof(elem.tab)=='function'){
         elem.tab("show");        
     }

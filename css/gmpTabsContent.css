@@ -348,10 +348,10 @@ a{
 .gmpAddressAutocomplete ul{
 
 }
-.gmpAddressAutocomplete li:hover {
-    background-color: rgba(41, 86, 167, 0.96);
+.gmpAddressAutocomplete li:hover { 
     color: white;
-    border:1px solid white;
+    border: 1px solid white;
+    background-color: #edeff4;
 }
 .gmpEditMarkerOpts{
     display:none;
@@ -381,6 +381,14 @@ a{
     border: 1px solid skyblue;
     border-bottom: none;
 }
+.autoCompRes{
+    background-color: transparent !important;
+    border: none !important;
+}
+.autoCompRes:hover,.autoCompRes:focus{
+    text-decoration: none;
+}
+
 #gmpAdminOptionsTabs .tab-pane {
     padding-top: 25px;
     background-color:#E5EAF5;

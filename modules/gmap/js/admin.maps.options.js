@@ -205,6 +205,7 @@ function gmpEditMap(mapId){
     jQuery("#gmpUpdateEditedMap").attr("onclick","gmpSaveEditedMap("+mapId+")")
     gmpChangeTab(jQuery('.nav.nav-tabs li.gmpEditMaps  a'));
     gmpMapEditing=true;
+    markerArr = {};
     gmpCurrentMarkerForm=jQuery("#gmpAddMarkerToEditMap");
     var mapParams ={
         gmpNewMap_title                 :editMap.title, 
@@ -873,18 +874,18 @@ jQuery(document).ready(function(){
        gmpDropDownObj["markerEditForm"]= jQuery("#gmpDropDownIconsSelect_MarkerEdit").msDropDown({visibleRows:4});
        
        
-       jQuery("body").on("click","li.gmpAutoCompRes > a.autoCompRes",function(){
-            var latlng=this.id.split("__");
+       jQuery("body").on("click","li.gmpAutoCompRes",function(){
+           var linkElem = jQuery(this).find('a.autoCompRes');
+            var latlng=linkElem.attr('id').split("__");
              if(latlng.length<2){
                 return false;
             }
-            var selectedAddress =jQuery(this).text();
-            var currentForm = jQuery(this).parents('form');
+            var selectedAddress =linkElem.text();
+            var currentForm = linkElem.parents('form');
             currentForm.find("#gmp_marker_coord_x").val(parseFloat(latlng[1]));
             currentForm.find("#gmp_marker_coord_y").val(parseFloat(latlng[0]));
             currentForm.find("#gmp_marker_address").val(selectedAddress);
-
-
+            jQuery('.gmpAddressAutocomplete').hide();                
             return false;
         })  
 
@@ -1074,7 +1075,7 @@ function startSearchAddress(address,form){
 
 
 
-function gmpCancelMapEdit(){
+function gmpCancelMapEdit(params){
         clearMarkerForm(jQuery("#gmpAddMarkerToEditMap"));
         clearMarkerForm();
         clearAddNewMapData(jQuery("#gmpEditMapForm"));
@@ -1083,5 +1084,9 @@ function gmpCancelMapEdit(){
         gmpMapEditing=false;
         jQuery("#gmpEditMapsContainer").empty();
         gmpCurrentMarkerForm=jQuery("#gmpAddMarkerToNewForm");
+        markerArr={};    
+        if(params!=undefined && !params.changeTab){
+                return true;
+        }
         gmpChangeTab(jQuery('.nav.nav-tabs li.gmpAddNewMap  a'));
 }
