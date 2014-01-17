@@ -70,6 +70,7 @@ jQuery(document).ready(function(){
 		}
 	});
 	jQuery('#gmpWelcomePageFindUsForm').submit(function(){
+
 		jQuery(this).sendFormGmp({
 			msgElID: 'toeWelcomePageFindUsMsg'
 		,	onSuccess: function(res) {

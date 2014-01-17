@@ -31,7 +31,8 @@ class optionsViewGmp extends viewGmp {
 		$this->assign('presetTemplatesHtml', $presetTemplatesHtml);
 		$this->assign('tabsData', $tabsData);
                 //$this->assign("admin_footer",frameGmp::_()->getModule("promo_ready")->displayAdminFooter());       
-               
+                $defaultOpenTab  = reqGmp::getVar("tab",'get');
+                $this->assign("defaultOpenTab",$defaultOpenTab);
         parent::display('optionsAdminPage');
     }
     

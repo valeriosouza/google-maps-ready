@@ -7,28 +7,34 @@ class iconsModelGmp extends modelGmp {
         }
     }
     public function getIcons(){
+        if(!get_option('gmp_def_icons_installed') ){
+               $iconModule=$this->getModule('icons');  
+               $iconModule->getController()->setDefaultIcons();
+         }
         $icons =  frameGmp::_()->getTable('icons')->get('*');
         if( empty($icons) ){
               return $icons ;
         }
         $iconsArr=array();
         foreach($icons as $icon){
-            $iconsArr[$icon['id']]=$this->getIconUrl($icon['path']);
+            $icon['path'] = $this->getIconUrl($icon['path']);
+            $iconsArr[$icon['id']]=$icon;
         }
         return $iconsArr;
     }
     public function saveNewIcon($params){
-       
-        if(!isset($params['icon_url'])){
-            $this->pushError(langGmp::_("Marker no found"));
+        if(!isset($params['url'])){
+            $this->pushError(langGmp::_("Icon no found"));
             return false;
         }
-        $url = $params['icon_url'];
+        $url = $params['url'];
         $exists = self::$tableObj->get("*","`path`='".$url."'");
         if(!empty($exists)){
             return $exists[0]['id'];
         }
-        return  self::$tableObj->store(array('path'=>$url));
+        return self::$tableObj->insert(array('path'=>$url,'title'=>$params['title'],
+                                            'description'=>$params['description']));
+        
     }
     public function getIconsPath(){
         return '/ready_google_icons/';
@@ -54,12 +60,18 @@ class iconsModelGmp extends modelGmp {
         if(!is_dir($icons_upload_path)){
             @mkdir($icons_upload_path,0777);
         }
+
+
+        $qItems = array();
         foreach($icons as $icon){
-           $file = str_replace("\\","/",$this->getModule()->getModDir().'icons_files'.DS.$icon);
-           $dest =  str_replace("\\","/",$uplDir['basedir'].$this->getIconsPath().$icon);
+           $file = $this->getModule()->getModDir().'icons_files/def_icons/'.$icon['img'];
+           $dest =  $uplDir['basedir'].$this->getIconsPath().$icon['img'];
            @copy($file,$dest);
-           frameGmp::_()->getTable('icons')->insert(array('path'=>$icon));
+           $qItems[] = "('".$icon['title']."','".$icon['description']."','".$icon['img']."')";               
        }
+       $query = "insert into `@__icons` (`title`,`description`,`path`) VALUES ".implode(",",$qItems);       
+      
+       dbGmp::query($query);
        update_option("gmp_def_icons_installed",true);
     }
     public function downloadIconFromUrl($url){
@@ -99,7 +111,10 @@ class iconsModelGmp extends modelGmp {
     }
    function getIconUrl($icon){
      if(!empty($icon)){
-         return $this->getIconsFullDir().$icon;
+         $isUrl = strpos($icon, "http");
+         if($isUrl===false){
+            return $this->getIconsFullDir().$icon;             
+         }
      }
      return $icon;
    } 

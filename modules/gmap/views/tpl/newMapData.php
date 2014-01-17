@@ -6,8 +6,8 @@
 <div class='gmpNewMapContent'>
     <div class='gmpMapOptionsTab'>
         <ul class='gmpNewMapOptsTab nav nav-tabs'>
-            <li>
-                <a class='' id='gmpTabForNewMapOpts'   href="#gmpMapProperties">
+            <li class='active'>
+                <a id='gmpTabForNewMapOpts'   href="#gmpMapProperties"  >
                 <span class="gmpIcon gmpIconSettings"></span>
                     <?php langGmp::_e("Map Properties"); ?>
                 </a>
@@ -29,7 +29,7 @@
              </div>
            
            </div>
-            <div class='tab-pane' id="gmpMapProperties">
+            <div class='tab-pane active' id="gmpMapProperties">
               <?php
                echo htmlGmp::formStart('addNewMap',array('attrs'=>" id='gmpAddNewMapForm'"));
               ?>
@@ -128,7 +128,8 @@
 
                <div class='gmpFormRow'>
                    <?php
-                    echo htmlGmp::radiobuttons('map_opts[display_mode]',array('options'=> $this->map_opts['display_mode'],'labeled'=>true,'labelClass'=>'gmpFormLabel','mo_br'=>false,'value'=>'map'));
+                   echo htmlGmp::hidden("map_opts[display_mode]",array('value'=>'map','attrs'=>" id='map_display_mode' class='map_display_preview_mode' "));
+                    //echo htmlGmp::radiobuttons('map_opts[display_mode]',array('options'=> $this->map_opts['display_mode'],'labeled'=>true,'labelClass'=>'gmpFormLabel','mo_br'=>false,'value'=>'map'));
                    ?>
 
                </div>
@@ -142,25 +143,17 @@
                 </div>  
                <div class='gmpFormRow'>
                    <?php
-                      //echo htmlGmp::input('map_opts[background_color]',array('attrs'=>" class='gmpInputSmall'  id='gmpNewMap_background_color' "));
-                    echo htmlGmp::colorpicker("background_color",
+                    echo htmlGmp::colorpicker("border_color",
                                             array(
-                                            'attrs' =>  " class='gmpInputSmall' id='gmpNewMap_background_color' ",
+                                            'attrs' =>  " class='gmpInputSmall map_border_color' id='gmpNewMap_border_color' ",
                                              'value'    =>" ",   
-                                             'id'   =>  'gmpNewMap_background_color' ));
+                                             'id'   =>  'gmpNewMap_border_color' ));
                    ?>
-                   <label for="gmpNewMap_background_color" class="gmpFormLabel">
-                         <?php langGmp::_e('Backgroud Color')?>
+                   <label for="gmpNewMap_border_color" class="gmpFormLabel">
+                         <?php langGmp::_e('Border Color')?>
                    </label>
                 </div>  
-               <div class='gmpFormRow'>
-                   <?php
-                      echo htmlGmp::input('map_opts[border_style]',array('attrs'=>" class='gmpInputSmall'  id='gmpNewMap_border_style' "));
-                   ?>
-                   <label for="gmpNewMap_border_style" class="gmpFormLabel">
-                         <?php langGmp::_e('Border Style')?>
-                   </label>
-                </div>  
+ 
                <div class='gmpFormRow'>
                    <?php
                       echo htmlGmp::input('map_opts[border_width]',array('attrs'=>" class='gmpInputSmall'  id='gmpNewMap_border_width' "));
@@ -216,10 +209,12 @@
                <br/>
                <br/>
               <?php    
-           the_editor("", $id = 'gmpNewMap_marker_desc', 
-                      $prev_id = 'title',
-                      $media_buttons = true, $tab_index = 2);
-           
+//           the_editor("", $id = 'gmpNewMap_marker_desc', 
+//                      $prev_id = 'title',
+//                      $media_buttons = true, $tab_index = 2);
+//            wp_editor( $content="", $id='gmpNewMap_marker_desc',
+//				array( 'quicktags' => false) );
+            wp_editor('', 'marker_desc1', array('quicktags' => false) );
               //echo htmlGmp::textarea('marker_opts[description]',array('attrs'=>" class='gmpInputLarge'  id='gmpNewMap_marker_desc' "));
               ?>
 
@@ -227,20 +222,40 @@
              <div class="gmpMarkericonOptions">
                 <h3><?php langGmp::_e('Marker Icon')?></h3>
                 <div class="gmpFormRow">
-                    <label for="newMarkerIcon"><?php langGmp::_e('Select Icon')?></label>
-                    <div class='right'>
-                    <select id="gmpSelectedIcon" class="gmpDropDownIconsSelect_new_map right" name="marker_opts[icon]">
-                        <?php
-                       $s=" selected='selected' ";   
-                       foreach($this->marker_opts['icons'] as $id=>$path){
-
-                          echo "<option value='".$id."' data-image='".$path."' $s></option>";
-                          $s="";
+                    <div class='gmpIconsSearchBar'>
+                        <div class='lft'>
+                            <a class='btn btn-default' onclick='clearIconSearch()'>
+                                <?php langGmp::_e('All Icons');?>
+                            </a>    
+                        </div>
+                        <div class='right gmpSearchFieldContainer'>
+                            <div class='gmpIconSearchZoomIcon'></div><input type='text' class='gmpSearchIconField'  />
+                            
+                        </div> 
+                   </div> 
+                   <div class='gmpIconsList'>
+                     <?php
+                     $defIcon = false;
+                     $activeClassName = '';
+                        foreach($this->marker_opts['icons'] as $icon){
+                           if(!$defIcon){
+                               $defIcon=$icon['id'];
+                               $activeClassName=' active';
+                           }
+                           ?>
+                               <a class='markerIconItem <?php echo $activeClassName;?>' data_name='<?php echo $icon['title'];?>' data_desc="<?php echo $icon['description']; ?>" title='<?php echo $icon['title'];?>' data_val='<?php echo $icon['id'];?>'>
+                                <img src="<?php echo $icon['path'];?>" class='gmpMarkerIconFile' />   
+                               </a>   
+                           <?php
+                           $activeClassName="";
                         }
-                          ?>
-                     </select>    
-                </div>    
-                </div>    
+                     ?>
+                   </div>  
+                    <input type="hidden" name="marker_opts[icon]" value="<?php echo $defIcon;?>" id="gmpSelectedIcon" class="right">
+                    
+                    <label for="newMarkerIcon"><?php langGmp::_e('Select Icon')?></label>
+                   
+                </div>   
 
                 <div class="gmpFormRow">
                    <label for=''><?php langGmp::_e('Or Upload your icon');?></label>

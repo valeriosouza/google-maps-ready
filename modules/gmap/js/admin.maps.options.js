@@ -1,7 +1,7 @@
 var currentMap;
 var gmpTempMap;
 var gmpMapsArr=[];
-var gmpCurrentIcon;
+var gmpCurrentIcon=1;
 var markerArr={}; 
 var infoWindows=[];
 var gmpNewMapOpts={};
@@ -45,15 +45,6 @@ var datatables={
                 "bProcessing": true ,
                 "bPaginate": true,
                 "sPaginationType": "full_numbers"
-              /*  "aoColumns":[
-                        {'sType':'numeric'},
-                        {'sType':'currency'},
-                        {'sType':'string'},
-                        {'sType':'date'},
-                        {'sType':'string'},
-                        {'sType':'string'}
-                        ]
-              */
      }
 }
 
@@ -66,18 +57,18 @@ function gmpIsMapFormIsEditing(){
         title : jQuery("#gmpAddNewMapForm").find("#gmpNewMap_title").val(),        
         desc  : jQuery("#gmpAddNewMapForm").find("#gmpNewMap_description").val(),
         margin : jQuery("#gmpAddNewMapForm").find("#gmpNewMap_margin").val(),
-        bstyle : jQuery("#gmpAddNewMapForm").find("#gmpNewMap_border_style").val(),
         bwidth : jQuery("#gmpAddNewMapForm").find("#gmpNewMap_border_width").val(),
         mtitle : jQuery("#gmpAddMarkerToNewForm").find("#gmpNewMap_marker_title").val(),
         maddress : jQuery("#gmpAddMarkerToNewForm").find("#gmp_marker_address").val(),
-        mdesc : jQuery("#gmpAddMarkerToNewForm").find("#gmpNewMap_marker_desc").val(),
+        mdesc : gmpGetEditorContent(),
         mcoord_x : jQuery("#gmpAddMarkerToNewForm").find("#gmp_marker_coord_x").val(),
         mcoord_y : jQuery("#gmpAddMarkerToNewForm").find("#gmp_marker_coord_y").val(),
      }
   
   for(var i in items){
       if(items[i]!="" || items[i].length>0){
-          return true;
+         // console.log(i,items[i]);
+            return true;
       }
   }
   return false;
@@ -178,9 +169,9 @@ function gmpDrawMap(params){
 		
            gmpTempMap = currentMap;
            currentMap = map;    
-	google.maps.event.addListenerOnce(map, 'idle', function(){
+	 google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
              gmpAddLicenzeBlock();
-        });	
+         });
 		
         gmpMapsArr[params.mapContainerId] = map;
         if(geocoder==undefined){
@@ -219,13 +210,14 @@ function gmpEditMap(mapId){
         gmpMap_language                 :editMap.params.language,
         gmpMap_align                    :editMap.html_options.align,
         gmpNewMap_margin                :editMap.html_options.margin,
-        gmp_edit_map_color              :editMap.html_options.background_color,
-        gmpNewMap_border_style          :editMap.html_options.border_style,
+        
+        map_border_color                :editMap.html_options.border_color,
         gmpNewMap_border_width          :editMap.html_options.border_width
     }
     for(var id in mapParams){
-        if(id=='gmp_edit_map_color'){
-            jQuery("#gmpEditMapForm").find("#"+id).css('background-color',mapParams[id]);
+        if(id=='map_border_color'){
+            jQuery("#gmpEditMapForm").find("."+id).css('background-color',mapParams[id]);
+            jQuery("#gmpEditMapForm").find("."+id).val(mapParams[id]);            
         }
         if(id=='map_optsenable_zoom_em_text'){
                 jQuery("#"+id).val(mapParams[id]);
@@ -233,11 +225,8 @@ function gmpEditMap(mapId){
         }
         jQuery("#gmpEditMapForm").find("#"+id).val(mapParams[id]);
     }
-    jQuery("#gmpEditMapForm").find("input[name='map_opts[display_mode]']").each(function(){
-        if(jQuery(this).val()==editMap.params.map_display_mode){
-            jQuery(this).attr("checked","checked");
-        }
-    })
+    jQuery("#gmpEditMapForm").find("#map_display_mode").val("map");
+
     if(editMap.params.enable_mouse_zoom==1){
         jQuery("#gmpEditMapForm").find("#map_optsenable_mouse_zoom_check").attr("checked","checked");
     }else{
@@ -284,7 +273,7 @@ function gmpSaveEditedMap(mapId){
 
     var mapNewParams=getMapPropertiesFromForm(jQuery("#gmpEditMapForm"));
     mapNewParams.id=mapId;
-    mapNewParams.background_color = jQuery("#gmpEditMapForm").find("#gmp_edit_map_color").css("background-color");
+    mapNewParams.border_color = jQuery("#gmpEditMapForm").find(".map_border_color").css("background-color");
     if(mapNewParams.title=='' || mapNewParams.title.length<3){
             alert("Map Title must be at least 3 chars");
             jQuery(".gmpTabForMapOpts").trigger("click");
@@ -437,18 +426,20 @@ function gmpRemoveMarkerObj(marker){
    }
 }
 function drawMarker(params){
+   
    var iconId;
    var mIcon;
+
     if(typeof params.icon =="object"){
         mIcon=params.icon.path;
         iconId=params.icon.id
     }else{
-         mIcon = gmpExistsIcons[gmpCurrentIcon];   
-         iconId = gmpCurrentIcon;
+         mIcon  = gmpExistsIcons[gmpCurrentIcon].path;   
+         iconId = gmpCurrentIcon;            
     }
      var  markerIcon = {
             url: mIcon,
-            size: new google.maps.Size(32, 37),
+            //size: new google.maps.Size(32, 37),
             origin: new google.maps.Point(0,0),
 	};
     var markerTitle='New Marker';
@@ -495,7 +486,7 @@ function drawMarker(params){
         markerItem.address = params.address; 
     }
 
-   
+
      markerArr[randId]=markerItem;
      markerArr[randId].markerObj=new google.maps.Marker({
                                         position    :   markerLatLng,
@@ -507,7 +498,7 @@ function drawMarker(params){
                                         animation   :   animType,
                                         id          :   randId
                                    })
-                                   
+                                     
     if(typeof(params.address)=='undefined' ||  params.address==""){
         getGmapMarkerAddress(markerItem,randId);
     }
@@ -581,12 +572,12 @@ function changeFormParams(markerObj){
 function editMarker(marker){
     var mapForm      = jQuery("#gmpAddNewMapForm");
     var markerForm   = jQuery("#gmpAddMarkerToNewForm");
-    var dropDownobj = gmpDropDownObj.mapForm;
+//    var dropDownobj = gmpDropDownObj.mapForm;
 
     if(gmpMapEditing){
         mapForm     =   jQuery("#gmpEditMapForm");
         markerForm  =   jQuery("#gmpAddMarkerToEditMap");
-        dropDownobj =   gmpDropDownObj.mapEditForm;
+//        dropDownobj =   gmpDropDownObj.mapEditForm;
     }
     
     markerForm.find("#gmpNewMap_marker_group").val(marker.groupId);
@@ -604,14 +595,18 @@ function editMarker(marker){
     markerForm.find("#marker_optsanimation_text").val(marker.animation);        
     
     var optIter=0;
-   markerForm.find("#"+dropDownobj.attr('id')+" option").each(function(){
-        if(jQuery(this).val() == marker.icon){
-           dropDownobj.data('dd').set('selectedIndex',optIter);    
-        }
-        optIter++;
-    })
-    markerForm.find("#gmpSelectedIcon").val(marker.icon);
-    gmpCurrentIcon=marker.icon;
+        
+    setcurrentIconToForm(marker.icon,markerForm)
+
+//    markerForm.find("#gmpSelectedIcon").val(marker.icon);
+//    markerForm.find(".markerIconItem.active").removeClass('active');
+//    markerForm.find(".markerIconItem[data_val='"+marker.icon+"']").addClass('active');
+//    
+//  
+//    markerForm.find("#gmpSelectedIcon").val(marker.icon);
+//    gmpCurrentIcon=marker.icon;
+    
+    
     markerForm.find(".gmpAddMarkerOpts").hide();
     markerForm.find(".gmpEditMarkerOpts").show();
     markerForm.find(".gmpEditMarkerOpts").find("#gmpEditedMarkerLocalId").val(marker.id);
@@ -651,8 +646,7 @@ function getMapPropertiesFromForm(formObj){
                 language            :   formObj.find("#gmpMap_language").val(),
                 align               :   formObj.find("#gmpMap_align").val(),
                 margin              :   formObj.find("#gmpNewMap_margin").val(),
-                background_color    :   formObj.find("#gmpNewMap_background_color").val(),
-                border_style        :   formObj.find("#gmpNewMap_border_style").val(),
+                border_color        :   formObj.find(".map_border_color").val(),
                 border_width        :   formObj.find("#gmpNewMap_border_width").val(),
     }
     
@@ -669,11 +663,10 @@ function getMapPropertiesFromForm(formObj){
                coord_x:currentMap.getCenter().lng(),
                coord_y:currentMap.getCenter().lat(),
             };             
-    formObj.find("input[name='map_opts[display_mode]']").each(function(){
-            if(jQuery(this).is(":checked")){
-                  gmpNewMapOpts['map_display_mode']=jQuery(this).val();
-           }
-      })
+   
+          gmpNewMapOpts['map_display_mode']="map";
+          
+    
     return gmpNewMapOpts;
 }
 jQuery("#gmpAddNewMapForm").submit(function(){
@@ -732,15 +725,9 @@ function clearMarkerForm(markerForm){
     markerForm.find("#gmpIconUrlToDown").val("");
     markerForm.find("#marker_optsanimation_text").val("0");
     markerForm.find("#marker_optsanimation_check").removeAttr('checked');
+    markerForm.find("#marker_optsanimation_check").removeAttr('checked');
+    markerForm.find(".gmpAddressAutocomplete ul").empty();
     
-    markerForm.find("#"+gmpDropDownObj.mapForm.attr("id")).each(function(){
-        jQuery(this).attr("checked","checked");
-        return false;
-    })
-    markerForm.find("#"+gmpDropDownObj.mapEditForm.attr("id")).each(function(){
-        jQuery(this).attr("checked","checked");
-        return false;
-    })
 }
 function updateMarker(newParams,markerForm,leaveForm){
     
@@ -763,7 +750,7 @@ function updateMarker(newParams,markerForm,leaveForm){
             currentMarker[i]=newParams[i];
         } 
     }
-    currentMarker.markerObj.setIcon(gmpExistsIcons[currentMarker.icon]);
+    currentMarker.markerObj.setIcon(gmpExistsIcons[currentMarker.icon].path);
     currentMarker.markerObj.title  =  currentMarker.title;
     if(currentMarker.coord_x!="" && currentMarker.coord_y!=""){
        currentMarker.markerObj.setPosition(new google.maps.LatLng(currentMarker.coord_y,currentMarker.coord_x));
@@ -801,12 +788,9 @@ function afterMarkerFormSubmit(formObj){
            group_id  : formObj.find("#gmpNewMap_marker_group").val(),
            animation : formObj.find('#marker_optsanimation_text').val(),
         };
-
-        formObj.find("input.selectIconForMarker").each(function(){
-            if(jQuery(this).is(":checked")){
-                markerParams.icon=jQuery(this).val();
-            } 
-        })
+       
+        markerParams.icon=formObj.find("#gmpSelectedIcon").val();
+        
         var lat = formObj.find("#gmp_marker_coord_y").val();
         var lng = formObj.find("#gmp_marker_coord_x").val();
         if(lat!="" && lng!=""){
@@ -815,6 +799,8 @@ function afterMarkerFormSubmit(formObj){
             coord_y:parseFloat(lat)
          }
         }
+        console.log(markerParams);
+
         drawMarker(markerParams);
         clearMarkerForm(formObj);     
         return false;
@@ -869,9 +855,9 @@ jQuery(document).ready(function(){
        updateMarker(markerNewParams);
     })
    
-       gmpDropDownObj["mapForm"]= jQuery("#gmpSelectedIcon").msDropDown({visibleRows:4});        
-       gmpDropDownObj["mapEditForm"]= jQuery("#gmpSelectedIcon_edit").msDropDown({visibleRows:4});
-       gmpDropDownObj["markerEditForm"]= jQuery("#gmpDropDownIconsSelect_MarkerEdit").msDropDown({visibleRows:4});
+//       gmpDropDownObj["mapForm"]= jQuery("#gmpSelectedIcon").msDropDown({visibleRows:4});        
+//       gmpDropDownObj["mapEditForm"]= jQuery("#gmpSelectedIcon_edit").msDropDown({visibleRows:4});
+//       gmpDropDownObj["markerEditForm"]= jQuery("#gmpDropDownIconsSelect_MarkerEdit").msDropDown({visibleRows:4});
        
        
        jQuery("body").on("click","li.gmpAutoCompRes",function(){
@@ -899,7 +885,9 @@ jQuery(document).ready(function(){
                 }
         })
       
-       
+       jQuery(".map_border_color").click(function(){
+           jQuery(this).val()==""?jQuery(this).val(" "):"";
+       })
        
        
        
@@ -1049,6 +1037,7 @@ function startSearchAddress(address,form){
         action :'findAddress',
         reqType:'ajax'
     }
+    
     jQuery.sendFormGmp({
         msgElID:gmpCurrentMarkerForm.find("#gmpAddressLoader"),
         data:sendData,

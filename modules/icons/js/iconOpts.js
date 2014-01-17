@@ -2,48 +2,44 @@ function gmpUploadNewIconStart(param){
     jQuery('.gmpFileUpRes img').attr('src',GMP_DATA.loader);
 }
 var seletcObj;
-function drawNewIcon(id,path){
-
-        var newItem = "<option value='"+id+"' data-image='"+path+"' selected='selected'></option>"
-        var gmpDropDownObjItem='<li class="enabled _msddli_"><img src="'+path+'" class="fnone"><span class="ddlabel"></span><div class="clear"></div></li>';
-        
-        jQuery("select#gmpSelectedIcon").append(newItem);    
-        jQuery("select#gmpSelectedIcon_edit").append(newItem);    
-        jQuery("select#gmpDropDownIconsSelect_MarkerEdit").append(newItem);    
-      
-        seletcObj = {
-                image:path,
-                value:id, 
-                disabled:false
+function drawNewIcon(icon){
+        if(typeof(icon.data)==undefined){
+            return;
         }
-
-        //gmpDropDownObj.mapForm.data('dd').add(seletcObj);
-        gmpDropDownObj.mapForm.data('dd').destroy();
-        gmpDropDownObj.mapEditForm.data('dd').destroy();   
-        gmpDropDownObj.markerEditForm.data('dd').destroy();   
-
-        gmpDropDownObj["mapForm"]= jQuery("#gmpSelectedIcon").msDropDown({visibleRows:4,width:100});        
-        gmpDropDownObj["mapEditForm"]= jQuery("#gmpSelectedIcon_edit").msDropDown({visibleRows:4});
-        gmpDropDownObj["markerEditForm"]= jQuery("#gmpDropDownIconsSelect_MarkerEdit").msDropDown({visibleRows:4});
-            
-
-        gmpDropDownObj.mapEditForm.data('dd').refresh();
-        gmpDropDownObj.mapForm.data('dd').refresh();
+        console.log(icon);
+        var newElem = '<a class="markerIconItem" data_name="'+icon.title+'" data_desc="'+icon.description+'" '
+            newElem +='title="'+icon.title+'" data_val="'+icon.id+'">';
+            newElem +='<img src="'+icon.url+'" class="gmpMarkerIconFile">';
+            newElem +='</a>';
+         gmpCurrentMarkerForm.find(".gmpIconsList").append(newElem);
+         jQuery('.gmpIconsList').scrollTop(jQuery('.gmpIconsList')[0].scrollHeight);
         if(gmpExistsIcons==undefined){
              gmpExistsIcons=[];
         }
-        gmpExistsIcons[id] = path;
-        gmpCurrentIcon=id;
+        gmpExistsIcons[icon.id] = icon;
+        gmpCurrentIcon=icon.id;
 }
+jQuery.fn.scrollTo = function(elem) { 
+    jQuery(this).scrollTop(jQuery(this).scrollTop() - jQuery(this).offset().top + jQuery(elem).offset().top); 
+    return this; 
+};
+function setcurrentIconToForm(iconId,markerForm){
+    markerForm.find("#gmpSelectedIcon").val(iconId);
+    markerForm.find(".markerIconItem.active").removeClass('active');
+    
+    var currItm = markerForm.find(".markerIconItem[data_val='"+iconId+"']");
+    try{
+        currItm.addClass('active');
+        markerForm.find('.gmpIconsList').scrollTo(currItm);
+    }catch(e){
+        console.log(e);
+    }
+    gmpCurrentIcon=iconId;
+}
+
 function gmpUploadNewIconEnd(params,response){
-
-        if(response!=undefined && !response.error){
-          jQuery('.gmpFileUpRes img').attr('src',response.data.path);
-              drawNewIcon(response.data.id,response.data.path);
-        }
-
 }
-  var custom_uploader;
+var custom_uploader;
   
 jQuery(document).ready(function(){
    
@@ -85,22 +81,32 @@ jQuery(document).ready(function(){
 
            
              
-            custom_uploader.on('select', function() {
-            attachment = custom_uploader.state().get('selection').first().toJSON();
+     custom_uploader.on('select', function() {
+           var  attachment = custom_uploader.state().get('selection').first().toJSON();
             var respElem = jQuery('.gmpUplRes');
+            
              var sendData={
                      page    :'icons',
                      action  :"saveNewIcon",
                      reqType :"ajax",
-                     icon_url:attachment.url
+                     icon    :{
+                                url:attachment.url,
+                              }
+                }
+                if(attachment.title!=undefined){
+                    sendData.icon.title=attachment.title;
+                }
+                if(attachment.description !=undefined){
+                    sendData.icon.description = attachment.description;
                 }
                 jQuery.sendFormGmp({
                     msgElID:respElem,
                     data:sendData,
                    onSuccess:function(res){
                        if(!res.error){
-                           var newItem =drawNewIcon(res.data.id,res.data.path);
-                            currentForm.find(".gmpFileUpRes img").attr("src",res.data.path);
+                          
+                           var newItem =drawNewIcon(res.data);
+                           //currentForm.find(".gmpFileUpRes img").attr("src",res.data.path);
                        }else{
                            respElem.html(data.error.join(','));
                        }
@@ -113,6 +119,37 @@ jQuery(document).ready(function(){
  
     });
  
+    jQuery(".gmpIconsList").on("click",".markerIconItem",function(){
+            jQuery(".markerIconItem").removeClass('active');
+            jQuery(this).addClass('active');
+            var value = jQuery(this).attr("data_val");
+            jQuery(this).parents(".gmpFormRow").find("#gmpSelectedIcon").val(value);
+            gmpCurrentIcon = value;
+    })
+    jQuery(".gmpSearchIconField").keyup(function(e){
+        //console.log(e);//keyCode 13
+        var search_word = jQuery(this).val();
+        if(search_word==""){
+            jQuery(".markerIconItem").show();
+            return;
+        }
+        
+        if(search_word.length<2){
+            return false;
+        }
+
+       jQuery(".markerIconItem").each(function(){
+           var itmDesc=jQuery(this).attr("data_desc");
+           var name=jQuery(this).attr("data_name");
+           if(itmDesc.indexOf(search_word) == -1){
+               jQuery(this).hide();
+           }
+       })
+    })
  
 
 })
+function clearIconSearch(){
+    jQuery(".gmpSearchIconField").val("");
+    jQuery(".markerIconItem").show();
+}

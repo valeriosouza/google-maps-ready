@@ -677,3 +677,76 @@ div.refreshMapsList {
 .dataTables_length {
     float: left;
 }
+
+.gmpIconsList {
+    clear: both;
+    float: left;
+    background-color: #D8DADF;
+    padding: 5px 0 5px 4px;
+    height: 250px;
+    overflow: auto;
+    width: 100%;
+}
+.markerIconItem {
+    float: left;
+    width: 36px;
+    margin: 2px 1px;
+    height: 42px;
+    overflow: hidden;
+    padding: 1px;
+}
+.markerIconItem:hover,.markerIconItem:active{
+    background-color: #608BF8;
+    border: 1px solid #2A65F8;
+    padding: 0;
+}
+.markerIconItem.active{
+    background-color: #1D59F1;
+    border: 1px solid #2A65F8;
+    padding: 0;
+}
+.lft{
+    float:left;
+}
+.gmpIconsSearchBar {
+    float: left;
+    width: 100%;
+    height: 38px;
+}
+.gmpSearchIconField {
+    width: 202px !important;
+    height: 32px !important;
+    margin-top: 1px !important;
+    margin-bottom: 0 !important;
+    padding-left: 20px !important;
+}
+.gmpIconSearchZoomIcon {
+    float: left;
+    width: 18px;
+    height: 24px;
+    background-image: url(../img/glyphicons-halflings.png) !important;
+    background-position: -46px 1px;
+    margin-top: 10px;
+    margin-right: -19px;
+    position: relative;
+}
+.markerIconItem:hover {
+    background-color: #608BF8;
+    border: 1px solid #2A65F8;
+    padding: 0;
+}
+.gmpMarkerIconFile {
+    max-width: 33px;
+}
+.gmpAdminOptionsTabs .mceLayout {
+    min-height: 150px;
+}
+.mceIframeContainer {
+    background-color: white;
+}
+.gmpThMarkerCreationDate{
+    width: 110px !important
+}
+.gmpThMarkerGroups{
+    width: 110px !important    
+}

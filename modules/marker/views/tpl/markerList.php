@@ -48,49 +48,61 @@
                <br/>
                <br/>
               <?php
-                the_editor("", $id = 'gmp_marker_desc',
-                           $prev_id = 'title',
-                           $media_buttons = true, $tab_index = 1);
+                 wp_editor( $content="", $id='gmpNewMap_marker_desc',
+				array( 'quicktags' => false) );
               ?>
 
            </div>
-            <div class="gmpMarkericonOptions">
+           <div class="gmpMarkericonOptions">
                 <h3><?php langGmp::_e('Marker Icon')?></h3>
                 <div class="gmpFormRow">
-                    <label for="newMarkerIcon">select icon</label>
-                    <div class='right'>
-                    <select id="gmpDropDownIconsSelect_MarkerEdit"  class="gmpDropDownIconsSelect_edit" name="marker_opts[icon]">
-                        <?php
-                       $s=" selected='selected' ";   
-                       foreach($this->marker_opts['icons'] as $id=>$path){
-                          echo "<option value='".$id."' data-image='".$path."' $s></option>";
-                          $s="";
+                    <div class='gmpIconsSearchBar'>
+                        <div class='lft'>
+                            <a class='btn btn-default' onclick='clearIconSearch()'>
+                                <?php langGmp::_e('All Icons');?>
+                            </a>    
+                        </div>
+                        <div class='right gmpSearchFieldContainer'>
+                            <div class='gmpIconSearchZoomIcon'></div><input type='text' class='gmpSearchIconField'  />
+                            
+                        </div> 
+                   </div> 
+                   <div class='gmpIconsList'>
+                     <?php
+                        $defIcon = false;
+                     $activeClassName = '';
+                        foreach($this->marker_opts['icons'] as $icon){
+                           if(!$defIcon){
+                               $defIcon=$icon['id'];
+                               $activeClassName=' active';
+                           }
+                           ?>
+                               <a class='markerIconItem <?php echo $activeClassName;?>' data_name='<?php echo $icon['title'];?>' data_desc="<?php echo $icon['description']; ?>" title='<?php echo $icon['title'];?>' data_val='<?php echo $icon['id'];?>'>
+                                <img src="<?php echo $icon['path'];?>" class='gmpMarkerIconFile' />   
+                               </a>   
+                           <?php
+                           $activeClassName="";
                         }
-                          ?>
-                     </select>    
-                </div>    
-                </div>    
-                
+                     ?>
+                   </div>  
+                    <input type="hidden" name="marker_opts[icon]" value="<?php echo $defIcon;?>" id="gmpSelectedIcon" class="right">
+                    <label for="newMarkerIcon"><?php langGmp::_e('Select Icon')?></label>
+                </div>   
+
                 <div class="gmpFormRow">
-                    
+                   <label for=''><?php langGmp::_e('Or Upload your icon');?></label>
                     <label for="upload_image" class='right'>
-                        <a id="gmpUploadIcon" class="gmpUploadIcon btn btn-info" type="button" >  
-                            <span class='gmpIcon gmpIconUpload'></span>
-                            <?php
-                                  langGmp::_e("Upload Image")
-                            ?>
-                        </a>
-                       
+                        <input id="gmpUploadIcon" class="gmpUploadIcon button" type="button" value="Upload Image" />
+
                     </label>
-                    
-                    <label for=''><?php langGmp::_e('Upload your icon');?></label>
+
                      <div class='gmpUplRes'>
                     </div>  
                     <div class='gmpFileUpRes'>
                         <img src=''>
-                    </div>     
+                    </div>   
                 </div>
-                   
+
              </div> 
                 <div class='gmpFormRow'>
                     <label for='marker_opts[animation]'><?php langGmp::_e("Marker Animation")?></label> 

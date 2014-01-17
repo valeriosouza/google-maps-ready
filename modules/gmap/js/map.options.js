@@ -95,7 +95,7 @@ function drawMap(){
 //             gmapObj.fitBounds (bounds);
       }    
 
-       google.maps.event.addListenerOnce(map, 'idle', function(){
+       google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
              gmpAddLicenzeBlock();
         });	
      

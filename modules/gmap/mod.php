@@ -9,7 +9,6 @@ class  gmapGmp extends moduleGmp {
                 frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');                
 	}
 	public function addOptionsTab($tabs) {
-                frameGmp::_()->addScript('jquery.dd.js', GMP_JS_PATH .'jquery.dd.js');
 		frameGmp::_()->addScript('mapOptions', $this->getModPath(). 'js/admin.maps.options.js');
                 frameGmp::_()->addScript('bootstrap', GMP_JS_PATH .'bootstrap.min.js');
 

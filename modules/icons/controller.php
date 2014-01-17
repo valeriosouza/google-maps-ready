@@ -2,22 +2,19 @@
 class iconsControllerGmp extends controllerGmp {
 		
         public function setDefaultIcons(){
-            
-            $defaultIcons=array('marker.png',
-                                'markerA.png',
-                                'marker_blue.png',
-                                'marker_green.png',
-                                'marker_orange.png');
-            
+
+            $jsonFile = frameGmp::_()->getModule("icons")->getModPath()."icons_files/icons.json";
+            $defaultIcons = utilsGmp::jsonDecode(file_get_contents($jsonFile));
             $this->getModel()->setDefaultIcons($defaultIcons);
         }	
 	
         public function saveNewIcon(){
             $data= reqGmp::get('post');
             $res = new responseGmp();
-            $result=$this->getModel()->saveNewIcon($data);
+            $result=$this->getModel()->saveNewIcon($data['icon']);
             if($result){
-                $res->addData(array("id"=>$result,'path'=>$data['icon_url']));
+                $data['icon']['id']=$result;
+                $res->addData($data['icon']);
             }else{
                 outGmp($this->getModel()->getErrors());
             }

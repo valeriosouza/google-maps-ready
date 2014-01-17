@@ -187,6 +187,8 @@ class installerGmp {
                 if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."icons")){
                     $q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."icons"."` (
                             `id` int(11) NOT NULL AUTO_INCREMENT,
+                            `title` varchar(100) CHARACTER SET utf8,   
+                            `description` text CHARACTER SET utf8,   
                             `path` varchar(250) CHARACTER SET utf8,   
                              PRIMARY KEY (`id`)
                             )";
@@ -217,6 +219,7 @@ class installerGmp {
                 /**
                  * Plugin usage statistics
                  */
+              
                 if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."usage_stat")) {
                         dbDelta("CREATE TABLE `".$wpPrefix.GMP_DB_PREF."usage_stat` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -230,24 +233,14 @@ class installerGmp {
                         dbGmp::query("INSERT INTO `".$wpPrefix.GMP_DB_PREF."usage_stat` (code, visits) VALUES ('installed', 1)");
                 }
                
-               
-               
-               
-               
-		installerDbUpdaterGmp::runUpdate();
-		
-		update_option($wpPrefix. GMP_DB_PREF. 'db_version', GMP_VERSION);
+             
+
+                  
+                update_option($wpPrefix. GMP_DB_PREF. 'db_version', GMP_VERSION);
 		add_option($wpPrefix. GMP_DB_PREF. 'db_installed', 1);
 		dbGmp::query("UPDATE `".$wpPrefix.GMP_DB_PREF."options` SET value = '". GMP_VERSION. "' WHERE code = 'version' LIMIT 1");
-
-
-                  if(!get_option('gmp_def_icons_installed') ){
-                      $iconModule=frameGmp::_()->getModule('icons');  
-                      if(!empty($iconModule)){
-                          $iconModule->getController()->setDefaultIcons();
-                      }
-                  }
                   
+                  installerDbUpdaterGmp::runUpdate();
 		//$time = microtime(true) - $start;	// Speed debug info
 	}
 	static public function setUsed() {
@@ -298,10 +291,10 @@ class installerGmp {
                $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."modules_type`");
                $wpdb->query("DROP TABLE IF EXISTS `".$wpPrefix.GMP_DB_PREF."usage_stat`");
 
-               delete_option($wpPrefix. 'gmp_def_icons_installed');
-               delete_option($wpPrefix. 'db_version');
-               delete_option($wpPrefix. 'db_installed');
-               delete_option($wpPrefix. 'plug_was_used');       
+               delete_option('gmp_def_icons_installed');
+               delete_option(GMP_DB_PREF. 'db_version');
+               delete_option($wpPrefix.GMP_DB_PREF.'db_installed');
+               delete_option(GMP_DB_PREF. 'plug_was_used');       
             }
                        
 	}

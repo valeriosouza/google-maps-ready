@@ -23,7 +23,7 @@ class gmapModelGmp extends modelGmp {
         return $maps;
     }
     public function prepareParams($params){
-          $htmlKeys=array('width','height','align','margin','background_color','border_style','border_width');
+          $htmlKeys=array('width','height','align','margin','border_color','border_width');
         $htmlOpts = array();
         foreach($htmlKeys as $k){
             $htmlOpts[$k]=isset($params[$k])?$params[$k]:null;

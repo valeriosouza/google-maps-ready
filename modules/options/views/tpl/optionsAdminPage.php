@@ -1,6 +1,5 @@
 <link rel='stylesheet' type='text/css' href='<?php echo GMP_CSS_PATH."gmpTabsContent.css";?>' />
 <link rel='stylesheet' type='text/css' href='<?php echo GMP_CSS_PATH."bootstrap.min.css";?>' />
-<link rel='stylesheet' type='text/css' href='<?php echo GMP_CSS_PATH."dd.css";?>' />
 <?php 
 
      wp_enqueue_script('thickbox');
@@ -10,7 +9,14 @@
      wp_enqueue_script('media-upload');
      
      wp_enqueue_media();
+     if(empty($this->defaultOpenTab)){
+         $this->defaultOpenTab="gmpAddNewMap";
+     }
 ?>
+<script type='text/javascript'>
+        var defaultOpenTab = "<?php echo $this->defaultOpenTab;?>";
+       
+</script>    
 <script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?&sensor=false"> </script>
 <div id="gmpAdminOptionsTabs">
     <h1>

@@ -64,7 +64,8 @@ function gmpEditMarkerItem(markerId){
     }
     currentMarkerForm.find("#marker_optsedit_animation_text").val(currentMarker.animation);    
     var iter = 0;
-    
+    //gmpCurrentMarkerForm.find()
+     setcurrentIconToForm( currentMarker.icon.id,currentMarkerForm)
     jQuery("#gmpDropDownIconsSelect_MarkerEdit option").each(function(){
         if(jQuery(this).val() == currentMarker.icon.id){
            gmpDropDownObj.markerEditForm.data('dd').set('selectedIndex',iter);                
@@ -145,14 +146,16 @@ function gmpGetEditMarkerFormData(form){
                     },
         animation   :   form.find("input[type='hidden'].marker_opts_animation").val()
     }
-    form.find("#gmpDropDownIconsSelect_MarkerEdit option").each(function(){
-        if(jQuery(this).is(":selected")){
-            params.icon={
-                id:form.find("#gmpDropDownIconsSelect_MarkerEdit").val(),
-                path:jQuery(this).attr('data-image'),
+    
+        params.icon={
+             id:form.find("#gmpSelectedIcon").val()
             }
+        try{
+            params.icon.path=gmpExistsIcons[params.icon.id].path;
+        }catch(e){
+            console.log(e);
         }
-    })
+    
     return params;
 }
 function gmpDrawEditedMarker(markerId){

@@ -11,10 +11,10 @@
                   <?php langGmp::_e("Description");?>
               </th>
 
-              <th>
+              <th class='gmpThMarkerGroups'>
                   <?php langGmp::_e("Group");?>
               </th>
-              <th>
+              <th class='gmpThMarkerCreationDate'>
                   <?php langGmp::_e("Creation Date");?>
               </th>
               <th class='gmpMarkerTableaddress'>
@@ -59,7 +59,7 @@
               </td>
               <td>
                   <?php echo $marker['address']?><br/>
-                  Coordinates:<br/>
+                 
                   <pre>Latitude  : <?php echo $marker['coord_y'];?><br/>Longitude : <?php echo $marker['coord_x'];?><br/></pre>
               </td> 
               <td>

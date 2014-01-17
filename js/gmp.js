@@ -1,8 +1,15 @@
 var gmpActiveTab={};
+var gmpExistsTabs=["gmpAddNewMap",'gmpAllMaps','gmpMarkerList','gmpMarkerGroups','gmpPluginSettings'];
 var  gmpMapConstructParams={
              mapContainerId:"mapPreviewToNewMap"
      };
 var nochange = false;     
+
+ var def_tab_elem;
+
+
+
+
 function gmpChangeTab(elem,sub){
     var tabId;
     
@@ -14,6 +21,17 @@ function gmpChangeTab(elem,sub){
    
     if(gmpActiveTab.mainmenu=="#gmpEditMaps" && tabId!="#gmpEditMaps" && sub==undefined){
         gmpCancelMapEdit({changeTab:false});
+    }
+  
+    if(gmpActiveTab.mainmenu=="#gmpAddNewMap" && tabId!="#gmpAddNewMap" && sub==undefined){
+        if(gmpIsMapFormIsEditing()){
+            if(confirm("If you leave tab,all information will be lost. \n Leave tab?")){
+               return false; 
+            }else{
+                clearAddNewMapData();
+                clearMarkerForm();
+            }
+        }
     }
     
     
@@ -83,14 +101,7 @@ jQuery(document).ready(function(){
   jQuery('.nav.nav-tabs  a').click(function (e) {
     e.preventDefault();
 
-    if(gmpIsMapFormIsEditing() && jQuery(this).parents("ul").hasClass("gmpMainTab")){
-        if(confirm("Save new Map?")){
-           return false; 
-        }else{
-            clearAddNewMapData();
-            clearMarkerForm();
-        }
-    }
+    
     var href = jQuery(this).attr("href");
     if(href.replace("#","")=='gmpAddNewMap'){
             if(jQuery("#mapPreviewToNewMap").html().length<150){
@@ -115,9 +126,7 @@ jQuery(document).ready(function(){
      *  jQuery('.nav.nav-tabs li.gmpAllMaps  a').tab('show');
      */
 
-     //jQuery('.gmpMainTab li.gmpAddNewMap  a').tab('show');
-     gmpChangeTab(jQuery('.gmpMainTab li.gmpAddNewMap  a'));
-     //gmpActiveTab.mainmenu = jQuery('.gmpMainTab li.gmpAddNewMap  a');
+    
      if(jQuery("#mapPreviewToNewMap").length>0 &&  jQuery("#mapPreviewToNewMap").html().length<150){
                 gmpDrawMap(gmpMapConstructParams);                        
       }
@@ -127,9 +136,27 @@ jQuery(document).ready(function(){
         jQuery(this).addClass("btn-primary");
     })
     
-    //jQuery("#gmpTabForNewMapOpts").tab("show");
-    gmpChangeTab(jQuery("#gmpTabForNewMapOpts"),true);
-    //gmpActiveTab['submenu'] = jQuery("#gmpTabForNewMapOpts");
+  
+    
+    
+    
+    
+    
+    
+          try{
+                def_tab_elem = jQuery(".gmpMainTab  li."+defaultOpenTab).find('a');
+                if(gmpExistsTabs.indexOf(defaultOpenTab) == -1){
+                         def_tab_elem = jQuery(".gmpMainTab li."+gmpExistsTabs[0]).find('a')
+                } 
+           gmpChangeTab(def_tab_elem);            
+        }catch(e){
+            
+        }
+
+    
+    
+    
+    
 })
 function gmpGetLicenseBlock(){
        return '<a style="color: rgb(68, 68, 68); text-decoration: none; cursor: pointer;margin-right: 2px;margin-left: -21px;background-color: rgba(255, 255, 255, 0.37);" href="http://readyshoppingcart.com/product/google-maps-plugin/" target="_blank">' +'Google Maps WordPress Plugin'+'</a>';

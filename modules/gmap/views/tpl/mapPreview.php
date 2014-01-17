@@ -8,11 +8,14 @@ if(empty($this->currentMap)){
 
  ?>
 <?php
+//outeGmp($this->currentMap);
     $width=$this->currentMap['html_options']['width'];
     $height=$this->currentMap['html_options']['height'];
     $classname=$this->currentMap['html_options']['classname'];
     $align = $this->currentMap['html_options']['align'];
     $mapId = "ready_google_map_".$this->currentMap['id'];
+    $border = ((int)$this->currentMap['html_options']['border_width'])."px solid ".$this->currentMap['html_options']['border_color'];
+   
     $ln = $this->currentMap['params']['language'];
     if($this->currentMap['params']['map_display_mode']=="popup"){
         $className="display_as_popup";
@@ -67,6 +70,8 @@ if(empty($this->currentMap)){
             width:<?php echo $width;?>px;
             height:<?php echo $height;?>px;
             float:<?php echo $align;  ?>;
+            border:<?php echo $border;?>
+      
         }
         .map-preview-iumg-container img {
             width: 175px;
@@ -104,8 +109,7 @@ if(empty($this->currentMap)){
          }
         ?>
        
-     <div class='gmp_MapPreview <?php echo $classname;?>' id='<?php echo $mapId ;?>'
-         style='background-color:<?php  echo $this->currentMap['html_options']['background_color'];?> !important '>
+     <div class='gmp_MapPreview <?php echo $classname;?>' id='<?php echo $mapId ;?>'     >
     
         
     </div>
