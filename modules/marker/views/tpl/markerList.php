@@ -19,7 +19,7 @@
 
             ?>
           
-                <legend class='gmpFormTitle'></legend>
+           <legend class='gmpFormTitle'></legend>
            <div class='gmpFormRow'>
               <?php
               $groupArr=array();
@@ -86,7 +86,7 @@
                      ?>
                    </div>  
                     <input type="hidden" name="marker_opts[icon]" value="<?php echo $defIcon;?>" id="gmpSelectedIcon" class="right">
-                    <label for="newMarkerIcon"><?php langGmp::_e('Select Icon')?></label>
+                    
                 </div>   
 
                 <div class="gmpFormRow">

@@ -1,23 +1,23 @@
 <?php
 class optionsModelGmp extends modelGmp {
-    protected $_allOptions = array();
-    public function get($d = array()) {
-        $this->_loadOptions();
-        $code = false;
-        if(is_string($d))
-            $code = $d;
-        elseif(is_array($d) && isset($d['code']))
-            $code = $d['code'];
-        if($code) {
-            $opt = $this->_getByCode($code);
-            if(isset($d['what']) && isset($opt[$d['what']]))
-                return $opt[$d['what']];
-            else
-                return $opt['value'];
-        } else {
-            return $this->_allOptions;
-        }
-    }
+	protected $_allOptions = array();
+	public function get($d = array()) {
+		$this->_loadOptions();
+		$code = false;
+		if(is_string($d))
+			$code = $d;
+		elseif(is_array($d) && isset($d['code']))
+			$code = $d['code'];
+		if($code) {
+			$opt = $this->_getByCode($code);
+			if(isset($d['what']) && isset($opt[$d['what']]))
+				return $opt[$d['what']];
+			else
+				return $opt['value'];
+		} else {
+			return $this->_allOptions;
+		}
+	}
 	public function isEmpty($d = array()) {
 		$value = $this->get($d);
 		return empty($value);
@@ -55,22 +55,22 @@ class optionsModelGmp extends modelGmp {
 			$res = $codeData;
 		return $res;
 	}
-    /**
-     * Load all options data into protected array
-     */
-    protected function _loadOptions() {
-        if(empty($this->_allOptions)) {
-            $options = frameGmp::_()->getTable('options');
-            $htmltype = frameGmp::_()->getTable('htmltype');
+	/**
+	 * Load all options data into protected array
+	 */
+	protected function _loadOptions() {
+		if(empty($this->_allOptions)) {
+			$options = frameGmp::_()->getTable('options');
+			$htmltype = frameGmp::_()->getTable('htmltype');
 			$optionsCategories = frameGmp::_()->getTable('options_categories');
-            $this->_allOptions = $options->innerJoin($htmltype, 'htmltype_id')
+			$this->_allOptions = $options->innerJoin($htmltype, 'htmltype_id')
 					->leftJoin($optionsCategories, 'cat_id')
 					->orderBy(array('cat_id', 'sort_order'))
-                    ->getAll($options->alias(). '.*, '. $htmltype->alias(). '.label AS htmltype, '. $optionsCategories->alias(). '.label AS cat_label');
-            foreach($this->_allOptions as $i => $opt) {
-                if(!empty($this->_allOptions[$i]['params'])) {
-                    $this->_allOptions[$i]['params'] = utilsGmp::unserialize($this->_allOptions[$i]['params']);
-                }
+					->getAll($options->alias(). '.*, '. $htmltype->alias(). '.label AS htmltype, '. $optionsCategories->alias(). '.label AS cat_label');
+			foreach($this->_allOptions as $i => $opt) {
+				if(!empty($this->_allOptions[$i]['params'])) {
+					$this->_allOptions[$i]['params'] = utilsGmp::unserialize($this->_allOptions[$i]['params']);
+				}
 				if($this->_allOptions[$i]['value_type'] == 'array') {
 					$this->_allOptions[$i]['value'] = utilsGmp::unserialize($this->_allOptions[$i]['value']);
 					if(!is_array($this->_allOptions[$i]['value']))
@@ -80,43 +80,43 @@ class optionsModelGmp extends modelGmp {
 					$this->_allOptions[$i]['cat_id'] = 6;
 					$this->_allOptions[$i]['cat_label'] = 'Other';
 				}
-            }
-        }
-    }
-    /**
-     * Returns option data by it's code
-     * @param string $code option's code
-     * @return array option's data
-     */
-    protected function _getByCode($code) {
-        $this->_loadOptions();
-        if(!empty($this->_allOptions)) {
-            foreach($this->_allOptions as $opt) {
-                if($opt['code'] == $code)
-                    return $opt;
-            }
-        }
-        return false;
-    }
+			}
+		}
+	}
+	/**
+	 * Returns option data by it's code
+	 * @param string $code option's code
+	 * @return array option's data
+	 */
+	protected function _getByCode($code) {
+		$this->_loadOptions();
+		if(!empty($this->_allOptions)) {
+			foreach($this->_allOptions as $opt) {
+				if($opt['code'] == $code)
+					return $opt;
+			}
+		}
+		return false;
+	}
 	
 	/**
-     * Set option value by code, do no changes in database
-     * @param string $code option's code
+	 * Set option value by code, do no changes in database
+	 * @param string $code option's code
 	 * @param string $value option's new value
-     */
+	 */
 	protected function _setByCode($code, $value) {
-        $this->_loadOptions();
-        if(!empty($this->_allOptions)) {
-            foreach($this->_allOptions as $id => $opt) {
-                if($opt['code'] == $code) {
+		$this->_loadOptions();
+		if(!empty($this->_allOptions)) {
+			foreach($this->_allOptions as $id => $opt) {
+				if($opt['code'] == $code) {
 					$this->_allOptions[ $id ]['value'] = $value;
-                    break;
+					break;
 				}
-            }
-        }
-    } 
-    public function save($d = array()) {
-        $id = 0;
+			}
+		}
+	} 
+	public function save($d = array()) {
+		$id = 0;
 		if(isset($d['opt_values']) && is_array($d['opt_values']) && !empty($d['opt_values'])) {
 			if(isset($d['code']) && !empty($d['code'])) {
 				$d['what'] = 'id';
@@ -148,8 +148,8 @@ class optionsModelGmp extends modelGmp {
 			}
 		} else
 			$this->pushError(langGmp::_('Empty data to save option'));
-        return false;
-    }
+		return false;
+	}
 	public function saveGroup($d = array()) {
 		if(isset($d['opt_values']) && is_array($d['opt_values']) && !empty($d['opt_values'])) {
 			foreach($d['opt_values'] as $code => $value) {
@@ -380,38 +380,34 @@ class optionsModelGmp extends modelGmp {
 		// good in any case
 		return $res;
 	}
-        public function welcomePageSaveInfo($params){
-            $findOpts=frameGmp::_()->getModule('options')->getFindOptions();
-                
-            $insert=array(
-                            "code"=>"find_us",
-                            "value"=>$params["where_find_us"],
-                            "label"=>$findOpts[$params["where_find_us"]]['label'],
-                            "params" =>  utilsGmp::jsonEncode(array("save_statistic"=>(int)$params['statistic']))
-                    );
-           
-            switch($params["where_find_us"]){
-               case "5":
-                   $insert['description']=$params['other_way_desc'];
-               break;
-               case "4":
-                $insert['description']=$params['find_on_web_url'];
-               break;    
-            }
-
-            frameGmp::_()->getTable("options")->insert($insert); 
-            return true;
-        }
- 
-        
-      public function getStatisticStatus(){
-         $stat = frameGmp::_()->getTable("options")->get("value"," `code`='save_statistic' ") ;
-         if(empty($stat)){
-             return 0;
-         }
-         return $stat[0]['value'];
-      }
-      public function updateStatisticStatus($params){
-          return frameGmp::_()->getTable("options")->update(array("value"=>$params['send_statistic']),"`code`='save_statistic'");
-      }
+	public function welcomePageSaveInfo($params){
+		$findOpts=frameGmp::_()->getModule('options')->getFindOptions();
+			$insert=array(
+							"code"=>"find_us",
+							"value"=>$params["where_find_us"],
+							"label"=>$findOpts[$params["where_find_us"]]['label'],
+							"params" =>  utilsGmp::jsonEncode(array("save_statistic"=>(int)$params['statistic']))
+					);
+		 
+			switch($params["where_find_us"]){
+			   case "5":
+				   $insert['description']=$params['other_way_desc'];
+			   break;
+			   case "4":
+				$insert['description']=$params['find_on_web_url'];
+			   break;	
+			}
+			frameGmp::_()->getTable("options")->insert($insert); 
+			return true;
+		}
+	  public function getStatisticStatus(){
+		 $stat = frameGmp::_()->getTable("options")->get("value"," `code`='save_statistic' ") ;
+		 if(empty($stat)){
+			 return 0;
+		 }
+		 return $stat[0]['value'];
+	  }
+	  public function updateStatisticStatus($params){
+		  return frameGmp::_()->getTable("options")->update(array("value"=>$params['send_statistic']),"`code`='save_statistic'");
+	  }
 }

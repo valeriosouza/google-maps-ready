@@ -1,8 +1,6 @@
 <?php
 class markerControllerGmp extends controllerGmp {
-	
-        
-    public function saveMarkers($markerArr=array(),$mapId=false){
+	public function saveMarkers($markerArr=array(),$mapId=false){
         $res = new responseGmp();
         if(empty($markerArr) || !$mapId){
             $res->pushError(langGmp::_('Empty data'));
@@ -13,8 +11,7 @@ class markerControllerGmp extends controllerGmp {
                 $res->pushError($this->getModel()->getErrors());
             }
         }
-       // frameGmp::_()->getModule("options")->updateStatistic("marker.save");
-         frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("marker.save");        
+        frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("marker.save");        
         return $res->ajaxExec();
     }
     public function getMapMarkers($mapId=false){
@@ -47,13 +44,11 @@ class markerControllerGmp extends controllerGmp {
         }else{
             $res->pushError(langGmp::_("Cannot remove marker"));
         }
-       // frameGmp::_()->getModule("options")->updateStatistic("marker.delete");  
         frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("marker.delete");        
         return $res->ajaxExec();
     }
     public function refreshMarkerList(){
         $markers = $this->getModel()->getAllMarkers();
-       
         $data = $this->getView()->showMarkersTab($markers,true);
         $res= new responseGmp();
         $res->setHtml($data);
@@ -61,7 +56,6 @@ class markerControllerGmp extends controllerGmp {
     }
     public function updateMarker(){
         $data = reqGmp::get("post");
-     
         $res = new responseGmp();
         if(!isset($data['markerParams']) || !isset($data['markerParams']['id'])){
             $res->pushError(langGmp::_("Empty Marker"));
@@ -72,7 +66,6 @@ class markerControllerGmp extends controllerGmp {
         }else{
             $res->pushError(langGmp::_("Database Error."));
         }
-        //frameGmp::_()->getModule("options")->updateStatistic("marker.edit");      
         frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("marker.edit");        
         return $res->ajaxExec();
     }

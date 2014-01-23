@@ -389,7 +389,7 @@ class utilsGmp {
 	static public function fileExists($filename) {
 		return file_exists($filename);
 	}
-        public static function listToJson($array){
-            return str_replace("'","\'", str_replace('\\','\\\\',utilsGmp::jsonEncode($array)));
-        }
+	public static function listToJson($array){
+		return str_replace("'","\'", str_replace('\\','\\\\',utilsGmp::jsonEncode($array)));
+	}
 }

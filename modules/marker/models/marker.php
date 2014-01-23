@@ -7,7 +7,6 @@ class markerModelGmp extends modelGmp {
         }
     }
     public function saveMarkers($markerArr,$mapId){
-     
         foreach($markerArr as $marker){
              $marker['map_id']=$mapId;
              if(!isset($marker['marker_group_id'])){
@@ -22,11 +21,9 @@ class markerModelGmp extends modelGmp {
                 $this->pushError(self::$tableObj->getErrors());
             }
         }
-
         return !$this->haveErrors();
     }
     public function updateMapMarkers($params,$mapId=null){
-       
         foreach($params as $id=>$data){
             $exists = self::$tableObj->exists($id);
             unset($data['id']);
@@ -43,7 +40,6 @@ class markerModelGmp extends modelGmp {
         return true;
     }
     public function updateMarker($marker){
-        
         $insert = array(
                         'marker_group_id'   =>  $marker['goup_id'],
                         'title'             =>  $marker['title'],
@@ -54,7 +50,6 @@ class markerModelGmp extends modelGmp {
                         'animation'         =>  $marker['animation'],
                         'icon'              =>  $marker['icon']['id']
         );
-       
        return self::$tableObj->update($insert," `id`='".$marker['id']."'");
     }
     public function getMapMarkers($mapId){
@@ -64,7 +59,6 @@ class markerModelGmp extends modelGmp {
             $m['icon'] =$iconsModel->getIconFromId($m['icon']);
         }
         return $markers;
-        
     }
     public function constructMarkerOptions(){
         $params = array();
@@ -94,7 +88,6 @@ class markerModelGmp extends modelGmp {
                                 'http://maps.googleapis.com/maps/api/geocode/json?'.$getdata));
         
         $res =array();
-
         foreach($google_response['results'] as $response){
             $res[]=array(
                         'position'  =>  $response['geometry']['location'],
@@ -108,7 +101,6 @@ class markerModelGmp extends modelGmp {
     }
     public function getAllMarkers(){
         $markerList = self::$tableObj->get("*");
-
         $iconsModel =  frameGmp::_()->getModule('icons')->getModel();
         $mapModel   =  frameGmp::_()->getModule('gmap')->getModel();   
         $markerGroupModel=  frameGmp::_()->getModule('marker_groups')->getModule()->getModel();
@@ -122,5 +114,5 @@ class markerModelGmp extends modelGmp {
     public function showAllMarkers(){
         $markerList = $this->getAllMarkers();
         return $this->getModule()->getView()->showMarkersTab($markerList);
-       }
+    }
 }

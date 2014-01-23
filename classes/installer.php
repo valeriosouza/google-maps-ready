@@ -147,7 +147,7 @@ class installerGmp {
                      *Create table for map
                  */
 
-                if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."maps")) {
+        if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."maps")) {
 			$q = "CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."maps` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
 			  `title` varchar(125) CHARACTER SET utf8  NOT NULL,
@@ -158,58 +158,56 @@ class installerGmp {
 			  PRIMARY KEY (`id`),
 			  UNIQUE INDEX `id` (`id`)
 			) DEFAULT CHARSET=utf8";
-		dbDelta($q);
+			dbDelta($q);
 		}
                 /*
                 *Create table for markers    
                  */
-                if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."markers")){
-                    $q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."markers"."` (
-                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `title` varchar(125) CHARACTER SET utf8  NOT NULL,
-                            `description` text CHARACTER SET utf8 NULL,
-			    `coord_x` varchar(30) NOT NULL,
-       			    `coord_y` varchar(30) NOT NULL,
-                            `icon` int(11),
-                            `map_id` int(11),
-                            `marker_group_id` int(11),
-                            `address` text,
-                            `animation` int(1),
-                            `create_date` datetime,                            
-        		     PRIMARY KEY (`id`)
-                            )";
-                    dbDelta($q);                    
-               }
+		if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."markers")){
+			$q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."markers"."` (
+					`id` int(11) NOT NULL AUTO_INCREMENT,
+					`title` varchar(125) CHARACTER SET utf8  NOT NULL,
+					`description` text CHARACTER SET utf8 NULL,
+		`coord_x` varchar(30) NOT NULL,
+			`coord_y` varchar(30) NOT NULL,
+					`icon` int(11),
+					`map_id` int(11),
+					`marker_group_id` int(11),
+					`address` text,
+					`animation` int(1),
+					`create_date` datetime,                            
+			 PRIMARY KEY (`id`)
+					)";
+			dbDelta($q);                    
+	   }
                
                /*
                 Create table for marker Icons
                 */
-                if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."icons")){
-                    $q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."icons"."` (
-                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `title` varchar(100) CHARACTER SET utf8,   
-                            `description` text CHARACTER SET utf8,   
-                            `path` varchar(250) CHARACTER SET utf8,   
-                             PRIMARY KEY (`id`)
-                            )";
-		dbDelta($q);        
-                  }
+		if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."icons")){
+			$q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."icons"."` (
+					`id` int(11) NOT NULL AUTO_INCREMENT,
+					`title` varchar(100) CHARACTER SET utf8,   
+					`description` text CHARACTER SET utf8,   
+					`path` varchar(250) CHARACTER SET utf8,   
+					 PRIMARY KEY (`id`)
+					)";
+			dbDelta($q);        
+		}
 
               /*
                 Create table for marker groups
               */
-                if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."marker_groups")){
-                    $q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."marker_groups"."` (
-                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `title` varchar(250) CHARACTER SET utf8,
-                            `description` text CHARACTER SET utf8,
-              		     PRIMARY KEY (`id`)
-                          )";
-		dbDelta($q);
-               dbGmp::query("INSERT INTO `".$wpPrefix.GMP_DB_PREF."marker_groups` VALUES
-			('null', 'Default Group','Default Group');");
-               }               
-                          
+		if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."marker_groups")){
+			$q="CREATE TABLE IF NOT EXISTS `".$wpPrefix.GMP_DB_PREF."marker_groups"."` (
+					`id` int(11) NOT NULL AUTO_INCREMENT,
+					`title` varchar(250) CHARACTER SET utf8,
+					`description` text CHARACTER SET utf8,
+				 PRIMARY KEY (`id`)
+				  )";
+			dbDelta($q);
+			dbGmp::query("INSERT INTO `".$wpPrefix.GMP_DB_PREF."marker_groups` VALUES('null', 'Default Group','Default Group');");
+		}                 
 
                  /*
                   * Create table for statistic
@@ -220,27 +218,27 @@ class installerGmp {
                  * Plugin usage statistics
                  */
               
-                if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."usage_stat")) {
-                        dbDelta("CREATE TABLE `".$wpPrefix.GMP_DB_PREF."usage_stat` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `code` varchar(64) NOT NULL,
-                          `visits` int(11) NOT NULL DEFAULT '0',
-                          `spent_time` int(11) NOT NULL DEFAULT '0',
-                          `modify_timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                          UNIQUE INDEX `code` (`code`),
-                          PRIMARY KEY (`id`)
-                        ) DEFAULT CHARSET=utf8");
-                        dbGmp::query("INSERT INTO `".$wpPrefix.GMP_DB_PREF."usage_stat` (code, visits) VALUES ('installed', 1)");
-                }
+		if(!dbGmp::exist($wpPrefix.GMP_DB_PREF."usage_stat")) {
+				dbDelta("CREATE TABLE `".$wpPrefix.GMP_DB_PREF."usage_stat` (
+				  `id` int(11) NOT NULL AUTO_INCREMENT,
+				  `code` varchar(64) NOT NULL,
+				  `visits` int(11) NOT NULL DEFAULT '0',
+				  `spent_time` int(11) NOT NULL DEFAULT '0',
+				  `modify_timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				  UNIQUE INDEX `code` (`code`),
+				  PRIMARY KEY (`id`)
+				) DEFAULT CHARSET=utf8");
+				dbGmp::query("INSERT INTO `".$wpPrefix.GMP_DB_PREF."usage_stat` (code, visits) VALUES ('installed', 1)");
+		}
                
              
 
                   
-                update_option($wpPrefix. GMP_DB_PREF. 'db_version', GMP_VERSION);
+        update_option($wpPrefix. GMP_DB_PREF. 'db_version', GMP_VERSION);
 		add_option($wpPrefix. GMP_DB_PREF. 'db_installed', 1);
 		dbGmp::query("UPDATE `".$wpPrefix.GMP_DB_PREF."options` SET value = '". GMP_VERSION. "' WHERE code = 'version' LIMIT 1");
                   
-                  installerDbUpdaterGmp::runUpdate();
+        installerDbUpdaterGmp::runUpdate();
 		//$time = microtime(true) - $start;	// Speed debug info
 	}
 	static public function setUsed() {

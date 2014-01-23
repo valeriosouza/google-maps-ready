@@ -11,11 +11,11 @@ class installerDbUpdaterGmp {
                   (NULL, 'promo_ready', 1, 1, '', 0, 'Promo Ready', 'Promo Ready')                  
 		");
 	}
-        public static function update_046(){
-            $query = "ALTER TABLE `@__icons` ADD column  `title` VARCHAR(100),
-                ADD column `description` text;";
-            dbGmp::query($query);
-        }
+	public static function update_046(){
+		$query = "ALTER TABLE `@__icons` ADD column  `title` VARCHAR(100),
+			ADD column `description` text;";
+		dbGmp::query($query);
+	}
         
 		
 }

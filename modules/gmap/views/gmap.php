@@ -1,6 +1,6 @@
 <?php
 class gmapViewGmp extends viewGmp {
-    
+        public static $gmapApiUrl = "https://maps.googleapis.com/maps/api/js?&sensor=false&language=";
         public function getAllMaps(){
           
         }
@@ -13,9 +13,9 @@ class gmapViewGmp extends viewGmp {
             
        }
         public function drawMap($params){
+           
             $mapObj = frameGmp::_()->getModule('gmap')->getModel()->getMapById($params['id']);
 
-            
             $shortCodeHtmlParams = array('width','height','align');
             foreach($shortCodeHtmlParams as $code){
                 if(isset($params[$code])){
@@ -35,9 +35,13 @@ class gmapViewGmp extends viewGmp {
             if($mapObj['params']['map_display_mode']=='popup'){
                 frameGmp::_()->addScript('bpopup',GMP_JS_PATH."/bpopup.js");      
             }
-            frameGmp::_()->addScript('map.options',$this->getModule()->getModPath()."js/map.options.js");
+           
+            frameGmp::_()->addScript("google_maps_api_".$mapObj['params']['language'], self::$gmapApiUrl.$mapObj['params']['language']);
+            frameGmp::_()->addStyle("map_params", $this->getModule()->getModPath().'css/map.css');
+
             $this->assign('currentMap', $mapObj);
             return parent::getContent('mapPreview');
+            
         }
         public function addNewMapData(){
             $maps  = $this->getModel()->getAllMaps(true);
