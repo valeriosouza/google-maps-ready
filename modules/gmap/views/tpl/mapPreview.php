@@ -1,10 +1,15 @@
 
 <?php
 
+
 if(empty($this->currentMap)){
     echo langGmp::_('Map not found');
     return;
 }
+    foreach($this->currentMap['markers'] as &$mrk){
+        $mrk['description'] = "";
+    }
+    
 
  ?>
 <?php
@@ -14,7 +19,7 @@ if(empty($this->currentMap)){
     $align = $this->currentMap['html_options']['align'];
     $mapId = "ready_google_map_".$this->currentMap['id'];
     $border = ((int)$this->currentMap['html_options']['border_width'])."px solid ".$this->currentMap['html_options']['border_color'];
-   
+   $margin = $this->currentMap['html_options']["margin"];
     $ln = $this->currentMap['params']['language'];
     if($this->currentMap['params']['map_display_mode']=="popup"){
         $className="display_as_popup";
@@ -29,7 +34,8 @@ if(empty($this->currentMap)){
             width:<?php echo $width;?>px;
             height:<?php echo $height;?>px;
             float:<?php echo $align;  ?>;
-            border:<?php echo $border;?>
+            border:<?php echo $border;?>;
+            margin:<?php echo $margin;?>;
         }
    </style>
 <div class='gmp_map_opts'>
@@ -55,6 +61,10 @@ if(empty($this->currentMap)){
     
         
     </div>
+    <?php
+
+        dispatcherGmp::doAction("addMapBottomControls",$this->currentMap['id']);
+    ?>
     </div>
 </div>
 

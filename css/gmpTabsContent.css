@@ -750,3 +750,10 @@ div.refreshMapsList {
 .gmpThMarkerGroups{
     width: 110px !important    
 }
+.ui-corner-left a {
+    color: #428bca;
+}
+.gmpMarkersListOfMap {
+    height: 150px;
+    overflow-y: auto;
+}

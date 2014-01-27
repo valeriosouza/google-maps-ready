@@ -295,7 +295,7 @@ function gmpSaveEditedMap(mapId){
 		msgElID: 'gmpSaveEditedMapMsg',
 		data:sendData,
 		onSuccess:function(res){
-
+			gmpRefreshMarkerList();
 		}
 	})
 	
@@ -317,72 +317,7 @@ function arrayUnique(param) {
 		return a;		
 	}
 };
-function gmpFormatAddress(addressObj){
 
-	var finishAddr=[];
-	var count =0;
-	var codes = ["street_address","route","administrative_area_level_1","country"];
-	for(var i in addressObj){
-		cur_addr= addressObj[i];
-		switch(cur_addr.types[0]){
-			case "neighborhood":
-				if(cur_addr.types[1]=="political"){
-						finishAddr.push(cur_addr.address_components[0].long_name);
-				 }
-			break;
-			case "route":
-			case "street_address":
-					finishAddr.push(cur_addr.address_components[0].long_name);
-					finishAddr.push(cur_addr.address_components[1].long_name);
-			break;
-			case "sublocalit":
-				if(cur_addr.types[1]=="political"){
-					finishAddr.push(cur_addr.address_components[0].long_name);
-				}
-			break;
-			case "administrative_area_level_1":
-				if(cur_addr.types[1]=="political"){
-					finishAddr.push(cur_addr.address_components[0].long_name);
-				} 
-			break;
-			case "locality":
-				if(cur_addr.types[1]=="political"){
-
-				}
-			break;
-			case "country":
-				if(cur_addr.types[1]=="political"){
-					finishAddr.push(cur_addr.address_components[0].long_name);
-				}
-			break;
-		}
-	}
-	finishAddr = arrayUnique(finishAddr);
-	return finishAddr.join(", ");
-}
-function getGmapMarkerAddress(params,markerId,ret,callback){
-	var latlng = new google.maps.LatLng(params.coord_y,params.coord_x);
-	geocoder.geocode({'latLng': latlng}, function(results, status) {
-	  if (status == google.maps.GeocoderStatus.OK) {
-			if(results.length>1){
-				if(typeof(callback)!="undefined"){
-					var fAddress=gmpFormatAddress(results) ;
-					callback.func({
-						address:fAddress,
-						coord_x:params.coord_x,
-						coord_y:params.coord_y
-					});
-					return;
-				}else if(ret!=undefined){
-					return results[1].formatted_address;
-				}
-				markerArr[markerId].address=results[1].formatted_address;
-			}
-		}else{
-				markerArr[markerId].address="";			
-		}
-	});
-}
 
 function gmpRemoveMarkerObj(marker){
    	if(confirm("Remove Marker?")){
@@ -499,7 +434,11 @@ function drawMarker(params){
 			if(typeof(infoWindows[randId].open)!='undefined'){
 				infoWindows[randId].open(currentMap, markerArr[randId].markerObj);			
 			}
-			gmpChangeTab(gmpActiveTab.submenu,true)
+			var href ="#gmpEditMapMarkers"
+			if(gmpActiveTab.mainmenu=="#gmpAddNewMap"){
+				href="#gmpAddMarkerToNewMap";
+			} 
+			gmpChangeTab(jQuery("a[href$='"+href+"']"),true)
 			editMarker(markerArr[randId]);
 			toggleBounce(markerArr[randId].markerObj,markerArr[randId].animation);
 	});

@@ -88,6 +88,7 @@ class gmapModelGmp extends modelGmp {
         }
         return false;
      }
+     
      public function constructMapOptions(){
          $params = array();
          $params['zoom']=array();

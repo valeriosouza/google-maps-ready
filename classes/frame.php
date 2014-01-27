@@ -357,7 +357,7 @@ class frameGmp {
         if(!empty($this->_styles)) {
             foreach($this->_styles as $s) {
                 wp_enqueue_style($s['handle'], $s['src'], $s['deps'], $s['ver'], $s['media']);
-//                outGmp($s);
+
             }
         }
     }

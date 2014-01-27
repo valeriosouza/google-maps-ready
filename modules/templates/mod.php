@@ -20,12 +20,12 @@ class templatesGmp extends moduleGmp {
             'styleGmp'				=> array('path' => GMP_CSS_PATH. 'style.css'), 
 			'adminStylesGmp'		=> array('path' => GMP_CSS_PATH. 'adminStyles.css'), 
 			
-			'jquery-tabs'			=> array('path' => GMP_CSS_PATH. 'jquery-tabs.css'),
+			//'jquery-tabs'			=> array('path' => GMP_CSS_PATH. 'jquery-tabs.css'),
 			'jquery-buttons'		=> array('path' => GMP_CSS_PATH. 'jquery-buttons.css'),
 			'wp-jquery-ui-dialog'	=> array(),
 			'farbtastic'			=> array(),
 			// Our corrections for ui dialog
-			'jquery-dialog'			=> array('path' => GMP_CSS_PATH. 'jquery-dialog.css'),
+			//'jquery-dialog'			=> array('path' => GMP_CSS_PATH. 'jquery-dialog.css'),
         );
 
         $defaultPlugTheme = frameGmp::_()->getModule('options')->get('default_theme');

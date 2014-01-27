@@ -21,10 +21,7 @@ function drawNewIcon(icon){
 	gmpExistsIcons[icon.id].path = icon.url;
 	gmpCurrentIcon=icon.id;
 }
-jQuery.fn.scrollTo = function(elem) { 
-    jQuery(this).scrollTop(jQuery(this).scrollTop() - jQuery(this).offset().top + jQuery(elem).offset().top); 
-    return this; 
-};
+
 function setcurrentIconToForm(iconId,markerForm){
     markerForm.find("#gmpSelectedIcon").val(iconId);
     markerForm.find(".markerIconItem.active").removeClass('active');
