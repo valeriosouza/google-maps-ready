@@ -6,10 +6,6 @@ if(empty($this->currentMap)){
     echo langGmp::_('Map not found');
     return;
 }
-    foreach($this->currentMap['markers'] as &$mrk){
-        $mrk['description'] = "";
-    }
-    
 
  ?>
 <?php
