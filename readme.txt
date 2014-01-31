@@ -44,6 +44,9 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 
 == Changelog ==
 
+= 0.4.9.3 =
+* Fix minor bugs with map editing and saving
+
 = 0.4.9.2 =
 * Fix marker description bug
 

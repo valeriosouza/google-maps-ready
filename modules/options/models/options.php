@@ -399,15 +399,21 @@ class optionsModelGmp extends modelGmp {
 			}
 			frameGmp::_()->getTable("options")->insert($insert); 
 			return true;
+	}
+	
+	
+	public function getStatisticStatus(){
+		$stat = frameGmp::_()->getTable("options")->get("value"," `code`='save_statistic' ") ;
+		if(empty($stat)){
+			return 0;
 		}
-	  public function getStatisticStatus(){
-		 $stat = frameGmp::_()->getTable("options")->get("value"," `code`='save_statistic' ") ;
-		 if(empty($stat)){
-			 return 0;
-		 }
-		 return $stat[0]['value'];
-	  }
-	  public function updateStatisticStatus($params){
+		return $stat[0]['value'];
+	}
+	public function updateStatisticStatus($params){
 		  return frameGmp::_()->getTable("options")->update(array("value"=>$params['send_statistic']),"`code`='save_statistic'");
-	  }
+	}
+	
+	public function updateInfoWindowSize($sizeParams){
+		  return frameGmp::_()->getTable("options")->update(array("value"=>utilsGmp::serialize($sizeParams)),"`code`='infowindow_size'");			
+	}
 }

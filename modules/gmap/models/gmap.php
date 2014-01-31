@@ -15,7 +15,7 @@ class gmapModelGmp extends modelGmp {
             $map['params'] =     utilsGmp::unserialize($map['params']);    
     
             if($onlyMaps){
-              $map['markers']=$markerModule->getController()->getMapMarkers($map['id']);
+				$map['markers']=$markerModule->getController()->getMapMarkers($map['id']);
             }
             
             

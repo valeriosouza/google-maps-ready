@@ -20,7 +20,10 @@ class optionsViewGmp extends viewGmp {
 													'content'=>$this->getPluginSettingsTab())						
 		);
 		$tabsData = dispatcherGmp::applyFilters('adminOptionsTabs', $tabsData);
-	
+		
+		$indoWindowSize  = utilsGmp::unserialize($this->getModel("options")->get("infowindow_size"));
+		$this->assign("indoWindowSize",$indoWindowSize);
+		
 		$this->assign('presetTemplatesHtml', $presetTemplatesHtml);
 		$this->assign('tabsData', $tabsData);
 		$defaultOpenTab  = reqGmp::getVar("tab",'get');
@@ -30,7 +33,10 @@ class optionsViewGmp extends viewGmp {
 	
 	public function getPluginSettingsTab(){
 		$saveStatistic = $this->getModel("options")->getStatisticStatus();
+		$indoWindowSize  = utilsGmp::unserialize($this->getModel("options")->get("infowindow_size"));
+
 		$this->assign("saveStatistic",$saveStatistic);
+		$this->assign("indoWindowSize",$indoWindowSize);
 		return parent::getContent("settingsTab");
 	}
 	public function getPresetTemplates() {

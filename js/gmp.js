@@ -21,7 +21,7 @@ function gmpChangeTab(elem,sub){
 	}
    if(gmpActiveTab.mainmenu=="#gmpAddNewMap" && tabId!="#gmpAddNewMap" && sub==undefined){
 		if(gmpIsMapFormIsEditing()){
-			if(confirm("If you leave tab,all information will be lost. \n Leave tab?")){
+			if(!confirm("If you leave tab,all information will be lost. \n Leave tab?")){
 			   return false; 
 			}else{
 				clearAddNewMapData();

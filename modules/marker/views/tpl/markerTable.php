@@ -44,6 +44,13 @@
                   </div>   
               </td>
               <td>
+				  <?php
+					if($marker['titleLink'] && $marker['titleLink']['linkEnabled']=='true'){
+						//outGmp($marker['titleLink']);
+						$marker['title']="<a href='".$marker['titleLink']['link']."' target='_blank' >".
+								$marker['title']."</a>";
+					}
+				  ?>
                   <?php echo $marker['title'];?>
               </td>
               <td>

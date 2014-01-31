@@ -1,7 +1,4 @@
-
 <?php
-
-
 if(empty($this->currentMap)){
     echo langGmp::_('Map not found');
     return;
@@ -33,6 +30,13 @@ if(empty($this->currentMap)){
             border:<?php echo $border;?>;
             margin:<?php echo ((int)$margin)."px";?>;
         }
+        #gmapControlsNum_<?php echo $this->currentMap['id'];?>{
+           width:<?php echo $width;?>px;
+        }
+		.gmpMarkerInfoWindow{
+			width:<?php echo $this->indoWindowSize['width'];?>px;
+			height:<?php echo $this->indoWindowSize['height'];?>px;
+		}
    </style>
 <div class='gmp_map_opts'>
     <?php
@@ -58,23 +62,7 @@ if(empty($this->currentMap)){
         
     </div>
     <?php
-
         dispatcherGmp::doAction("addMapBottomControls",$this->currentMap['id']);
     ?>
     </div>
 </div>
-
-
-<script type='text/javascript'>
-    jQuery(document).ready(function(){
-   
-          gmapPreview.maps["<?php echo $this->currentMap['id'];?>"]={
-				mapObject:{},
-				markerArr:{},
-				infoWindows:[],
-				mapParams:JSON.parse('<?php echo utilsGmp::listToJson($this->currentMap);?>')
-		  };
-		  
-         gmapPreview.prepareToDraw("<?php echo $this->currentMap['id'];?>");                
-    })
-</script>

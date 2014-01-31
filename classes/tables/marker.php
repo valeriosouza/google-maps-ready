@@ -15,6 +15,7 @@ class tableMarkerGmp extends tableGmp{
                 ->_addField('address', 'text', 'text', '', langGmp::_('Marker Address'))                
                 ->_addField('marker_group_id', 'int', 'int', '11', langGmp::_("Id of Marker's group"))
                 ->_addField('adnimation','int','int','0', langGmp::_('Animation'))
+                ->_addField('params','text','text','', langGmp::_('Params'))
                 ->_addField('create_date','datetime','datetime','',  langGmp::_('Creation date'));
     }
 }

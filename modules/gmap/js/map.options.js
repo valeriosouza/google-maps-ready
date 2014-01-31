@@ -1,4 +1,7 @@
-function getInfoWindow(title,content){
+function getInfoWindow(title,content,titleLink){
+        if(titleLink.linkEnabled && titleLink.linkEnabled!="false"){
+            title= "<a href='"+titleLink.link+"' target='_blank' class='gmpInfoWIndowTitleLink'>"+title+"</a>"
+        }
 	var text="<div class='gmpMarkerInfoWindow'>";
 	text+="<div class='gmpInfoWindowtitle'>"+title;
 	text+="</div>";
@@ -9,6 +12,7 @@ function getInfoWindow(title,content){
   });
   return infoWindow;
 }
+
 var gmapPreview={
 	maps:[],
 	mapObjects:[],
@@ -93,12 +97,20 @@ var gmapPreview={
 			   this.maps[mapId].markerArr[markerItem.id] = new google.maps.Marker({
 					position: markerLatLng,
 					title:markerItem.title,
+					description:markerItem.description,
 					icon:markerIcon,
 					draggable:false,
 					map:gmapPreview.maps[mapId].mapObject,
-					animation:animType
+					animation:animType,
+					address:markerItem.address,
+					id     : markerItem.id
 			   })
-				var infoWindow=getInfoWindow(markerItem.title,markerItem.description);
+                        if(typeof(markerItem.titleLink)=='undefined'){
+                            markerItem.titleLink={
+                                linkEnabled:false
+                            }
+                        }
+		var infoWindow=getInfoWindow(markerItem.title,markerItem.description,markerItem.titleLink);
 				google.maps.event.addListener(this.maps[mapId].markerArr[markerItem.id],'click',function(){
 					 for(var i in gmapPreview.maps[mapId].infoWindows){
 						 gmapPreview.maps[mapId].infoWindows[i].close();
@@ -106,10 +118,26 @@ var gmapPreview={
 				  infoWindow.open(gmapPreview.maps[mapId].mapObject,gmapPreview.maps[mapId].markerArr[markerItem.id]);
 				  toggleBounce(gmapPreview.maps[mapId].markerArr[markerItem.id],animType)
 			   });
-			  this.maps[mapId].infoWindows.push(infoWindow);
+			  this.maps[mapId].infoWindows[markerItem.id] =  infoWindow;
 		 }
 }
 
 function closePopup(){
 	jQuery(".map_container.display_as_popup").bPopup().close();	
 }
+jQuery(document).ready(function(){
+	if(typeof(gmpAllMapsInfo)!="undefined"){
+		console.log(gmpAllMapsInfo);
+		for(var i in gmpAllMapsInfo){
+			var map_id = gmpAllMapsInfo[i].id;
+		
+				gmapPreview.maps[map_id]={
+						mapObject:{},
+						markerArr:{},
+						infoWindows:{},
+						mapParams:gmpAllMapsInfo[i]
+				  };
+			gmapPreview.prepareToDraw(map_id);
+		}         
+	}
+})

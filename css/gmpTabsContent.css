@@ -605,12 +605,13 @@ div.refreshMapsList {
 }
 .gmpMarkerEditformBtns{
     clear: both;
-    width: 490px;
+    width: 590px;
     margin-bottom:35px;
     text-align: center;
 }
 .gmpMarkerEditformBtns a,.gmpMarkerEditformBtns button{
     margin: 0 4px;
+    float: left;
 } 
 #gmpUpdateMarkerItemMsg {
     clear: both;
@@ -660,7 +661,7 @@ div.refreshMapsList {
 }
 #gmpPluginSettingsForm {
     float: left;
-    width: 400px;
+    width: 332px;
     margin: 25px 5px;
 }
 #gmpGroupForm {
@@ -756,4 +757,42 @@ div.refreshMapsList {
 .gmpMarkersListOfMap {
     height: 150px;
     overflow-y: auto;
+}
+.controls {
+    clear: both;
+    float: left;
+    width: 100%;
+}
+.gmp-control-group{
+    float:left;
+    width: 100%;
+}
+.gmpInfoWindowSize{
+    clear:both;
+    padding-left: 21px;
+}
+.gmpInfoWindowSize input {
+    float: right;   
+    width: 50px !important;
+}
+#gmpPluginSettingsForm hr {
+    clear: both;
+    border-bottom: 1px solid white;
+}
+.gmpSizePoint{
+	float:right;
+}
+.markerTitleLink_Container {
+    display:none;
+    clear: both;
+    margin-top: 6px;
+    float: right;
+    width:100%;
+    
+}
+.markerTitleLink_Container input{
+    width:75%;
+}
+.gmpMarkerTableaddress{
+    width: 468px !important;
 }

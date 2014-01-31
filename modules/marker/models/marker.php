@@ -17,6 +17,8 @@ class markerModelGmp extends modelGmp {
              }
              unset($marker['id']);
              $marker['create_date']=date('Y-m-d H:i:s');
+			 $marker['params']= utilsGmp::serialize(array('titleLink'=>$marker['titleLink']));
+			 unset($marker['titleLink']);
             if(!self::$tableObj->insert($marker)){
                 $this->pushError(self::$tableObj->getErrors());
             }
@@ -31,6 +33,10 @@ class markerModelGmp extends modelGmp {
                $data['map_id']=$mapId;                
             }
             $data['marker_group_id']=$data['groupId'];
+			
+			$data['params']= utilsGmp::serialize(array('titleLink'=>$data['titleLink']));
+			unset($data['titleLink']);
+			
             if($exists){
                 self::$tableObj->update($data," `id`='".$id."' ");
             }else{
@@ -48,7 +54,8 @@ class markerModelGmp extends modelGmp {
                         'coord_x'           =>  $marker['position']['coord_x'],
                         'coord_y'           =>  $marker['position']['coord_y'],
                         'animation'         =>  $marker['animation'],
-                        'icon'              =>  $marker['icon']['id']
+                        'icon'              =>  $marker['icon']['id'],
+						'params'			=>  utilsGmp::serialize(array('titleLink'=>$marker['titleLink']))
         );
        return self::$tableObj->update($insert," `id`='".$marker['id']."'");
     }
@@ -57,6 +64,12 @@ class markerModelGmp extends modelGmp {
         $iconsModel =  frameGmp::_()->getModule('icons')->getModel();
         foreach($markers as &$m){
             $m['icon'] =$iconsModel->getIconFromId($m['icon']);
+			if($m['params']){
+				$params = utilsGmp::unserialize($m['params']);
+				foreach($params as $k=>$v){
+					$m[$k] = $v;
+				}
+			}
         }
         return $markers;
     }
@@ -108,6 +121,12 @@ class markerModelGmp extends modelGmp {
             $m['icon'] =$iconsModel->getIconFromId($m['icon']);
             $m['map'] = $mapModel->getMapById($m['map_id'],false);
             $m['marker_group'] = $markerGroupModel->getGroupById($m['marker_group_id']);
+			if($m['params']){
+				$params = utilsGmp::unserialize($m['params']);
+				foreach($params as $k=>$v){
+					$m[$k] = $v;
+				}
+			}
         }        
         return $markerList;
     }
