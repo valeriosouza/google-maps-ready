@@ -210,19 +210,7 @@
                     <?php langGmp::_e('Marker Title')?>
               </label>
            </div>  
-            
-			<div class='gmpFormRow'>
-				<label for="gmpNewMap_marker_title" class="gmpFormLabel">
-					<?php langGmp::_e('Set Title as link');?>
-				</label>
-			  <?php
-					echo htmlGmp::checkbox("title_is_link",array('attrs'=>" class='title_is_link' "));
-					echo "<div class='markerTitleLink_Container'>"; 
-					echo htmlGmp::input("marker_title_link", array("attrs"=>" id='marker_title_link' class='marker_title_link' placeholder='Write link' "));
-					echo "</div>";
-			  ?>
-			 
-		   </div> 
+             
            <div class='gmpFormRow'>
               <label for="gmpNewMap_marker_desc" class="gmpFormLabel">
                     <?php langGmp::_e('Marker Description')?>
@@ -268,7 +256,7 @@
                      ?>
                    </div>  
                     <input type="hidden" name="marker_opts[icon]" value="<?php echo $defIcon;?>" id="gmpSelectedIcon" class="right">
-                    
+                    <label for="newMarkerIcon"><?php langGmp::_e('Select Icon')?></label>
                 </div>   
 
                 <div class="gmpFormRow">
@@ -352,11 +340,7 @@
                     <input type='hidden' id='gmpEditedMarkerLocalId' value='' />
                           <a class="btn btn-danger gmpCancelMarkerEditing" id="gmpCancelMarkerEditing" >
                               <?php langGmp::_e("Cancel")?>
-                          </a> 
-					<a class='btn btn-danger removeMarkerFromForm' >
-						<span class='gmpIcon gmpIconReset'></span>
-						<?php langGmp::_e("Remove");?>											
-					</a>
+                          </a>  
                 </div> 
          <?php
          echo htmlGmp::formEnd();

@@ -1,11 +1,5 @@
 <link rel='stylesheet' type='text/css' href='<?php echo GMP_CSS_PATH."gmpTabsContent.css";?>' />
 <link rel='stylesheet' type='text/css' href='<?php echo GMP_CSS_PATH."bootstrap.min.css";?>' />
-<style type='text/css'>
-	.gmpMarkerInfoWindow{
-		width:<?php echo $this->indoWindowSize['width'];?>px;
-		height:<?php echo $this->indoWindowSize['height'];?>px;
-	}
-</style>
 <?php 
 
      wp_enqueue_script('thickbox');

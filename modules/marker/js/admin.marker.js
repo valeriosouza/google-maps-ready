@@ -26,13 +26,11 @@ function gmpEditMarkerItem(markerId){
     gmpCurrentMarkerForm = jQuery("#gmpEditMarkerForm");
     var refreshButton = gmpCurrentMarkerForm.find("a#gmpUpdateEditedMarker");
     var submitButton  = gmpCurrentMarkerForm.find("button#gmpSaveEditedMarkerItem");
-    var removeBtn    =   gmpCurrentMarkerForm.find(".gmpDeleteMarker");
+
      refreshButton.removeAttr("onclick");
      submitButton.removeAttr("onclick");
-     removeBtn.removeAttr("onclick");
      refreshButton.attr("onclick","gmpDrawEditedMarker("+markerId+")");
      submitButton.attr("onclick","return gmpSaveUpdatedMarker("+markerId+")");
-     removeBtn.attr("onclick","return gmpDeleteMarker("+markerId+")");
 
     jQuery(".markerListConOpts").removeClass('active');
     jQuery(".gmpMarkerEditForm").addClass('active');
@@ -58,7 +56,6 @@ function gmpEditMarkerItem(markerId){
             gmp_marker_desc:currentMarker.description,
             gmp_marker_coord_x:currentMarker.coord_x,
             gmp_marker_coord_y:currentMarker.coord_y,
-            titleLink:currentMarker.titleLink
     }
     if(currentMarker.animation=="1"){
         currentMarkerForm.find("#marker_optsedit_animation_check").attr('checked','checked');
@@ -87,7 +84,6 @@ function gmpEditMarkerItem(markerId){
             zoom        :   15
         }
     })
-   // console.log(currentMarker.titleLink);
     drawMarker({
         icon:currentMarker.icon,
         position:{
@@ -98,35 +94,18 @@ function gmpEditMarkerItem(markerId){
         desc:currentMarker.description,
         id:currentMarker.id,
         group_id:currentMarker.marker_group_id,
-        animation:currentMarker.animation,
-        titleLink:currentMarker.titleLink
+        animation:currentMarker.animation
     })
-    for(var id in formParams){
-         //(formParams[id]);
-        switch(id){
-            case "gmp_marker_desc":
-                try{
-                    tinyMCE.editors[1].setContent(formParams[id]); 
-                }catch(e){
-                }
-            break;
-            case "titleLink":
-               
-                if(formParams[id].linkEnabled && formParams[id].linkEnabled!='false'){
-                    currentMarkerForm.find('.title_is_link').trigger("click");
-                    currentMarkerForm.find('.marker_title_link').val(formParams[id].link);     
-                   //console.log('true')
-                }else{
-                    currentMarkerForm.find('.title_is_link').removeAttr("checked");
-                    currentMarkerForm.find('.marker_title_link').val("");                                
-                    //console.log('false')
-                }
-            break;
-            default:
-                 currentMarkerForm.find("#"+id).val(formParams[id]);            
-            break;
+	for(var id in formParams){
+        if(id=="gmp_marker_desc"){ 
+            try{
+		tinyMCE.editors[1].setContent(formParams[id]); 
+            }catch(e){
+                
+            }
+        }else{
+           currentMarkerForm.find("#"+id).val(formParams[id]);            
         }
-
     }
     
 }
@@ -168,21 +147,13 @@ function gmpGetEditMarkerFormData(form){
         animation   :   form.find("input[type='hidden'].marker_opts_animation").val()
     }
     
-         params.titleLink={
-               linkEnabled:false
-         }
-        if(form.find('.title_is_link').is(":checked")){
-             params.titleLink.linkEnabled = true;
-             params.titleLink.link = form.find(".marker_title_link").val();
-        }
-    
         params.icon={
              id:form.find("#gmpSelectedIcon").val()
             }
         try{
             params.icon.path=gmpExistsIcons[params.icon.id].path;
         }catch(e){
-            //console.log(e);
+            console.log(e);
         }
     
     return params;
@@ -198,9 +169,8 @@ function gmpDrawEditedMarker(markerId){
             animation:params.animation,
             icon:params.icon.id,
             title:params.title,
-            description:params.desc,
-            group_id:params.group_id,
-            titleLink:params.titleLink,
+            desc:params.desc,
+            group_id:params.group_id
      },jQuery("#gmpEditMarkerForm"),true);    
 }
 function gmpSaveUpdatedMarker(markerId){
@@ -237,11 +207,7 @@ function cancelEditMarkerItem(){
     gmpRefreshMarkerList();
     return false;
 }
-function gmpDeleteMarker(markerId){
-        var marker=markerArr[markerId];
-        gmpRemoveMarkerObj(marker);
-        cancelEditMarkerItem();
-}
+
 var gmpTypeInterval;                //timer identifier
 var gmpDoneTypingInterval = 5000;  //time in ms, 5 second for example
 

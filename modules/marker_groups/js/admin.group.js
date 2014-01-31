@@ -21,20 +21,26 @@ function gmpRefreshGroupList(){
             }
         }
     })     
+       
 }
 function gmpEditGroupItem(groupId){
+
     var currentGroup;
+
     for(var i in gmpExistsGroups){
+
         if(gmpExistsGroups[i].id == groupId){
             currentGroup=gmpExistsGroups[i];
         }
     }
+    
     gmpGroupForm.find("#group_title").val(currentGroup.title);
     gmpGroupForm.find("#group_description").val(currentGroup.description);
     gmpGroupForm.find("#gmpSave_group_button").attr("onclick","gmpSaveGroup("+groupId+")");
-    jQuery(".groupListConOpts").toggleClass("active");
+         jQuery(".groupListConOpts").toggleClass("active");
 }
 function gmpSaveGroup(groupId){
+    
     var params={
         title       :   gmpGroupForm.find("#group_title").val(),
         description :   gmpGroupForm.find("#group_description").val(),
@@ -69,17 +75,17 @@ function gmpSaveGroup(groupId){
     return false;
 }
 function gmpSetNewGruopToForms(params){
-	jQuery(".gmpMarkerGroupSelect").each(function(){
-		var founded = false;
-		jQuery(this).find("option").each(function(){
-			if(jQuery(this).val()==params.id){
-				founded=true ;
-			}
-		})
-		if(founded){
-			jQuery(this).append("<option value='"+params.id+"'>"+params.title+"</option>");
-		}
-	});
+            jQuery(".gmpMarkerGroupSelect").each(function(){
+                var founded = false;
+                jQuery(this).find("option").each(function(){
+                    if(jQuery(this).val()==params.id){
+                        founded=true ;
+                    }
+                })
+                if(founded){
+                    jQuery(this).append("<option value='"+params.id+"'>"+params.title+"</option>");
+                }
+            });
 }
 function gmpResetGroupForm(){
     gmpGroupForm.find("#group_title").val("");

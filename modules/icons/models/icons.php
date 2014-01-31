@@ -38,10 +38,12 @@ class iconsModelGmp extends modelGmp {
     }
     public function getIconsPath(){
         return 'icons_files/def_icons/';
+        return '/ready_google_icons/';
     }
     public function getIconsFullDir(){
         $uplDir = wp_upload_dir();
         $modPath = $this->getModule()->getModPath();
+        //$path  = $uplDir['baseurl'].$this->getIconsPath();
         $path  = $modPath.$this->getIconsPath();
         return $path;
     }
@@ -60,11 +62,17 @@ class iconsModelGmp extends modelGmp {
         if(!is_dir($icons_upload_path)){
             @mkdir($icons_upload_path,0777);
         }
+
+
         $qItems = array();
         foreach($icons as $icon){
+          // $file = $this->getModule()->getModDir().'icons_files/def_icons/'.$icon['img'];
+           //$dest =  $uplDir['basedir'].$this->getIconsPath().$icon['img'];
+           //@copy($file,$dest);
            $qItems[] = "('".$icon['title']."','".$icon['description']."','".$icon['img']."')";               
        }
        $query = "insert into `@__icons` (`title`,`description`,`path`) VALUES ".implode(",",$qItems);       
+      
        dbGmp::query($query);
        update_option("gmp_def_icons_installed",true);
     }
@@ -74,7 +82,9 @@ class iconsModelGmp extends modelGmp {
             $this->pushError(langGmp::_('File not found'));
             return false;
         }
+
         $imageinfo = getimagesize ( $url,$imgProp );
+
         if(empty($imageinfo)){
             $this->pushError(langGmp::_('Cannot get image'));
             return false;
@@ -97,6 +107,7 @@ class iconsModelGmp extends modelGmp {
             return $res;
         }
         $icon =$res[0]; 
+
         $icon['path'] = $this->getIconUrl($icon['path']);
         return $icon;
     }

@@ -6,6 +6,7 @@ class marker_groupsModelGmp extends modelGmp {
             self::$tableObj=frameGmp::_()->getTable('marker_groups');  
         }
     }
+    
     public function getMarkerGroups($params = array()){
         return self::$tableObj->get('*');
     }

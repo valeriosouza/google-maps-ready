@@ -1,5 +1,6 @@
 <?php
 class markerViewGmp extends viewGmp {
+    
     public function showMarkersTab($markerList,$isAjaxRequest=false){
         $this->assign('markerList',$markerList);
         if($isAjaxRequest){
@@ -9,5 +10,6 @@ class markerViewGmp extends viewGmp {
         $marker_opts=  frameGmp::_()->getModule('marker')->getModel()->constructMarkerOptions();   
          $this->assign('marker_opts' , $marker_opts);
         return parent::getContent('markerList');                    
+
     }
 }

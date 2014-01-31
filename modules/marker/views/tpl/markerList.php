@@ -19,7 +19,7 @@
 
             ?>
           
-           <legend class='gmpFormTitle'></legend>
+                <legend class='gmpFormTitle'></legend>
            <div class='gmpFormRow'>
               <?php
               $groupArr=array();
@@ -40,18 +40,7 @@
                     <?php langGmp::_e('Marker Title')?>
               </label>
            </div>  
-           <div class='gmpFormRow'>
-				<label for="gmpNewMap_marker_title" class="gmpFormLabel">
-					<?php langGmp::_e('Set Title as link');?>
-				</label>
-			  <?php
-					echo htmlGmp::checkbox("title_is_link",array('attrs'=>" class='title_is_link' "));
-					echo "<div class='markerTitleLink_Container'>"; 
-					echo htmlGmp::input("marker_title_link", array("attrs"=>" id='marker_title_link' class='marker_title_link' placeholder='Write link' "));
-					echo "</div>";
-			  ?>
-			 
-		   </div> 
+            
            <div class='gmpFormRow'>
               <label for="gmpNewMap_marker_desc" class="gmpFormLabel">
                     <?php langGmp::_e('Marker Description')?>
@@ -97,7 +86,7 @@
                      ?>
                    </div>  
                     <input type="hidden" name="marker_opts[icon]" value="<?php echo $defIcon;?>" id="gmpSelectedIcon" class="right">
-                    
+                    <label for="newMarkerIcon"><?php langGmp::_e('Select Icon')?></label>
                 </div>   
 
                 <div class="gmpFormRow">
@@ -179,11 +168,8 @@
                     'value'=>langGmp::_("<span class='gmpIcon gmpIconSuccess'></span>".langGmp::_("Save Changes"))));
                 echo htmlGmp::button(array(
                         'attrs'=>" type='' class='btn btn-danger' onclick='return cancelEditMarkerItem()'",
-                        'value'=>"<span class='gmpIcon  gmpIconReset'></span>".langGmp::_("Cancel"))) ;
-                ?>
-			   <a class='btn btn-danger gmpDeleteMarker ' onclick='return gmpDeleteMarker()'>
-				   <span class='gmpIcon  gmpIconReset'></span><?php langGmp::_e("Remove");?>
-			   </a>	   
+                        'value'=>"<span class='gmpIcon  gmpIconReset'></span>".langGmp::_("Cancel"))) 
+               ?>
                   <div id="gmpUpdateMarkerItemMsg"></div>
                </div>
           

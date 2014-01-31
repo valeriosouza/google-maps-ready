@@ -5,12 +5,8 @@ class  gmapGmp extends moduleGmp {
 		dispatcherGmp::addFilter('adminOptionsTabs', array($this, 'addOptionsTab'));
 		dispatcherGmp::addAction('tplHeaderBegin',array($this,'showFavico'));
 		dispatcherGmp::addAction('tplBodyEnd',array($this,'GoogleAnalitics'));
-		//dispatcherGmp::addAction('in_admin_footer',array($this,'showPluginFooter'));
-
-        frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');                
-        
-        add_action('wp_footer', array($this, 'addMapDataToJs'));
-        //dispatcherGmp::addAction('wp_head',array($this,'drawMap'));
+		dispatcherGmp::addAction('in_admin_footer',array($this,'showPluginFooter'));
+                frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');                
 	}
 	public function addOptionsTab($tabs) {
 		frameGmp::_()->addScript('mapOptions', $this->getModPath(). 'js/admin.maps.options.js');
@@ -21,16 +17,17 @@ class  gmapGmp extends moduleGmp {
 	}
 
 	
-    public function drawMapFromShortcode($params=null){
-        frameGmp::_()->addStyle('gmapCss',$this->getModule()->getModPath()."css/map.css");
-        frameGmp::_()->addScript('map.options',$this->getModule()->getModPath()."js/map.options.js");
-        if(!isset($params['id'])){
-            return $this->getController()->getDefaultMap();
-        }
-        return $this->getController()->getView()->drawMap($params);
+        public function drawMapFromShortcode($params=null){
+            frameGmp::_()->addStyle('gmapCss',$this->getModule()->getModPath()."css/map.css");
+                    
+            
+            if(!isset($params['id'])){
+                return $this->getController()->getDefaultMap();
+            }
+            return $this->getController()->getView()->drawMap($params);
 
-    }
-    public function addMapDataToJs(){
-        $this->getView()->addMapDataToJs();
-    }
+        }
+        public function welcomePageSaveInfo(){
+
+        }
 }

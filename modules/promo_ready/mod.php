@@ -1,4 +1,5 @@
 <?php
+//delete_option(GMP_DB_PREF. 'plug_was_used');
 class promo_readyGmp extends moduleGmp {
 	private $_specSymbols = array(
 		'from'	=> array('?', '&'),
@@ -10,12 +11,14 @@ class promo_readyGmp extends moduleGmp {
 		dispatcherGmp::addFilter('templatesListToAdminTab', array($this, 'addPromoTemplates'));
 		dispatcherGmp::addFilter('adminOptModulesList', array($this, 'addPromoPayments'));
 		add_action('admin_footer', array($this, 'displayAdminFooter'), 9);
+		
 		dispatcherGmp::addFilter('adminMenuOptions', array($this, 'addWelcomePageToMenus'), 99);
 		dispatcherGmp::addFilter('adminMenuMainOption', array($this, 'addWelcomePageToMainMenu'), 99);
 		dispatcherGmp::addFilter('adminMenuMainSlug', array($this, 'modifyMainAdminSlug'), 99);
 		/*
 		* Check and send statistic
 		*/
+                
 		$this->checkStatisticStatus();
 	}
 	public function getUserHidedSendStats() {
@@ -34,9 +37,11 @@ class promo_readyGmp extends moduleGmp {
 		return false;
 	}
 	public function showAdminSendStatNote() {
-		if($this->canShowSendStats()){
-			$this->getController()->getView()->showAdminSendStatNote();					
-		}
+           
+        if($this->canShowSendStats()){
+			$this->getController()->getView()->showAdminSendStatNote();                    
+        }
+
 	}
 	public function detectAdminStat() {
 
@@ -86,9 +91,9 @@ class promo_readyGmp extends moduleGmp {
 		return $option;
 	}
 	public function showWelcomePage() {
-		$firstTimeLookedToPlugin = !installerGmp::isUsed();
+        $firstTimeLookedToPlugin = !installerGmp::isUsed();
 		if($firstTimeLookedToPlugin){
-					$this->getView()->showWelcomePage();
+                    $this->getView()->showWelcomePage();
 		}
 	}
 	public function saveUsageStat($code) {
@@ -116,5 +121,5 @@ class promo_readyGmp extends moduleGmp {
 		if($canSend){
 			$this->getModel()->checkAndSend();
 		}
-	}
+    }
 }

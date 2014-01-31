@@ -28,16 +28,18 @@ class optionsControllerGmp extends controllerGmp {
 			),
 		);
 	}
-	public function updatePluginSettings(){
-		$data = reqGmp::get("post");
-		
-		$resp = new responseGmp();
-		if(empty($data)){
-			$resp->pushError(langGmp::_("Cannot Save Info"));
-			return $resp->ajaxExec();
-		}
-		$saveStatistic =  $this->getModel("options")->updateStatisticStatus($data);
-		$saveinfoWindowSize =$this->getModel("options")->updateInfoWindowSize($data['infoWindowSize']);
-	}
-
+        
+        public function updateStatisticStatus(){
+            $data = reqGmp::get("post");
+            $result = $this->getModel("options")->updateStatisticStatus($data);
+            $resp = new responseGmp();
+            if($result){
+                $resp->addMessage(langGmp::_("Done"));
+            }else{
+                $resp->pushError("Cannot Save Info");
+            }
+            return $resp->ajaxExec();
+        }
+        
 }
+

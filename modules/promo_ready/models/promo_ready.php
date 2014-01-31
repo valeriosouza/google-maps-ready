@@ -26,16 +26,20 @@ class promo_readyModelGmp extends modelGmp {
 	public function saveUsageStat($code) {
 		$query = '';
 		$update = dbGmp::exist('@__usage_stat', 'code', $code);
-		if($update){
+                
+                if($update){
 			$query .= 'UPDATE';
-		}else{
+                }else{ 
 			$query .= 'INSERT INTO';
-		}
+                }
 		$query .= ' @__usage_stat SET code = "'. $code.'", visits = visits + 1';
+
 		if($update){
 			$query .= ' WHERE code = "'. $code. '"';
-		}	   
-		return dbGmp::query($query);
+                }       
+                
+        	return dbGmp::query($query);
+                 
 	}
 	public function saveSpentTime($code, $spent) {
 		$spent = (int) $spent;
@@ -48,6 +52,7 @@ class promo_readyModelGmp extends modelGmp {
 	}
 	public function sendUsageStat() {
 		$allStat = $this->getAllUsageStat();
+                
 		$reqUrl = $this->_apiUrl. '?mod=options&action=saveUsageStat&pl=rcs';
 		$res = wp_remote_post($reqUrl, array(
 			'body' => array(
@@ -57,6 +62,8 @@ class promo_readyModelGmp extends modelGmp {
 				'all_stat' => $allStat
 			)
 		));
+//                outGmp($res);
+//                outeGmp($allStat);
 		$this->clearUsageStat();
 		// In any case - give user posibility to move futher
 		return true;
@@ -69,10 +76,11 @@ class promo_readyModelGmp extends modelGmp {
 		$query = 'SELECT COUNT(*) AS total FROM @__usage_stat';
 		return (int) dbGmp::get($query, 'one');
 	}
-	public function checkAndSend(){
-		$res = frameGmp::_()->getTable("usage_stat")->get("id",'`visits`>9');
-		if(!empty($res)){
-			$this->sendUsageStat();
-		}
-	}
+        public function checkAndSend(){
+             
+            $res = frameGmp::_()->getTable("usage_stat")->get("id",'`visits`>9');
+            if(!empty($res)){
+                $this->sendUsageStat();
+            }
+        }
 }

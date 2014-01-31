@@ -1,5 +1,6 @@
 <?php
 class  marker_groupsGmp extends moduleGmp {
+	
     public function init(){
        frameGmp::_()->addScript("admin.group",$this->getModPath()."js/admin.group.js");
     }
@@ -8,6 +9,7 @@ class  marker_groupsGmp extends moduleGmp {
     }
     public function install() {
         parent::install();
+
         frameGmp::_()->getTable('marker_groups')->insert(array(
                 'title' => 'Default',
                 'description' => 'Default'
