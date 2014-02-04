@@ -76,6 +76,7 @@
                              ?>
                          </td>
                          <td>
+                             <div class='gmpMarkersListOfMap'>
                              <?php
 
                              foreach($map['markers'] as $marker){
@@ -86,6 +87,7 @@
                              <?php
                              }
                              ?>
+                            </div>
                          </td>
                          <td class='gmpExistsMapActions'>
                              <a class='gmpMapEditBtn btn btn-warning gmpEditBtn' id='<?php echo $map['id'];?>' onclick='gmpEditMap(<?php echo $map['id'];?>)'>

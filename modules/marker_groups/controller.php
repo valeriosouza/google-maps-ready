@@ -1,6 +1,5 @@
 <?php
 class marker_groupsControllerGmp extends controllerGmp {
-	
      public function refreshGroupsList(){
         $markers = $this->getModel()->getMarkerGroups();
         $data = $this->getView()->showGroupsTab($markers,true);
@@ -20,7 +19,6 @@ class marker_groupsControllerGmp extends controllerGmp {
         }else{
             $res->pushError(langGmp::_("Cannot Save Group"));
         }
-          
         return $res->ajaxExec();
     }
     public function removeGroup(){

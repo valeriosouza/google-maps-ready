@@ -2,7 +2,6 @@
 class promo_readyControllerGmp extends controllerGmp {
 	public function welcomePageSaveInfo() {
 		$res = new responseGmp();
-                
 		if($this->getModel()->welcomePageSaveInfo(reqGmp::get('post'))) {
 			$res->addMessage(langGmp::_('Information was saved. Thank you!'));
 			$originalPage = reqGmp::getVar('original_page');
@@ -11,7 +10,7 @@ class promo_readyControllerGmp extends controllerGmp {
 			$return = admin_url( strpos($return, '?') ? $return : 'admin.php?page='. $return);
 			$res->addData('redirect', $return);
 			installerGmp::setUsed();
-		} else {
+		}else{
 			$res->pushError($this->getModel()->getErrors());
 		}
 		return $res->ajaxExec();
