@@ -12,7 +12,10 @@
     }
 ?>
 <script type='text/javascript'>
-            var existsMapsArr=JSON.parse('<?php echo utilsGmp::listToJson($this->mapsArr);?>');
+     var existsMapsArr=JSON.parse('<?php  echo utilsGmp::listToJson($this->mapsArr);?>');
+		var defaultOpenTab = "<?php echo $this->currentTab;?>";
+		gmpActiveTab.mainmenu = "#<?php echo str_replace("#", "", $this->currentTab); ?>";
+			
 </script> 
     <table class='gmpTable mapsTable' id='gmpMapsListTable'>
         <thead>

@@ -27,10 +27,10 @@ function gmpEditMarkerItem(markerId){
     var refreshButton = gmpCurrentMarkerForm.find("a#gmpUpdateEditedMarker");
     var submitButton  = gmpCurrentMarkerForm.find("button#gmpSaveEditedMarkerItem");
     var removeBtn    =   gmpCurrentMarkerForm.find(".gmpDeleteMarker");
-     refreshButton.removeAttr("onclick");
+     //refreshButton.removeAttr("onclick");
      submitButton.removeAttr("onclick");
      removeBtn.removeAttr("onclick");
-     refreshButton.attr("onclick","gmpDrawEditedMarker("+markerId+")");
+     //refreshButton.attr("onclick","gmpDrawEditedMarker("+markerId+")");
      submitButton.attr("onclick","return gmpSaveUpdatedMarker("+markerId+")");
      removeBtn.attr("onclick","return gmpDeleteMarker("+markerId+")");
 
@@ -50,32 +50,20 @@ function gmpEditMarkerItem(markerId){
         }
     }
     gmpCurrentMarkerForm.find("legend").html("Edit Marker : "+currentMarker.title);
-
-    var formParams={
-            gmp_marker_group:currentMarker.marker_group_id,
-            gmp_marker_title:currentMarker.title,
-            gmp_marker_address:currentMarker.address,
-            gmp_marker_desc:currentMarker.description,
-            gmp_marker_coord_x:currentMarker.coord_x,
-            gmp_marker_coord_y:currentMarker.coord_y,
-            titleLink:currentMarker.titleLink
-    }
-    if(currentMarker.animation=="1"){
-        currentMarkerForm.find("#marker_optsedit_animation_check").attr('checked','checked');
-    }else{
-        currentMarkerForm.find("#marker_optsedit_animation_check").removeAttr('checked');        
-    }
-    currentMarkerForm.find("#marker_optsedit_animation_text").val(currentMarker.animation);    
-    var iter = 0;
-    //gmpCurrentMarkerForm.find()
-     setcurrentIconToForm( currentMarker.icon.id,currentMarkerForm)
-    jQuery("#gmpDropDownIconsSelect_MarkerEdit option").each(function(){
-        if(jQuery(this).val() == currentMarker.icon.id){
-           gmpDropDownObj.markerEditForm.data('dd').set('selectedIndex',iter);                
-           }
-        iter++;
-    })
     
+    console.log(currentMarker);
+    var formParams={
+            gmpMarkerGroupOpt:currentMarker.marker_group_id,
+            gmpMarkerTitleOpt:currentMarker.title,
+            gmpMarkerAddressOpt:currentMarker.address,
+            gmpMarkerCoordXOpt:currentMarker.coord_x,
+            gmpMarkerCoordYOpt:currentMarker.coord_y,
+            gmpMarkerTitleIsLinkOpt:(currentMarker.titleLink.linkEnabled?currentMarker.titleLink.link:false),
+            gmpMarkerSelectedIconOpt:currentMarker.icon.id,
+            marker_optsanimation:currentMarker.animation
+    }
+
+       gmpSetEditorContent(currentMarker.description,1)
     
     gmpDrawMap({
         mapContainerId:"gmpMapForMarkerEdit",
@@ -87,7 +75,7 @@ function gmpEditMarkerItem(markerId){
             zoom        :   15
         }
     })
-   // console.log(currentMarker.titleLink);
+
     drawMarker({
         icon:currentMarker.icon,
         position:{
@@ -101,34 +89,15 @@ function gmpEditMarkerItem(markerId){
         animation:currentMarker.animation,
         titleLink:currentMarker.titleLink
     })
-    for(var id in formParams){
-         //(formParams[id]);
-        switch(id){
-            case "gmp_marker_desc":
-                try{
-                    tinyMCE.editors[1].setContent(formParams[id]); 
-                }catch(e){
-                }
-            break;
-            case "titleLink":
-               
-                if(formParams[id].linkEnabled && formParams[id].linkEnabled!='false'){
-                    currentMarkerForm.find('.title_is_link').trigger("click");
-                    currentMarkerForm.find('.marker_title_link').val(formParams[id].link);     
-                   //console.log('true')
-                }else{
-                    currentMarkerForm.find('.title_is_link').removeAttr("checked");
-                    currentMarkerForm.find('.marker_title_link').val("");                                
-                    //console.log('false')
-                }
-            break;
-            default:
-                 currentMarkerForm.find("#"+id).val(formParams[id]);            
-            break;
-        }
-
+    for(var selector in formParams){
+        gmpAdminOpts.forms.gmpEditMarkerForm.params[selector].setVal(formParams[selector]);
     }
-    
+  
+    gmpIsMapEditing.state=false;
+    gmpIsMapEditing.markerData  = jQuery(gmpAdminOpts.forms.gmpEditMarkerForm.formObj).serialize();
+    jQuery("#gmpEditMarkerForm").find("input,select,textarea").change(function(){
+            gmpIsMapEditing.state = true;
+    })
 }
 function gmpRefreshMarkerList(){
     var sendData ={
@@ -204,14 +173,21 @@ function gmpDrawEditedMarker(markerId){
      },jQuery("#gmpEditMarkerForm"),true);    
 }
 function gmpSaveUpdatedMarker(markerId){
-    var params = gmpGetEditMarkerFormData();
+//    var params = gmpGetEditMarkerFormData();
+    var params = gmpAdminOpts.getMarkerFormData("gmpEditMarkerForm");
+    params.desc = gmpGetEditorContent(1);
+    params.goup_id = params.group_id;
+
     params.id=markerId;
+    params.address = gmpAdminOpts.forms.gmpEditMarkerForm.formObj.find(".gmpMarkerAddressOpt").val();
     var sendData={
                  mod            : "marker",
                  action         : "updateMarker",
                  reqType        : "ajax",
                  markerParams   : params
     }
+    console.log(sendData.markerParams);
+    debugger;
     var respElem = jQuery("#gmpEditMarkerForm").find("#gmpUpdateMarkerItemMsg");
     jQuery.sendFormGmp({
         msgElID:respElem,
@@ -220,21 +196,27 @@ function gmpSaveUpdatedMarker(markerId){
             if(res.error){
                 respElem.html(res.errors.join(","));
             }else{
-                setTimeout(function(){
-                    jQuery(".markerListConOpts").toggleClass('active');
-                    clearMarkerForm(jQuery("#gmpEditMarkerForm"));
-                    gmpRefreshMarkerList();
-                    respElem.empty();
-                },800);
+                //setTimeout(function(){
+                   // jQuery(".markerListConOpts").toggleClass('active');
+                   // clearMarkerForm(jQuery("#gmpEditMarkerForm"));
+                   // gmpRefreshMarkerList();
+                   // respElem.empty();
+                //},800);
             }
         }
     })
     return false;
 }
-function cancelEditMarkerItem(){
-    jQuery(".markerListConOpts").toggleClass('active');
+function cancelEditMarkerItem(params){
+   
+   
     clearMarkerForm(jQuery("#gmpEditMarkerForm"));
     gmpRefreshMarkerList();
+     if(typeof(params)!="undefined" && params.changeTab){
+    
+    }else{
+                 jQuery(".markerListConOpts").toggleClass('active');
+    }
     return false;
 }
 function gmpDeleteMarker(markerId){
@@ -259,3 +241,38 @@ jQuery(".gmp_marker_address").keyup(function(){
           startSearchAddress(addr,form)
       },1200);
 })
+function gmpIsMarkerFormEditing(){
+    if(gmpCurrentMarkerForm.find(".gmpMarkerTitleOpt").val()!=""){
+        return true;
+    }
+    if(gmpCurrentMarkerForm.find(".gmpMarkerTitleIsLinkOpt").prop("checked")){
+        return true;
+    }
+    if(gmpCurrentMarkerForm.find(".marker_optsanimation").prop("checked")){
+        return true;
+    }
+    if(tinyMCE.activeEditor.getContent()!=""){
+        return true;
+    }
+    if(gmpCurrentMarkerForm.find(".gmpMarkerAddressOpt").val()!=""){
+        return true;
+    }
+    if(gmpCurrentMarkerForm.find(".gmpMarkerTitleOpt").val()!=""){
+        return true;
+    }
+    if(gmpCurrentMarkerForm.find(".gmpMarkerCoordXOpt").val()!=""){
+        return true;
+    }
+    if(gmpCurrentMarkerForm.find(".gmpMarkerCoordYOpt").val()!=""){
+        return true;
+    }
+    return false;  
+}
+function gmpAddNewMarker(param){
+
+    if(gmpIsMarkerFormEditing()){
+        if(confirm("Cancel Editind And Add New Marker")){
+            clearMarkerForm(gmpCurrentMarkerForm);
+        }
+    }
+}

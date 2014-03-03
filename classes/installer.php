@@ -175,7 +175,8 @@ class installerGmp {
 					`marker_group_id` int(11),
 					`address` text,
 					`animation` int(1),
-					`create_date` datetime,                            
+					`create_date` datetime,
+					`params` text  CHARACTER SET utf8  NOT NULL,
 			 PRIMARY KEY (`id`)
 					)";
 			dbDelta($q);                    

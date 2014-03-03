@@ -28,6 +28,12 @@
     <h1>
         <?php langGmp::_e('Ready! Google Maps Plugin')?>
     </h1>
+	<div class="gmpSingleBtnContainer">
+		<a class="btn btn-primary gmpShowNewMapFormBtn" >
+			<span class="gmpIcon gmpIcongmpAddNewMap"></span>
+			<?php langGmp::_e("Add New Map");?>
+		</a>
+	</div>	
 	<ul class="nav nav-tabs gmpMainTab" >
 		<?php foreach($this->tabsData as $tId => $tData) { 
 			

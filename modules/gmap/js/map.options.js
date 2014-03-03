@@ -25,7 +25,7 @@ var gmapPreview={
 	   if(currentMap.params.map_display_mode=='popup'){
 			jQuery("#show_map_icon.map_num_"+mapId).click(function(){
 				  var map_id=jQuery(this).attr("data_val");
-				  jQuery("#map_container_"+mapId+".map_container.display_as_popup").bPopup();
+				  jQuery("#mapConElem_"+mapId+".display_as_popup").bPopup();
 				  gmapPreview.drawMap(currentMap);  
 			})
 		}else if(currentMap.params.map_display_mode=='map'){
@@ -33,9 +33,11 @@ var gmapPreview={
 		}
 	},
 	drawMap:function(mapForPreview){
+			
 				if(typeof(mapForPreview)==undefined){
 					return false;
 				}
+				
 				var mapElemId = "ready_google_map_"+mapForPreview.id;
 				if(typeof(mapForPreview.params.map_center)!=undefined){
 					 var lat = mapForPreview.params.map_center.coord_y;
@@ -65,7 +67,7 @@ var gmapPreview={
 				 mapOptions.mapTypeId= google.maps.MapTypeId[mapForPreview.params.type];
 				 var map = new google.maps.Map(document.getElementById(mapElemId),mapOptions);
 				 this.maps[mapForPreview.id].mapObject = map;
-				 
+				
 			 if(mapForPreview.markers.length>0){
 				  this.drawMarkers(mapForPreview.markers,mapForPreview.id);	  
 			   }	
@@ -123,14 +125,14 @@ var gmapPreview={
 }
 
 function closePopup(){
-	jQuery(".map_container.display_as_popup").bPopup().close();	
+	jQuery(".display_as_popup").bPopup().close();	
 }
 jQuery(document).ready(function(){
 	if(typeof(gmpAllMapsInfo)!="undefined"){
-		console.log(gmpAllMapsInfo);
+		
 		for(var i in gmpAllMapsInfo){
 			var map_id = gmpAllMapsInfo[i].id;
-		
+				
 				gmapPreview.maps[map_id]={
 						mapObject:{},
 						markerArr:{},

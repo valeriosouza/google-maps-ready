@@ -52,39 +52,7 @@ class optionsGmp extends moduleGmp {
 	public function getUploadDir() {
 		return $this->_uploadDir;
 	}
-	public function getBgImgDir() {
-		return $this->_uploadDir. DS. $this->_bgImgSubDir;
-	}
-	public function getBgImgFullDir() {
-		return utilsGmp::getUploadsDir(). DS. $this->getBgImgDir(). DS. $this->get('bg_image');
-	}
-	public function getBgImgFullPath() {
-		return utilsGmp::getUploadsPath(). '/'. $this->_uploadDir. '/'. $this->_bgImgSubDir. '/'. $this->get('bg_image');
-	}
-	
-	public function getLogoImgDir() {
-		return $this->_uploadDir. DS. $this->_bgLogoImgSubDir;
-	}
 
-	public function getLogoImgFullDir() {
-		return utilsGmp::getUploadsDir(). DS. $this->getLogoImgDir(). DS. $this->get('logo_image');
-	}
-	
-	public function getLogoImgFullPath() {
-		return utilsGmp::getUploadsPath(). '/'. $this->_uploadDir. '/'. $this->_bgLogoImgSubDir. '/'. $this->get('logo_image');
-	}
-	
-	public function getFavicoDir(){
-		return $this->_uploadDir. DS. $this->_favicoDir;		
-	}
-	
-	public function getFavicoFullDir(){
-		
-		return utilsGmp::getUploadsDir(). DS. $this->getFavicoDir(). DS. $this->get('favico');		
-	}
-	public function getFavicoFullPath(){
-		return utilsGmp::getUploadsPath(). '/'. $this->_uploadDir. '/'. $this->_favicoDir. '/'. $this->get('favico');		
-	}
 	public function getAllowedPublicOptions() {
 		$res = array();
 		$alowedForPublic = array('mode', 'template');

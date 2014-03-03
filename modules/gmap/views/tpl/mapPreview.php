@@ -3,66 +3,115 @@ if(empty($this->currentMap)){
     echo langGmp::_('Map not found');
     return;
 }
-
- ?>
-<?php
-    $width=$this->currentMap['html_options']['width'];
+    $width=trim($this->currentMap['html_options']['width']);
+	if($width{strlen($width)-1} !="%" && $width{strlen($width)-1} !="x" ){
+		$width = (int)$width . 'px';
+	}
     $height=$this->currentMap['html_options']['height'];
-    $classname=$this->currentMap['html_options']['classname'];
+    $classname= @$this->currentMap['html_options']['classname'];
     $align = $this->currentMap['html_options']['align'];
+	$map_id = $this->currentMap['id'];
     $mapId = "ready_google_map_".$this->currentMap['id'];
     $border = ((int)$this->currentMap['html_options']['border_width'])."px solid ".$this->currentMap['html_options']['border_color'];
-   $margin = $this->currentMap['html_options']["margin"];
+	$margin = $this->currentMap['html_options']["margin"];
     $ln = $this->currentMap['params']['language'];
-    if($this->currentMap['params']['map_display_mode']=="popup"){
-        $className="display_as_popup";
+	$percentModeOn=false;
+	$styleInPercent="";
+	
+	if($this->currentMap['params']['map_display_mode']=="popup"){
+        $class_name="display_as_popup";
+		$popup=true;
+		$mapWidth = "100%";
     }else{
-        $className="";
+        $class_name="";
+		$popup=false;
+		$mapWidth=$width;
     }
+	if($width{strlen($width)-1} =="%"){
+		$percentMode = true;
+		$controlsWidth = "100%";
+	}else{
+		$percentMode = false;
+		$controlsWidth = $width;
+	}
+	
+
 ?>
 
     <style type='text/css'>
-
         #<?php echo $mapId;?>{
-            width:<?php echo $width;?>px;
+            width:<?php echo $mapWidth;?>;
             height:<?php echo $height;?>px;
             float:<?php echo $align;  ?>;
             border:<?php echo $border;?>;
             margin:<?php echo ((int)$margin)."px";?>;
         }
         #gmapControlsNum_<?php echo $this->currentMap['id'];?>{
-           width:<?php echo $width;?>px;
+           width:<?php echo $controlsWidth;?>
         }
-		.gmpMarkerInfoWindow{
-			width:<?php echo $this->indoWindowSize['width'];?>px;
-			height:<?php echo $this->indoWindowSize['height'];?>px;
+		<?php
+			if($this->currentMap['params']['infoWindowWidth']!=""){
+				$infoWindowWidth = $this->currentMap['params']['infoWindowWidth'];
+			}else{
+				$infoWindowWidth = $this->indoWindowSize['width'];
+			}
+			if($this->currentMap['params']['infoWindowHeight']!=""){
+				$infoWindowHeight = $this->currentMap['params']['infoWindowHeight'];
+			}else{
+				$infoWindowHeight = $this->indoWindowSize['height'];
+			}
+		?>
+		 #<?php echo $mapId;?> .gmpMarkerInfoWindow{
+			width:<?php echo (int)$infoWindowWidth;?>px;
+			height:<?php echo (int)$infoWindowHeight;?>px;
+		}
+		.gmpMapDetailsContainer#gmpMapDetailsContainer_<?php echo $map_id;?>{
+			height:<?php echo (int)$height;?>px;
+		}
+		.gmp_MapPreview#<?php echo $mapId;?>{
+			/*position:absolute;*/
+			width:100%;
+		}
+		#mapConElem_<?php echo $map_id;?>{
+			width:<?php echo $width;?>
 		}
    </style>
-<div class='gmp_map_opts'>
-    <?php
+       <?php
        if($this->currentMap['params']['map_display_mode']=="popup"){
            ?>
             <div class='map-preview-iumg-container'>
                 <img src='<?php echo GMP_IMG_PATH."gmap_preview.png" ?>' id="show_map_icon" data_val="<?php echo $this->currentMap['id']; ?>" class='map_num_<?php echo $this->currentMap['id']; ?>' title="Click to preview map">
             </div>
            <?php
+		  
         }
+
     ?>
-    <div class='map_container <?php echo $className;?>' id='map_container_<?php echo $this->currentMap['id']; ?>' >
-        <?php
-         if($this->currentMap['params']['map_display_mode']=="popup"){
-             ?>
-              <a class='button  close_button' onclick="closePopup()">X</a>
-             <?php
-         }
-        ?>
-       
-     <div class='gmp_MapPreview <?php echo $classname;?>' id='<?php echo $mapId ;?>'     >
-    
-        
-    </div>
-    <?php
-        dispatcherGmp::doAction("addMapBottomControls",$this->currentMap['id']);
-    ?>
-    </div>
-</div>
+<div class='gmp_map_opts <?php echo $class_name;?>' id="mapConElem_<?php echo $this->currentMap['id'];?>">
+	
+	<div class="gmpMapDetailsContainer" id="gmpMapDetailsContainer_<?php echo $map_id ;?>">
+		<?php
+		 if($this->currentMap['params']['map_display_mode']=="popup"){
+			 ?>
+			  <a class='btn btn-info  close_button' onclick="closePopup()">X</a>
+			 <?php
+		 }
+		?>
+		<div class='gmp_MapPreview <?php echo $classname;?>' id='<?php echo $mapId ;?>'  >
+		</div>	
+			
+		
+	</div>
+	
+	<div class="gmpMapProControlsCon" id="gmpMapProControlsCon_<?php echo $map_id;?>">
+		<?php
+			dispatcherGmp::doAction("addMapBottomControls",
+				array("mapId"=>$this->currentMap['id'],"display_type"=>$this->display_theme));
+		?>
+	</div>
+	
+</div>	
+	
+	
+
+

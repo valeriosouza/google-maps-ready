@@ -1,7 +1,7 @@
 <?php
 class iconsControllerGmp extends controllerGmp {
 	public function setDefaultIcons(){
-		$jsonFile = frameGmp::_()->getModule("icons")->getModPath()."icons_files/icons.json";
+		$jsonFile = frameGmp::_()->getModule("icons")->getModDir()."icons_files/icons.json";
 		$defaultIcons = utilsGmp::jsonDecode(file_get_contents($jsonFile));
 		$this->getModel()->setDefaultIcons($defaultIcons);
 	}	

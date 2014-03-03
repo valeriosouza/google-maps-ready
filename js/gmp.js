@@ -5,10 +5,7 @@ var  gmpMapConstructParams={
 	 };
 var nochange = false;	 
  var def_tab_elem;
- jQuery.fn.scrollTo = function(elem) { 
-    jQuery(this).scrollTop(jQuery(this).scrollTop() - jQuery(this).offset().top + jQuery(elem).offset().top); 
-    return this; 
-};
+
 function gmpChangeTab(elem,sub){
 	var tabId;
 	try{
@@ -16,10 +13,25 @@ function gmpChangeTab(elem,sub){
 	}catch(e){
 		tabId = elem;
 	}
+      //  tabId = "#" + tabId.split("#").join("");
 	if(gmpActiveTab.mainmenu=="#gmpEditMaps" && tabId!="#gmpEditMaps" && sub==undefined){
-		gmpCancelMapEdit({changeTab:false});
+		
+		if(gmpIsMapEditing.mapData != jQuery(gmpAdminOpts.forms.gmpEditMapForm.formObj).serialize() ||
+                        gmpIsMapEditing.markerData != jQuery(gmpAdminOpts.forms.gmpAddMarkerToEditMap.formObj).serialize())
+        {
+			//console.log("changed");
+			if(!confirm("If you leave tab,changes will be lost. \n Leave Tab?")){
+				return false;				
+			}else{
+				gmpIsMapEditing.state	=	false;
+				gmpIsMapEditing.data	=	0;
+				gmpCancelMapEdit({changeTab:false});
+			}
+		}
+		
 	}
-   if(gmpActiveTab.mainmenu=="#gmpAddNewMap" && tabId!="#gmpAddNewMap" && sub==undefined){
+
+	if(gmpActiveTab.mainmenu=="#gmpAddNewMap" && tabId!="#gmpAddNewMap" && sub==undefined){
 		if(gmpIsMapFormIsEditing()){
 			if(!confirm("If you leave tab,all information will be lost. \n Leave tab?")){
 			   return false; 
@@ -29,17 +41,38 @@ function gmpChangeTab(elem,sub){
 			}
 		}
 	}
+
+        if(gmpActiveTab.mainmenu=="#gmpMarkerList" && tabId !="#gmpMarkerList"){
+            if(gmpAdminOpts.forms.gmpEditMarkerForm.formObj.is(":visible")){
+                //console.log(gmpIsMapEditing.state )
+                if(gmpIsMapEditing.state && (gmpAdminOpts.forms.gmpEditMarkerForm.formObj.serialize() != gmpIsMapEditing.markerData)){
+                    if(!confirm("If you leave tab,changes will be lost.\n Leave Tab?")){
+                        return false;
+                    }else{
+                        cancelEditMarkerItem({changeTab:false})
+                    }
+                }
+                
+            }
+        }
+        if(typeof(elem.tab) !='function'){
+		 elem = jQuery('a[href$="'+tabId+'"]')	
+	}
+        if(tabId!="#gmpAddMarkerToNewMap" && gmpActiveTab.submenu=="#gmpAddMarkerToNewMap"){
+                jQuery('a[href$="'+gmpActiveTab.submenu+'"]').find("button").attr("disabled","disabled");
+        } 
 	if(sub!= undefined){
 	   gmpActiveTab.submenu=tabId; 
 	}else{
-		if(tabId=="#gmpAddNewMap"){
-			gmpCurrentMarkerForm=jQuery("#gmpAddMarkerToNewForm");
-		}
+            if(tabId=="#gmpAddNewMap"){
+                gmpCurrentMarkerForm=jQuery("#gmpAddMarkerToNewForm");
+            }
 	   gmpActiveTab.mainmenu=tabId;
-	}	
-	if(typeof(elem.tab)=='function'){
-		elem.tab("show");		
 	}
+            
+	console.log("changed to ", tabId);
+        elem.tab("show");	
+        elem.find("button").removeAttr("disabled");
 	switch(tabId){
 		case "#gmpAddNewMap":
 			currentMap = gmpMapsArr['mapPreviewToNewMap'];
@@ -49,21 +82,23 @@ function gmpChangeTab(elem,sub){
 		break;
 		case "#gmpMarkerList":
 			currentMap = gmpMapsArr["gmpMapForMarkerEdit"];
-		break;	
+		break;
+                case '#gmpAddMarkerToNewMap':
+                       elem.find('button').removeAttr("disabled"); 
+                break;    
 	}
+        jQuery(".gmpShowNewMapFormBtn").removeAttr("disabled");
+        if(tabId=='#gmpAddNewMap'){
+                if(jQuery(".gmpNewMapPreview").html() != undefined && 
+                        jQuery(".gmpNewMapPreview").html().length<150){
+                         
+                         gmpDrawMap(gmpMapConstructParams);
+                 
+                }
+         }
+	
 }	 
-function toggleBounce(marker,animType) {
-	if(animType==0){
-		return false;   
-	}
-	if (marker.getAnimation() != null) {
-		marker.setAnimation(null);
-	} else if(animType==2) {	
-		marker.setAnimation(null);
-	}else{
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-	}
-}
+
 function gmp_func_get_args() {
   if (!arguments.callee.caller) {
 	  return "";
@@ -73,25 +108,39 @@ function gmp_func_get_args() {
 function outGmp(){
 	console.log(gmp_func_get_args());
 }
-function gmpGetEditorContent(){
-	return tinyMCE.activeEditor.getContent();
+function gmpGetEditorContent(editorId){
+        if(typeof(editorId)=="undefined"){
+            return tinyMCE.activeEditor.getContent();            
+        }
+      	return tinyMCE.editors[editorId].getContent();
+
 }
 function gmpSetEditorContent(content,editorId){
 	if(content==""){
 		content=" ";
 	}
-	tinyMCE.activeEditor.setContent(content);
+        if(typeof(editorId) == "undefined"){
+            try{
+                tinyMCE.activeEditor.setContent(content);            
+            }catch(e){
+                console.log(e);
+            }            
+        }else{
+            try{
+               tinyMCE.editors[editorId].setContent(content)
+            }catch(e){
+                console.log(e);
+            }            
+
+        }
+
+
 }
 jQuery(document).ready(function(){
-	jQuery('.nav.nav-tabs  a').click(function (e) {
+	jQuery('.nav.nav-tabs.gmpMainTab a, ul.gmpNewMapOptsTab a').click(function (e) {
 		e.preventDefault();
 		var href = jQuery(this).attr("href");
-		if(href.replace("#","")=='gmpAddNewMap'){
-			if(jQuery("#mapPreviewToNewMap").html().length<150){
-				gmpDrawMap(gmpMapConstructParams);
-			  gmpCancelMapEdit();
-			}
-		 }
+
 
 		if(jQuery(this).parents('ul').hasClass("gmpMainTab")){
 			 gmpChangeTab(jQuery(this));		 
@@ -103,33 +152,46 @@ jQuery(document).ready(function(){
 	jQuery(".gmpMapOptionsTab a").click(function(e){
 			e.preventDefault();		
 	})
-	if(jQuery("#mapPreviewToNewMap").length>0 &&  jQuery("#mapPreviewToNewMap").html().length<150){
-			gmpDrawMap(gmpMapConstructParams);						
+	if(jQuery(".gmpNewMapPreview").length>0){
+		if(jQuery(".gmpNewMapPreview").html().length<150){
+            if(gmpActiveTab.mainmenu=="#gmpAddNewMap"){
+                    gmpDrawMap(gmpMapConstructParams);					
+            }
+		}
 	}
+
 	
 	jQuery(".gmpNewMapOptsTab a").click(function(e){
 		jQuery(".gmpNewMapOptsTab a").removeClass("btn-primary");
 		jQuery(this).addClass("btn-primary");
 	})
 	try{
-		def_tab_elem = jQuery(".gmpMainTab  li."+defaultOpenTab).find('a');
-		if(gmpExistsTabs.indexOf(defaultOpenTab) == -1){
-				 def_tab_elem = jQuery(".gmpMainTab li."+gmpExistsTabs[0]).find('a')
-		} 
-	   gmpChangeTab(def_tab_elem);			
+		
+		if(typeof(defaultOpenTab) !="undefined"){
+
+			def_tab_elem = jQuery(".gmpMainTab  li."+defaultOpenTab).find('a');
+			if(gmpExistsTabs.indexOf(defaultOpenTab) == -1){
+					 def_tab_elem = jQuery(".gmpMainTab li."+gmpExistsTabs[0]).find('a')
+			} 
+		   gmpChangeTab(def_tab_elem); 
+		}else{
+
+			if(existsMapsArr.length>0){
+				def_tab_elem = jQuery(".gmpMainTab li.gmpAllMaps").find('a')
+				gmpChangeTab(def_tab_elem); 
+			}
+		}
 	}catch(e){
 			
 	}
+        jQuery(".gmpShowNewMapFormBtn").click(function(){
+            var tabElem = "#gmpAddNewMap";
+
+            gmpChangeTab(tabElem);
+            jQuery(this).attr("disabled","disabled");
+        })
 })
-function gmpGetLicenseBlock(){
-   return '<a class="mapLicenzetext" href="http://readyshoppingcart.com/product/google-maps-plugin/" target="_blank" >' +'Google Maps WordPress Plugin'+'</a>';
-}
-function gmpAddLicenzeBlock(mapId){
-	var befElem = jQuery("#"+mapId).find('.gmnoprint').find('.gm-style-cc');
-	befElem.css('float', 'right');
-	befElem.css('width', '400px');
-	befElem.find('a').after(gmpGetLicenseBlock());
-}
+
 function gmpFormatAddress(addressObj){
 
 	var finishAddr=[];

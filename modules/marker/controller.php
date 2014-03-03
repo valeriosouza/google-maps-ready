@@ -69,4 +69,7 @@ class markerControllerGmp extends controllerGmp {
         frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("marker.edit");        
         return $res->ajaxExec();
     }
+	public function getMarkerForm($params){
+		return $this->getView()->getMarkerForm($params);
+	}
 }

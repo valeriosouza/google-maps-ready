@@ -13,12 +13,20 @@ class htmlGmp {
     static public function textarea($name, $params = array('attrs' => '', 'value' => '', 'rows' => 3, 'cols' => 50)) {
         $params['rows'] = isset($params['rows']) ? $params['rows'] : 3;
         $params['cols'] = isset($params['cols']) ? $params['cols'] : 50;
-        return '<textarea name="'.$name.'" '.$params['attrs'].' rows="'.$params['rows'].'" cols="'.$params['cols'].'">'.
+        $txt=  '<textarea name="'.$name.'" '.$params['attrs'].' rows="'.$params['rows'].'" cols="'.$params['cols'].'">'.
                 $params['value'].
                 '</textarea>';
+		if(isset($params['hint'])){
+			$txt .= "<label  class='hiddenLabelHint'>".$params['hint']."</label>";
+		}
+		return $txt;
     }
     static public function input($name, $params = array('attrs' => '', 'type' => 'text', 'value' => '')) {
-        return '<input type="'.$params['type'].'" name="'.$name.'" value="'.$params['value'].'" '.$params['attrs'].' />';
+		$inp =  '<input type="'.$params['type'].'" name="'.$name.'" value="'.$params['value'].'" '.$params['attrs'].' />';
+		if(isset($params['hint'])){
+			$inp .= "<label  class='hiddenLabelHint'>".$params['hint']."</label>";
+		}
+		return $inp;
     }
     static public function text($name, $params = array('attrs' => '', 'value' => '')) {
         $params['type'] = 'text';
@@ -135,6 +143,9 @@ class htmlGmp {
             }
         }
         $out .= '</select>';
+		if(isset($params['hint'])){
+			$out .= "<label  class='hiddenLabelHint'>".$params['hint']."</label>";
+		}
         return $out;
     }
     static public function selectlist($name, $params = array('attrs'=>'', 'size'=> 5, 'options' => array(), 'value' => '')) {
@@ -488,7 +499,7 @@ class htmlGmp {
 			$params['attrs'] = '';
 		$params['attrs'] .= 'id="'. $textId. '"';
 		$out = self::text($name, $params);
-		$out .= '<div style="position: absolute; z-index: 1;" id="'. $pickerId. '"></div>';
+		$out .= '<div style="position: relative; z-index: 1;" id="'. $pickerId. '"></div>';
 		$out .= '<script type="text/javascript">//<!--
 			jQuery(function(){
 				jQuery("#'. $pickerId. '").hide();
@@ -521,8 +532,20 @@ class htmlGmp {
 	static public function checkboxHiddenVal($name, $params = array('attrs' => '', 'value' => '', 'checked' => '')) {
 		$checkId = self::nameToClassId($name). '_check';
 		$hideId = self::nameToClassId($name). '_text';
-		if(!isset($params['attrs']))
-			$params['attrs'] = '';
+		if(!isset($params['attrs'])){
+			$params['attrs'] = '';			
+		}
+		parse_str($params['attrs'],$attrArr);
+		if(!empty($attrArr['class'])){
+			$attrArr['class'] = str_replace(array("'",'"'),"", $attrArr['class']);
+			$attrArr['class'].=" ".$checkId;
+		}else{
+			$attrArr['class']=$checkId;
+		}
+		$params['attrs'] ="";
+		foreach($attrArr as $k=>$v){
+			$params['attrs'] .= ' '.$k.'="'.$v.'" '; 			
+		}
 		$paramsCheck = $paramsHidden = $params;
 		$paramsCheck['attrs'] .= ' id="'. $checkId. '"';
 		$paramsHidden['attrs'] .= ' id="'. $hideId. '"';
@@ -531,8 +554,8 @@ class htmlGmp {
 		$out .= self::hidden($name, $paramsHidden);
 		$out .= '<script type="text/javascript">//<!--
 			jQuery(function(){
-				jQuery("#'. $checkId. '").change(function(){
-					jQuery("#'. $hideId. '").val( (jQuery(this).attr("checked") ? 1 : 0) );
+				jQuery(".'.$checkId.'").change(function(){
+					jQuery(this).parents("form").find("#'. $hideId. '").val( (jQuery(this).attr("checked") ? 1 : 0) );
 				});
 			});
 			//--></script>';

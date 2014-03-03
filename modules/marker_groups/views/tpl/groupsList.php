@@ -24,15 +24,19 @@
             <legend><?php langGmp::_e("Save Group")?></legend>
             <div class="gmpFormRow">
                <label for="group_title" class="gmpFormLabel"><?php langGmp::_e("Group Title")?></label>
+			   <div class='gmpFormElemCon'>
                 <?php echo htmlGmp::input("title", 
-                                array("attrs"=>" required='required' class='gmpInputLarge' id='group_title'"));?>
+                                array("attrs"=>" required='required' class='gmpInputLarge gmpHintElem' id='group_title'","hint"=>langGmp::_("Title For Group")));?>
 
+	            </div>
             </div>
             <div class="gmpFormRow">
                <label for="group_description" class="gmpFormLabel"><?php langGmp::_e("Group Description")?></label>
+				<div class='gmpFormElemCon'>
                <?php echo htmlGmp::textarea("description", 
-                                array("attrs"=>" id='group_description' class='gmpInputLarge' "));?>   
+                                array("attrs"=>" id='group_description' class='gmpInputLarge gmpHintElem' ","hint"=>langGmp::_("Description For Goup") ));?>   
 
+	            </div>
             </div>
             <div class="gmpMarkerEditformBtns">
               

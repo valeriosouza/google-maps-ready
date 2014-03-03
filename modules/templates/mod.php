@@ -15,19 +15,13 @@ class templatesGmp extends moduleGmp {
         return $tabs;
     }
     public function init() {
-
-        $this->_styles = array(
-            'styleGmp'				=> array('path' => GMP_CSS_PATH. 'style.css'), 
-			'adminStylesGmp'		=> array('path' => GMP_CSS_PATH. 'adminStyles.css'), 
-			
-			//'jquery-tabs'			=> array('path' => GMP_CSS_PATH. 'jquery-tabs.css'),
-			'jquery-buttons'		=> array('path' => GMP_CSS_PATH. 'jquery-buttons.css'),
-			'wp-jquery-ui-dialog'	=> array(),
-			'farbtastic'			=> array(),
-			// Our corrections for ui dialog
-			//'jquery-dialog'			=> array('path' => GMP_CSS_PATH. 'jquery-dialog.css'),
-        );
-
+		if(frameGmp::isAdminPlugPage()){
+			$this->_styles = array(
+				'styleGmp'				=> array('path' => GMP_CSS_PATH. 'style.css'), 
+				'adminStylesGmp'		=> array('path' => GMP_CSS_PATH. 'adminStyles.css'), 
+				'farbtastic'			=> array(),
+			);
+		}
         $defaultPlugTheme = frameGmp::_()->getModule('options')->get('default_theme');
 		$ajaxurl = admin_url('admin-ajax.php');
 		if(frameGmp::_()->getModule('options')->get('ssl_on_ajax')) {
@@ -54,11 +48,17 @@ class templatesGmp extends moduleGmp {
 		frameGmp::_()->addScript('farbtastic',get_bloginfo('wpurl'). '/wp-admin/js/farbtastic.js');
                  
 		frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js');
-		frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
-		frameGmp::_()->addScript('datatable', GMP_JS_PATH. 'jquery.dataTables.min.js');
+			frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
+		if(frameGmp::isAdminPlugPage()){
+			
+			frameGmp::_()->addScript('datatable', GMP_JS_PATH. 'jquery.dataTables.min.js');				
+		}
+
 		
         if (is_admin()) {
-			frameGmp::_()->addScript('adminOptionsGmp', GMP_JS_PATH. 'admin.options.js');
+			if(frameGmp::isAdminPlugPage()){
+				frameGmp::_()->addScript('adminOptionsGmp', GMP_JS_PATH. 'admin.options.js');				
+			}
 			frameGmp::_()->addScript('ajaxupload', GMP_JS_PATH. 'ajaxupload.js');
 			frameGmp::_()->addScript('postbox', get_bloginfo('wpurl'). '/wp-admin/js/postbox.js');
 			add_thickbox();
@@ -69,6 +69,7 @@ class templatesGmp extends moduleGmp {
         }
         
 		$jsData = dispatcherGmp::applyFilters('jsInitVariables', $jsData);
+		
         frameGmp::_()->addJSVar('coreGmp', 'GMP_DATA', $jsData);
 
 		
