@@ -6,7 +6,7 @@
 				<a class='' id='gmpTabForNewMapMarkerOpts' href="#gmpAddMarkerToNewMap">
 					<button class="btn btn-success gmpAddNewMarkerBtn" onclick="gmpAddNewMarker(this)">
 						<span class="gmpIcon gmpIconMarker"></span>
-						<?php langGmp::_e("Add Marker")?>
+						<?php langGmp::_e("New Marker")?>
 					</button>
 
 					<span class="gmpTabElemSimpTxt" disabled="disabled">
