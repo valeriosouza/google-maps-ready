@@ -134,8 +134,8 @@ if(!function_exists('toeCreateObjGmp')) {
  * Redirect user to specified location. Be advised that it should redirect even if headers alredy sent.
  * @param string $url where page must be redirected
  */
-if(!function_exists('redirect')) {
-    function redirect($url) {
+if(!function_exists('redirectGmp')) {
+    function redirectGmp($url) {
         if(headers_sent()) {
             echo '<script type="text/javascript"> document.location.href = "'. $url. '"; </script>';
         } else {

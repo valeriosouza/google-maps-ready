@@ -15,7 +15,7 @@ class responseGmp {
         if($reqType == 'ajax')
             exit( json_encode($this) );
         if($redirect)
-            redirect($redirect);
+            redirectGmp($redirect);
         return $this;
     }
     public function error() {
