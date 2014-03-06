@@ -68,13 +68,14 @@ var gmpAdminOpts ={
 		
 		var data = this.getFormData(formId);
 		
-		
-		var markerParams = {
-		   title	 : data.gmpMarkerTitleOpt,
-		   desc	  	 : data.description,
-		   group_id  : data.gmpMarkerGroupOpt,
-		   animation : data.marker_optsanimation
 	
+		var markerParams = {
+			title	 	: data.gmpMarkerTitleOpt,
+			desc	  	: data.description,
+			group_id 	: data.gmpMarkerGroupOpt,
+			animation	: data.marker_optsanimation,
+			address		: data.gmpMarkerAddressOpt
+ 	
 		};
 		markerParams.titleLink={
 			linkEnabled:false
@@ -1032,7 +1033,7 @@ jQuery(document).ready(function(){
                     var form_id = jQuery(this).attr("id");
                     var markerNewParams = gmpAdminOpts.getMarkerFormData(form_id);
                      markerNewParams.id = edit_marker_id;
-                     //console.log(form_id,markerNewParams);
+                     console.log(form_id,markerNewParams);
                      //debugger;
                     updateMarker(markerNewParams);
                     return false;

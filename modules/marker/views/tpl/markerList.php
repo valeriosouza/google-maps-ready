@@ -19,13 +19,14 @@
 				<?php langGmp::_e("Back To Markers List")?>
 			</a>	
 		</div>	
-        <div class='gmpMapForMarkerEdit' id='gmpMapForMarkerEdit'>
-            
-        </div>
-	<div style='clear:both'></div>
-				<div class='gmpUnderMapPic'>
+		<div class='gmp-marker-right-block'>
+			<div class='gmpMapForMarkerEdit' id='gmpMapForMarkerEdit'>
+				
+			</div>
+			<div style='clear:both'></div>
+			<div class='gmpUnderMapPic'>
 					<div class='gmp-pic-title'>
-						<h4><a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php langGmp::_e("PRO version features");?></a></h4>	
+						<h4><a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php langGmp::_e("PRO version img ");?></a></h4>	
 					</div>
 					<div class='gmp-undermap-pic'>
 						<a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/">
@@ -33,5 +34,8 @@
 						</a>
 					</div>	
 				</div>	
+		</div>
+	
+				
 </div>
      

@@ -32,8 +32,42 @@
 						 <?php
 				break;	
 				case "gmpAddMarkerToEditMap":
-				break;
+					/* ?>
+					<div class="gmpAddMarkerOpts">
+						<br/>
+						<br/>
+                    <?php
+                     echo htmlGmp::submit('drawMarker', 
+                             array("attrs"=>'id="AddMarkerToMap" class="btn btn-primary"',
+                                   'value'=>langGmp::_("Add Marker")));
+                    ?>
+					</div>
+					<div class="gmpEditMarkerOpts">
+						<br/>
+						<br/>
+						<a class="btn btn-success gmpSaveEditedMarker" id="gmpSaveEditedMarker">
+							<?php langGmp::_e("Save Marker")?>
+						</a>
+						
+							  <a class="btn btn-danger gmpCancelMarkerEditing" id="gmpCancelMarkerEditing" >
+								  <?php langGmp::_e("Cancel")?>
+							  </a> 
+						<a class='btn btn-danger removeMarkerFromForm' >
+							<span class='gmpIcon gmpIconReset'></span>
+							<?php langGmp::_e("Remove");?>											
+						</a>
+					</div> 
+						 <?php
+						 */
+					 break;
+			 
+				 
 			 }
+			 
+			 
+			 
+			 
+			 
 			 
 			 ?>
 		<div class="gmpEditMarkerOpts">

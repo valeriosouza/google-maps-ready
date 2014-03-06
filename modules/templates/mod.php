@@ -47,10 +47,10 @@ class templatesGmp extends moduleGmp {
 		 	
 		frameGmp::_()->addScript('farbtastic',get_bloginfo('wpurl'). '/wp-admin/js/farbtastic.js');
                  
-		frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js');
-			frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
+		
 		if(frameGmp::isAdminPlugPage()){
-			
+			frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js');
+			frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
 			frameGmp::_()->addScript('datatable', GMP_JS_PATH. 'jquery.dataTables.min.js');				
 		}
 

@@ -671,7 +671,7 @@ ul.gmpMainTab>li.gmpAddNewMap{
     width: 338px;
 }
 .gmpMapForMarkerEdit {
-    width: 58%;
+    width: 99%;
     float: right;
     height: 450px;
     border: 1px solid;
@@ -990,8 +990,6 @@ div.gmp-undermap-pic img {
     border: none;
     width: 99%;
 }
-div.gmp-undermap-pic {
-    width: 100%;
-    max-width: 648px;
-    height: 702px;
+.gmp-marker-right-block {
+float: right;
 }

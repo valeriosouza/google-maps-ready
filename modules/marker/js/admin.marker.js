@@ -51,7 +51,7 @@ function gmpEditMarkerItem(markerId){
     }
     gmpCurrentMarkerForm.find("legend").html("Edit Marker : "+currentMarker.title);
     
-    console.log(currentMarker);
+
     var formParams={
             gmpMarkerGroupOpt:currentMarker.marker_group_id,
             gmpMarkerTitleOpt:currentMarker.title,
@@ -177,7 +177,10 @@ function gmpSaveUpdatedMarker(markerId){
     var params = gmpAdminOpts.getMarkerFormData("gmpEditMarkerForm");
     params.desc = gmpGetEditorContent(1);
     params.goup_id = params.group_id;
-
+	var icon_id = params.icon;
+	params.icon={
+		id:icon_id
+	} 
     params.id=markerId;
     params.address = gmpAdminOpts.forms.gmpEditMarkerForm.formObj.find(".gmpMarkerAddressOpt").val();
     var sendData={
@@ -186,8 +189,7 @@ function gmpSaveUpdatedMarker(markerId){
                  reqType        : "ajax",
                  markerParams   : params
     }
-    console.log(sendData.markerParams);
-    debugger;
+
     var respElem = jQuery("#gmpEditMarkerForm").find("#gmpUpdateMarkerItemMsg");
     jQuery.sendFormGmp({
         msgElID:respElem,

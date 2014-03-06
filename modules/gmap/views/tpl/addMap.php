@@ -6,7 +6,7 @@
 				<a class='' id='gmpTabForNewMapMarkerOpts' href="#gmpAddMarkerToNewMap">
 					<button class="btn btn-success gmpAddNewMarkerBtn" onclick="gmpAddNewMarker(this)">
 						<span class="gmpIcon gmpIconMarker"></span>
-						<?php langGmp::_e("New Marker")?>
+						<?php langGmp::_e("Add Marker")?>
 					</button>
 
 					<span class="gmpTabElemSimpTxt" disabled="disabled">
@@ -73,7 +73,7 @@
 				  <div style='clear:both'></div>
 				<div class='gmpUnderMapPic'>
 					<div class='gmp-pic-title'>
-						<h4><a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php langGmp::_e("PRO version features");?></a></h4>	
+						<h4><a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php langGmp::_e("PRO version img ");?></a></h4>	
 					</div>
 					<div class='gmp-undermap-pic'>
 						<a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/">

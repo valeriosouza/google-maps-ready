@@ -37,7 +37,6 @@ if(empty($this->currentMap)){
 	
 
 ?>
-
     <style type='text/css'>
         #<?php echo $mapId;?>{
             width:<?php echo $mapWidth;?>;
@@ -111,7 +110,3 @@ if(empty($this->currentMap)){
 	</div>
 	
 </div>	
-	
-	
-
-
