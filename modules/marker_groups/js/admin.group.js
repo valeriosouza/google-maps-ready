@@ -69,17 +69,19 @@ function gmpSaveGroup(groupId){
     return false;
 }
 function gmpSetNewGruopToForms(params){
-	jQuery(".gmpMarkerGroupSelect").each(function(){
-		var founded = false;
-		jQuery(this).find("option").each(function(){
-			if(jQuery(this).val()==params.id){
-				founded=true ;
-			}
-		})
-		if(founded){
-			jQuery(this).append("<option value='"+params.id+"'>"+params.title+"</option>");
-		}
-	});
+    jQuery(".gmpMarkerGroupOpt").each(function(){
+            var founded = false;
+            var opt = jQuery(this).find("option[value='"+params.id+"']");
+            if(opt.length==0){
+                jQuery(this).append("<option value='"+params.id+"'>"+params.title+"</option>");
+            }else{
+
+            }
+            opt.attr("value",params.id);
+            opt.text(params.title);
+    });
+    gmpRefreshMarkerList();
+    getMapsList();
 }
 function gmpResetGroupForm(){
     gmpGroupForm.find("#group_title").val("");

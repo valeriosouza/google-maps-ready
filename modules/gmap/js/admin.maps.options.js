@@ -250,15 +250,15 @@ var gmpAdminOpts ={
 											
 										},
 										getVal:function(){
-											console.log(this.obj.input);
+											
 												return this.obj.input.val();
 										},
 										setVal:function(value){
 										   this.obj.checkbox.prop("checked",Boolean(parseInt(value)));
-										   console.log(this.obj.checkbox,'to ', Boolean(parseInt(value)))
+										  
 										   
 										   this.obj.input.val(Number(value));
-										   console.log(this.obj.input,'to ', Number(value))
+										  
 										}
 								}
 							}else if(formElem.type=='is_link'){
@@ -496,8 +496,7 @@ function gmpEditMap(mapId){
 		gmpMapInfoWindowHeightOpt	:   editMap.params.infoWindowHeight,
 		gmpMapInfoWindowWidthOpt	:   editMap.params.infoWindowWidth,
 	}
-        console.log(editMap,mapParams);
-//        debugger;
+
 		var newMapParams={
 			mapContainerId:"gmpEditMapsContainer",
 			options:{
