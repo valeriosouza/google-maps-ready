@@ -27,7 +27,7 @@ class  gmapGmp extends moduleGmp {
 		frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js');
 		frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
 		frameGmp::_()->addScript('mutal_opts', GMP_JS_PATH. 'mutal.js');
-		frameGmp::_()->addScript('map.options',$this->getModule()->getModPath()."js/map.options.js");
+		
 		
         if(!isset($params['id'])){
             return $this->getController()->getDefaultMap();

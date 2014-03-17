@@ -85,6 +85,7 @@ class gmapViewGmp extends viewGmp {
 		return parent::getContent('editMaps');            
     }
     public function addMapDataToJs(){
+		frameGmp::_()->addScript('map.options',$this->getModule()->getModPath()."js/map.options.js");
         frameGmp::_()->addJSVar('map.options', 'gmpAllMapsInfo', self::$_mapsData);
     }
 	public function getMapForm($params){
