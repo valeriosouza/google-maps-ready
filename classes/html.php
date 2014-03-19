@@ -546,6 +546,7 @@ class htmlGmp {
 		foreach($attrArr as $k=>$v){
 			$params['attrs'] .= ' '.$k.'="'.$v.'" '; 			
 		}
+		$params = str_replace("\\","",$params);
 		$paramsCheck = $paramsHidden = $params;
 		$paramsCheck['attrs'] .= ' id="'. $checkId. '"';
 		$paramsHidden['attrs'] .= ' id="'. $hideId. '"';
