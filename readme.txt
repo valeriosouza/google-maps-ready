@@ -4,7 +4,7 @@ Donate link: http://readyshoppingcart.com/product/google-maps-plugin/
 Tags: google map, google maps, map, maps, location, direction, marker, geocoder, post map, widget map, widget, google map widget, custom marker icons and text, custom marker text, geo, google map short code,  google map styles, openstreetmap, latitude, longitude, placemarker, pronamic, reverse geocode, v3, wp map, wp maps
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 0.5.1.2
+Stable tag: 0.5.1.3
 License: GPLv2 or later
 
 Display custom Google Maps. Set markers and locations with text, images, categories and links. Customize google map without any programming skills
@@ -28,10 +28,7 @@ Add markers with text, images, links description and custom icons. Categories an
 
 **Example of the shortcode usage**
 `[ready_google_map id='1' height='222' map_display_mode='map' type='HYBRID' map_language='fa' enable_zoom='0' enable_mouse_zoom='0' align='right']`
-
 For more info check [FAQ page](http://readyshoppingcart.com/product/google-maps-plugin/#faq "Google Maps plugin FAQ")
-
-If the google map or zoom on the map does not show on the page you add the map, [contact us](http://readyshoppingcart.com/product/google-maps-plugin/#contact "Contact Us") and provide URL of the webpage you are using Ready! Google Maps plugin.
 
 == Installation ==
 
@@ -48,8 +45,12 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 2. [Markers sorting](http://readyshoppingcart.com/product/google-maps-plugin/ "WordPress Google Maps plugin")
 
 == Changelog ==
+= 0.5.1.3 =
+* Fixed minor bugs
+* Fixed bug with map resizing and responsive
+
 = 0.5.1.2 =
-* fixed bug with map zooming
+* Fixed bug with map zooming
 
 = 0.5.1.1 =
 * Minog bugs fixed

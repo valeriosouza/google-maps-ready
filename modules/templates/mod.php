@@ -40,21 +40,21 @@ class templatesGmp extends moduleGmp {
 			'ball_loader'				=> GMP_IMG_PATH. 'ajax-loader-ball.gif',
 			'ok_icon'					=> GMP_IMG_PATH. 'ok-icon.png',
         );
-        
-		frameGmp::_()->addScript('jquery-ui-tabs', '', array('jquery'));
-		frameGmp::_()->addScript('jquery-ui-dialog', '', array('jquery'));
-		frameGmp::_()->addScript('jquery-ui-button', '', array('jquery'));
-		 	
-		frameGmp::_()->addScript('farbtastic',get_bloginfo('wpurl'). '/wp-admin/js/farbtastic.js');
-                 
+
 		
+         	
 		if(frameGmp::isAdminPlugPage()){
 			frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js');
 			frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
-			frameGmp::_()->addScript('datatable', GMP_JS_PATH. 'jquery.dataTables.min.js');				
+	
+			$jsData = dispatcherGmp::applyFilters('jsInitVariables', $jsData);
+		
+	        frameGmp::_()->addJSVar('coreGmp', 'GMP_DATA', $jsData);
+
+			frameGmp::_()->addScript('datatable', GMP_JS_PATH. 'jquery.dataTables.min.js');	
+			frameGmp::_()->addScript('farbtastic',get_bloginfo('wpurl'). '/wp-admin/js/farbtastic.js', array('jquery'));
 		}
 
-		
         if (is_admin()) {
 			if(frameGmp::isAdminPlugPage()){
 				frameGmp::_()->addScript('adminOptionsGmp', GMP_JS_PATH. 'admin.options.js');				
@@ -68,10 +68,7 @@ class templatesGmp extends moduleGmp {
 
         }
         
-		$jsData = dispatcherGmp::applyFilters('jsInitVariables', $jsData);
 		
-        frameGmp::_()->addJSVar('coreGmp', 'GMP_DATA', $jsData);
-
 		
         
         foreach($this->_styles as $s => $sInfo) {
