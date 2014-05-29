@@ -51,9 +51,14 @@ jQuery.fn.sendFormGmp = function(params) {
 		var addStrData = [];
         for(var i in params.appendData) {
 			if(dataIsString) {
-				addStrData.push(i+ '='+ params.appendData[i]);
+				if(toeInArrayGmp(typeof(params.appendData[i]), ['array', 'object'])) {
+					for(var k in params.appendData[i]) {
+						addStrData.push(i+ '[]='+ params.appendData[i][k]);
+					}
+				} else
+					addStrData.push(i+ '='+ params.appendData[i]);
 			} else
-            data[i] = params.appendData[i];
+				data[i] = params.appendData[i];
         }
 		if(dataIsString)
 			data += '&'+ addStrData.join('&');
@@ -234,3 +239,154 @@ function toeInArrayGmp(needle, haystack) {
 	}
 	return false;
 }
+function createAjaxLinkGmp(param) {
+	return GMP_DATA.ajaxurl+ '?'+ paramGmp(param);
+}
+function paramGmp(param) {
+	var param = jQuery.extend({}, param);
+	param['pl'] = GMP_DATA.GMP_CODE;
+	return jQuery.param( param );
+}
+function addDataTableRow(datatable, rowData) {
+	datatable.fnAddData(rowData);
+}
+function updateDataTableRow(datatable, rowId, rowData) {
+	var tblRowId = getDataTableRowId(datatable, rowId);
+	console.log(tblRowId, rowId, rowData);
+	if(tblRowId !== false) {
+		datatable.fnUpdate(rowData, tblRowId);
+	}
+}
+function removeDataTableRow(datatable, rowId) {
+	var tblRowId = getDataTableRowId(datatable, rowId);
+	if(tblRowId !== false) {
+		datatable.fnDeleteRow(tblRowId);
+	}
+}
+function getDataTableRow(datatable, rowId) {
+	var tblRowId = getDataTableRowId(datatable, rowId);
+	if(tblRowId !== false) {
+		return datatable.fnGetData(tblRowId);
+	}
+	return false;
+}
+function getDataTableRowId(datatable, rowId) {
+	if(!datatable)
+		return false;
+	var cells = []
+	,	rows = datatable.fnGetNodes()
+	,	tblRowId = false;
+	for(var i = 0; i < rows.length; i++){
+		// Get HTML of 3rd column (for example)
+		cells.push(jQuery(rows[i]).find('td:eq(0)').html());
+	}
+	if(cells.length) {
+		for(var i = 0; i < cells.length; i++) {
+			if(cells[i] == rowId) {
+				tblRowId = i;
+				break;
+			}
+		}
+	}
+	return tblRowId;
+}
+function buildAjaxSelect(select, sendData, params) {
+	var contMsg = jQuery('<span />').insertAfter( select );
+	sendData.reqType = 'ajax';
+	jQuery.sendFormGmp({
+		msgElID: contMsg
+	,	data: sendData
+	,	onSuccess: function(res) {
+			if(!res.error) {
+				select.html('');
+				if(params.selectTxt)
+					select.append('<option value="0">'+ params.selectTxt+ '</option>');
+				if(res.data[ params.itemsKey ]) {
+					for(var i in res.data[ params.itemsKey ]) {
+						var title = res.data[ params.itemsKey ][i][ params.idNameKeys.name ];//.post_title;
+						if(params.titlePrepareCallback && typeof(params.titlePrepareCallback) === 'function') {
+							title = params.titlePrepareCallback(title, res.data[ params.itemsKey ][i]);
+						}
+						select.append('<option value="'+ res.data[ params.itemsKey ][i][ params.idNameKeys.id ]+ '">'+ title+ '</option>');
+					}
+					if(typeof(params.selectedValue) !== 'undefined' && params.selectedValue !== null) {
+						select.val( params.selectedValue );
+					}
+				}
+			}
+		}
+	});
+}
+function detectInputType(input) {
+	// TODO: add type detection for other inputs
+	if(input.hasClass('colorpicker_input'))
+		return 'colorpicker'
+	if(input.hasClass('hidden_val_input'))
+		return 'hidden_check'
+	var attrType = input.attr('type');
+	return attrType;
+}
+function fillFormData(params) {
+	params = params || {};
+	var form = typeof(params.form) === 'string' ? jQuery(params.form) : params.form
+	//,	keys = params.keys || {}
+	,	data = params.data || {}
+	,	arrayInset = params.arrayInset ? params.arrayInset : false;
+	for(var key in data) {
+		var formElementName = arrayInset ? arrayInset+ '['+ key+ ']' : key
+		,	formElement = form.find('[name="'+ formElementName+ '"]');
+		if(arrayInset == 'marker_opts[params]')
+		console.log(key, formElementName);
+		if(formElement.size()) {
+			var type = detectInputType(formElement);
+			switch(type) {
+				case 'colorpicker':
+					formElement.css('background-color', data[key]).val(data[key]);
+					break;
+				case 'checkbox':
+					parseInt(data[key]) ? formElement.attr('checked', 'checked') : formElement.removeAttr('checked');
+					break;
+				case 'hidden_check':
+					var checkboxId = formElement.attr('id').substr(0, toeStrlen(formElement.attr('id')) - toeStrlen('_text'))+ '_check'
+					,	checkboxElement = form.find('#'+ checkboxId);
+
+					parseInt(data[key]) ? checkboxElement.attr('checked', 'checked') : checkboxElement.removeAttr('checked');
+					checkboxElement.trigger('change');
+					break;
+				default:
+					formElement.val( data[key] );
+					break;
+			}
+		}
+	}
+	/*for(var key in keys) {
+		var formElementName = arrayInset ? arrayInset+ '['+ key+ ']' : key
+		,	formElement = form.find('[name="'+ formElementName+ '"]');
+		switch(keys[key].type) {
+			case 'checkbox':
+				parseInt(data[key]) ? formElement.attr('checked', 'checked') : formElement.removeAttr('checked');
+				break;
+			default:
+				formElement.val( data[key] );
+				break;
+		}
+	}*/
+}
+function objToOneDimension(obj, params) {
+	params = params || {};
+	var newObj = {};
+	for(var key in obj) {
+		if(toeInArrayGmp(typeof(obj[ key ]), ['array', 'object']) && (!params.exclude || !toeInArrayGmp(key, params.exclude))) {
+			var dimensioned = objToOneDimension(obj[ key ]);
+			for(var i in dimensioned) {
+				newObj[ i ] = dimensioned[ i ];
+			}
+		} else {
+			newObj[ key ] = obj[ key ];
+		}
+	}
+	return newObj;
+}
+function toeStrlen(str) {
+	return str.length;
+} 

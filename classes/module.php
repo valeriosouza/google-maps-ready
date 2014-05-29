@@ -194,6 +194,12 @@ abstract class moduleGmp extends baseObjectGmp {
 		}
 		errorsGmp::push(langGmp::_(array('Module', $this->_code, 'method', $name, 'undefined')), errorsGmp::FATAL);
 	}
+	public function getModel($modelName = '') {
+		return $this->getController()->getModel($modelName);
+	}
+	public function getView($viewName = '') {
+		return $this->getController()->getView($viewName);
+	}
 	public function setParams($params) {
 		if(!is_array($params)) {
 			if(empty($params))

@@ -1,7 +1,16 @@
 <script type='text/javascript'>
     var gmpExistsMarkers = JSON.parse('<?php echo utilsGmp::listToJson($this->markerList); ?>');
 </script>
-<table class="gmpTable" id="GmpTableMarkers">
+<table class="gmpTable" id="gmpTableMarkers">
+	<thead>
+	<?php foreach($this->displayColumns as $col) { ?>
+		<th class="">
+			<?php echo $col['label']?>
+		</th>
+	<?php }?>
+	</thead>
+	<tbody></tbody>
+	<?php /*?>
       <thead>
           <tr>
               <th><?php langGmp::_e("ID");?>    </th>
@@ -80,7 +89,7 @@
               </td>
               <td class=''>
                   <a class='btn btn-warning gmpEditBtn gmpListActBtn' id='<?php echo $marker['id']?>'
-                      onclick='gmpEditMarkerItem(<?php echo $marker['id']?>)'>
+                      onclick='gmpEditMarkerItem(<?php echo $marker['id']?>); return false;'>
                       <span class='gmpIcon gmpIconEdit '></span>
                       <?php echo langGmp::_("Edit")?></a>
                   <a class='btn btn-danger gmpRemoveBtn gmpListActBtn' id='<?php echo $marker['id']?>'
@@ -96,7 +105,14 @@
                   <?php
               }
           ?>
-      </tbody>
-  </table>
+      </tbody><?php */?>
+</table>
+<script type="text/javascript">
+// <!--
+jQuery(document).ready(function(){
+	gmpMarkersTblColumns = <?php echo utilsGmp::jsonEncode($this->displayColumns)?>;
+});
+// -->
+</script>
 
     

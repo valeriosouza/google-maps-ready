@@ -22,7 +22,7 @@ class htmlGmp {
 		return $txt;
     }
     static public function input($name, $params = array('attrs' => '', 'type' => 'text', 'value' => '')) {
-		$inp =  '<input type="'.$params['type'].'" name="'.$name.'" value="'.$params['value'].'" '.$params['attrs'].' />';
+		$inp =  '<input type="'. $params['type']. '" name="'. $name. '" value="'. $params['value']. '" '. $params['attrs'].' />';
 		if(isset($params['hint'])){
 			$inp .= "<label  class='hiddenLabelHint'>".$params['hint']."</label>";
 		}
@@ -169,7 +169,7 @@ class htmlGmp {
         $out = '';
         if(strpos($params['url'], 'pl='. GMP_CODE) === false)
 			$params['url'] = uriGmp::_(array('baseUrl' => $params['url'], 'pl' => GMP_CODE));
-        $out .= self::button(array('value' => langGmp::_( empty($params['buttonName']) ? 'Upload' :  $params['buttonName'] ), 'attrs' => 'id="toeUploadbut_'.$name.'" class="button btn button-large"'));
+        $out .= self::button(array('value' => langGmp::_( empty($params['buttonName']) ? 'Upload' :  $params['buttonName'] ), 'attrs' => 'id="toeUploadbut_'.$name.'" class=" '.(isset($params['btn_class'])?$params['btn_class']:" button btn button-large ").'"'));
         $display = (empty($params['value']) ? 'style="display: none;"' : '');
         if($params['preview'])
             $out .= self::img($params['value'], 0, array('attrs' => 'id="prev_'.$name.'" '.$display.' class="previewpicture"'));
@@ -487,13 +487,11 @@ class htmlGmp {
 		return $textField;
 	}
 	static public function colorpicker($name, $params = array('value' => '')) {
-
-                if(isset($params['id']) && !empty($params['id'])){
-                    $textId = $params['id'];
-                }else{
-                    $textId = self::nameToClassId($name). '_'. mt_rand(9, 9999);                    
-                }
-		
+		if(isset($params['id']) && !empty($params['id'])){
+			$textId = $params['id'];
+		} else {
+			$textId = self::nameToClassId($name). '_'. mt_rand(9, 9999);                    
+		}
 		$pickerId = $textId. '_picker';
 		if(!isset($params['attrs']))
 			$params['attrs'] = '';
@@ -502,6 +500,7 @@ class htmlGmp {
 		$out .= '<div style="position: relative; z-index: 1;" id="'. $pickerId. '"></div>';
 		$out .= '<script type="text/javascript">//<!--
 			jQuery(function(){
+				jQuery("#'. $textId. '").addClass("colorpicker_input");
 				jQuery("#'. $pickerId. '").hide();
 				jQuery("#'. $pickerId. '").farbtastic("#'. $textId. '");
 				jQuery("#'. $textId. '").click(function() {
@@ -529,24 +528,24 @@ class htmlGmp {
 		$params['options'] = $options;
 		return self::selectbox($name, $params);
 	}
-	static public function checkboxHiddenVal($name, $params = array('attrs' => '', 'value' => '', 'checked' => '')) {
+	/*static public function checkboxHiddenVal($name, $params = array('attrs' => '', 'value' => '', 'checked' => '')) {
 		$checkId = self::nameToClassId($name). '_check';
 		$hideId = self::nameToClassId($name). '_text';
 		if(!isset($params['attrs'])){
 			$params['attrs'] = '';			
 		}
-		parse_str($params['attrs'],$attrArr);
+		parse_str($params['attrs'], $attrArr);
 		if(!empty($attrArr['class'])){
 			$attrArr['class'] = str_replace(array("'",'"'),"", $attrArr['class']);
-			$attrArr['class'].=" ".$checkId;
-		}else{
-			$attrArr['class']=$checkId;
+			$attrArr['class'] .= " ". $checkId;
+		} else {
+			$attrArr['class'] = $checkId;
 		}
 		$params['attrs'] ="";
 		foreach($attrArr as $k=>$v){
 			$params['attrs'] .= ' '.$k.'="'.$v.'" '; 			
 		}
-		$params = str_replace("\\","",$params);
+		$params = str_replace("\\", "", $params);
 		$paramsCheck = $paramsHidden = $params;
 		$paramsCheck['attrs'] .= ' id="'. $checkId. '"';
 		$paramsHidden['attrs'] .= ' id="'. $hideId. '"';
@@ -555,9 +554,31 @@ class htmlGmp {
 		$out .= self::hidden($name, $paramsHidden);
 		$out .= '<script type="text/javascript">//<!--
 			jQuery(function(){
-				jQuery(".'.$checkId.'").change(function(){
+				jQuery(".'. $checkId. '").change(function(){
 					jQuery(this).parents("form").find("#'. $hideId. '").val( (jQuery(this).attr("checked") ? 1 : 0) );
 				});
+				jQuery(".")
+			});
+			//--></script>';
+		return $out;
+	}*/
+	static public function checkboxHiddenVal($name, $params = array('attrs' => '', 'value' => '', 'checked' => '')) {
+		$checkId = self::nameToClassId($name). '_check';
+		$hideId = self::nameToClassId($name). '_text';
+		if(!isset($params['attrs']))
+			$params['attrs'] = '';
+		$paramsCheck = $paramsHidden = $params;
+		$paramsCheck['attrs'] .= ' id="'. $checkId. '"';
+		$paramsHidden['attrs'] .= ' id="'. $hideId. '"';
+		$paramsHidden['value'] = $paramsCheck['checked'] ? '1' : '0';
+		$out = self::checkbox(self::nameToClassId($name), $paramsCheck);
+		$out .= self::hidden($name, $paramsHidden);
+		$out .= '<script type="text/javascript">//<!--
+			jQuery(function(){
+				jQuery("#'. $checkId. '").change(function(){
+					jQuery("#'. $hideId. '").val( (jQuery(this).attr("checked") ? 1 : 0) );
+				});
+				jQuery("#'. $hideId. '").addClass("hidden_val_input");
 			});
 			//--></script>';
 		return $out;

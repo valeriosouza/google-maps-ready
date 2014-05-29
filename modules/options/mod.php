@@ -1,7 +1,7 @@
 <?php
 class optionsGmp extends moduleGmp {
-	public static $saveStatistic=null;
-	public static $statLimit=20;
+	public static $saveStatistic = null;
+	public static $statLimit = 20;
 		
 	/**
 	 * Method to trigger the database update
@@ -9,17 +9,11 @@ class optionsGmp extends moduleGmp {
 	public function init(){
 		parent::init();
 		if(!self::$saveStatistic){
-		   $data = frameGmp::_()->getTable("options")->get("*"," `code`='find_us' "); 
+		   $data = frameGmp::_()->getTable('options')->get('*', " `code`='find_us' "); 
 		   $params = utilsGmp::jsonDecode($data[0]['params']);
 		   self::$saveStatistic = $params['save_statistic'];
 		}
 		$this->checkStatistic();
-		/*$add_option = array(
-			'add_checkbox' => langGmp::_('Add Checkbox'),
-			'add_radiobutton' => langGmp::_('Add Radio Button'),
-			'add_item' => langGmp::_('Add Item'),
-		);
-		frameGmp::_()->addJSVar('adminOptions', 'TOE_LANG', $add_option);*/
 	}
 	/**
 	 * Returns the available tabs

@@ -299,6 +299,7 @@ class frameGmp {
      * @see wp_enqueue_script definition
      */
     public function addScript($handle, $src = '', $deps = array(), $ver = false, $in_footer = false, $vars = array()) {
+		$src = empty($src) ? $src : uriGmp::_($src);
         if($this->_scriptsInitialized) {
             wp_enqueue_script($handle, $src, $deps, $ver, $in_footer);
         } else {
@@ -345,6 +346,7 @@ class frameGmp {
     }
     
         public function addStyle($handle, $src = false, $deps = array(), $ver = false, $media = 'all') {
+		$src = empty($src) ? $src : uriGmp::_($src);
         $this->_styles[] = array(
             'handle' => $handle,
             'src' => $src,

@@ -108,5 +108,8 @@ class iconsModelGmp extends modelGmp {
          }
      }
      return $icon;
-   } 
+   }
+   public function iconExists($iconId){
+	   return self::$tableObj->exists($iconId,'id');
+   }
 }

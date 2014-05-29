@@ -4,9 +4,8 @@ class  gmapGmp extends moduleGmp {
 		if(frameGmp::isAdminPlugPage()){
 			frameGmp::_()->addScript('gmp',GMP_JS_PATH."gmp.js",array(),false,false);			 
 			frameGmp::_()->addScript('mutal_opts',GMP_JS_PATH."mutal.js",array(),false,false);			 
-	                     
 		}
-		 frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');  
+		frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');  
 		dispatcherGmp::addFilter('adminOptionsTabs', array($this, 'addOptionsTab'));
 		dispatcherGmp::addAction('tplHeaderBegin',array($this,'showFavico'));
 		dispatcherGmp::addAction('tplBodyEnd',array($this,'GoogleAnalitics'));
@@ -21,21 +20,19 @@ class  gmapGmp extends moduleGmp {
 		}
 		return $tabs;
 	}
-
-	
-    public function drawMapFromShortcode($params=null){
+    public function drawMapFromShortcode($params = null) {
 		frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js', array('jquery'));
 		frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
 		frameGmp::_()->addScript('mutal_opts', GMP_JS_PATH. 'mutal.js');
-		
-		
-        if(!isset($params['id'])){
+        if(!isset($params['id'])) {
             return $this->getController()->getDefaultMap();
         }
         return $this->getController()->getView()->drawMap($params);
-
     }
     public function addMapDataToJs(){
         $this->getView()->addMapDataToJs();
     }
+	public function getMapsTab() {
+		return $this->getView()->getMapsTab();
+	}
 }

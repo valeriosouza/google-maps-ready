@@ -1,7 +1,6 @@
 <?php
 class tableMarkerGmp extends tableGmp{
     public function __construct() {
-
         $this->_table = '@__markers';
         $this->_id = 'id';
         $this->_alias = 'toe_mr';

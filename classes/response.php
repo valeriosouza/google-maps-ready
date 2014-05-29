@@ -6,7 +6,10 @@ class responseGmp {
     public $messages = array();
     public $html = '';
     public $data = array();
-    
+    /**
+	 * Marker to set data not in internal $data var, but set it as object parameters
+	 */
+	private $_ignoreShellData = false;
     public function ajaxExec() {
         $reqType = reqGmp::getVar('reqType');
         $redirect = reqGmp::getVar('redirect');
@@ -54,13 +57,24 @@ class responseGmp {
     }
     public function addData($data, $value = NULL) {
         if(empty($data)) return;
-        if(is_array($data))
-            $this->data = array_merge($this->data, $data);
-        else
-            $this->data[$data] = $value;
+		if($this->_ignoreShellData) {
+			if(!is_array($data))
+				$data = array($data => $value);
+			foreach($data as $key => $val) {
+				$this->{$key} = $val;
+			}
+		} else {
+			if(is_array($data))
+				$this->data = array_merge($this->data, $data);
+			else
+				$this->data[$data] = $value;
+		}
     }
     public function getErrors() {
         return $this->errors;
     }
+	public function ignoreShellData() {
+		$this->_ignoreShellData = true;
+	}
 }
 

@@ -20,6 +20,7 @@ class templatesGmp extends moduleGmp {
 				'styleGmp'				=> array('path' => GMP_CSS_PATH. 'style.css'), 
 				'adminStylesGmp'		=> array('path' => GMP_CSS_PATH. 'adminStyles.css'), 
 				'farbtastic'			=> array(),
+				//'jquery-tabs'			=> array('path' => GMP_CSS_PATH. 'jquery-tabs.css', 'for' => 'admin'),
 			);
 		}
         $defaultPlugTheme = frameGmp::_()->getModule('options')->get('default_theme');
@@ -40,9 +41,6 @@ class templatesGmp extends moduleGmp {
 			'ball_loader'				=> GMP_IMG_PATH. 'ajax-loader-ball.gif',
 			'ok_icon'					=> GMP_IMG_PATH. 'ok-icon.png',
         );
-
-		
-         	
 		if(frameGmp::isAdminPlugPage()){
 			frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js');
 			frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js');
@@ -53,6 +51,8 @@ class templatesGmp extends moduleGmp {
 
 			frameGmp::_()->addScript('datatable', GMP_JS_PATH. 'jquery.dataTables.min.js');	
 			frameGmp::_()->addScript('farbtastic',get_bloginfo('wpurl'). '/wp-admin/js/farbtastic.js', array('jquery'));
+			
+			frameGmp::_()->addScript('jquery-ui-tabs', '', array('jquery'), false, true);
 		}
 
         if (is_admin()) {
@@ -67,10 +67,6 @@ class templatesGmp extends moduleGmp {
 		} else {
 
         }
-        
-		
-		
-        
         foreach($this->_styles as $s => $sInfo) {
             if(isset($sInfo['for'])) {
                 if(($sInfo['for'] == 'frontend' && is_admin()) || ($sInfo['for'] == 'admin' && !is_admin()))
@@ -97,19 +93,6 @@ class templatesGmp extends moduleGmp {
 				frameGmp::_()->addStyle($s);
 			}
         }
-                //add_action('wp_head', array($this, 'addInitJsVars'));
         parent::init();
-                                                
-
     }
-	/**
-	 * Some JS variables should be added after first wordpress initialization.
-	 * Do it here.
-	 */
-	public function addInitJsVars() {
-		frameGmp::_()->addJSVar('adminOptions', 'GMP_PAGES', array(
-			'isCheckoutStep1' => @frameGmp::_()->getModule('pages')->isCheckoutStep1(),
-			'isCart' => frameGmp::_()->getModule('pages')->isCart(),
-		));
-	}
 }

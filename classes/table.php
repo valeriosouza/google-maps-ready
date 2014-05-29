@@ -310,9 +310,9 @@ abstract class tableGmp {
         $q = 'DELETE FROM '. $this->_table;
         if($where) {
             if(is_numeric($where)) $where = array($this->_id => $where);
-            $q .= ' WHERE '. $this->_getQueryString($where, 'AND');
+			$q .= ' WHERE '. $this->_getQueryString($where, 'AND');
         }
-         return dbGmp::query($q);
+		return dbGmp::query($q);
     }
     /**
      * Convert to database query

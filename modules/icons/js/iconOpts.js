@@ -22,18 +22,13 @@ function drawNewIcon(icon){
 	gmpCurrentIcon=icon.id;
 }
 
-function setcurrentIconToForm(iconId,markerForm){
-    markerForm.find("#gmpSelectedIcon").val(iconId);
-    markerForm.find(".markerIconItem.active").removeClass('active');
-    
-    var currItm = markerForm.find(".markerIconItem[data_val='"+iconId+"']");
-    try{
-        currItm.addClass('active');
-        markerForm.find('.gmpIconsList').scrollTo(currItm);
-    }catch(e){
-        console.log(e);
-    }
-    gmpCurrentIcon=iconId;
+function setcurrentIconToForm(iconId, markerForm){
+    markerForm.find('#gmpSelectedIcon').val(iconId);
+    markerForm.find('.markerIconItem.active').removeClass('active');
+    var currItm = markerForm.find('.markerIconItem[data_val="'+ iconId+ '"]');
+	currItm.addClass('active');
+	markerForm.find('.gmpIconsList').scrollTo(currItm);
+    gmpCurrentIcon = iconId;
 }
 
 var custom_uploader;
@@ -100,34 +95,32 @@ jQuery(document).ready(function(){
         custom_uploader.open();
     });
  
-    jQuery(".gmpIconsList").on("click",".markerIconItem",function(){
-            jQuery(".markerIconItem").removeClass('active');
-            jQuery(this).addClass('active');
-            var value = jQuery(this).attr("data_val");
-            jQuery(this).parents(".gmpFormRow").find("#gmpSelectedIcon").val(value);
-            gmpCurrentIcon = value;
-    })
-    jQuery(".gmpSearchIconField").keyup(function(e){
-        var search_word = jQuery(this).val();
-        if(search_word==""){
-            jQuery(".markerIconItem").show();
-            return;
-        }
-        if(search_word.length<2){
-            return false;
-        }
-       jQuery(".markerIconItem").each(function(){
-           var itmDesc=jQuery(this).attr("data_desc");
-           var name=jQuery(this).attr("data_name");
-           if(itmDesc.indexOf(search_word) == -1){
-               jQuery(this).hide();
-           }
-       })
-    })
- 
-
-})
+    jQuery('.gmpIconsList').on('click', '.markerIconItem', function(){
+		jQuery('.markerIconItem').removeClass('active');
+		jQuery(this).addClass('active');
+		var value = jQuery(this).attr("data_val");
+		jQuery(this).parents(".gmpFormRow").find("#gmpSelectedIcon").val(value);
+		gmpCurrentIcon = value;
+    });
+	jQuery('.gmpSearchIconField').keyup(function(e){
+		var search_word = jQuery(this).val();
+		if(search_word == '') {
+			jQuery('.markerIconItem').show();
+			return;
+		}
+		if(search_word.length < 2) {
+			return false;
+		}
+		jQuery('.markerIconItem').each(function(){
+			var itmDesc=jQuery(this).attr('data_desc');
+			var name=jQuery(this).attr('data_name');
+			if(itmDesc.indexOf(search_word) == -1){
+				jQuery(this).hide();
+			}
+		});
+	});
+});
 function clearIconSearch(){
-    jQuery(".gmpSearchIconField").val("");
-    jQuery(".markerIconItem").show();
+    jQuery('.gmpSearchIconField').val('');
+    jQuery('.markerIconItem').show();
 }
