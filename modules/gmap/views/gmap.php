@@ -72,7 +72,7 @@ class gmapViewGmp extends viewGmp {
 				$mapObj['params'][$code] = $params[$code];
 			}
 		}
-		if($mapObj['params']['map_display_mode'] == 'popup'){
+		if($mapObj['params']['map_display_mode'] == 'popup') {
 			frameGmp::_()->addScript('bpopup', GMP_JS_PATH. '/bpopup.js');      
 		}
 		frameGmp::_()->addScript('google_maps_api_'. $mapObj['params']['language'], $this->getApiUrl(). $mapObj['params']['language']);
@@ -86,11 +86,15 @@ class gmapViewGmp extends viewGmp {
 		$indoWindowSize = utilsGmp::unserialize(frameGmp::_()->getModule('options')->getModel('options')->get('infowindow_size'));
 		$this->assign('indoWindowSize', $indoWindowSize);
 		$this->assign('currentMap', $mapObj);
-		$displayType = '';
+		$markersDisplayType = '';
 		if(isset($params['display_type'])) {
-			$displayType = $params['display_type'];
+			$markersDisplayType = $params['display_type'];
+		} else if(isset($params['markers_list_type'])) {
+			$markersDisplayType = $params['markers_list_type'];
+		} else if(isset($mapObj['params']['markers_list_type']) && !empty($mapObj['params']['markers_list_type'])) {
+			$markersDisplayType = $mapObj['params']['markers_list_type'];
 		}
-		$this->assign('display_theme', $displayType);
+		$this->assign('markersDisplayType', $markersDisplayType);
 		return parent::getContent('mapPreview');
 	}
 	/*public function addNewMapData(){
@@ -136,6 +140,7 @@ class gmapViewGmp extends viewGmp {
 		return $this->_displayColumns;
 	}
 	public function getListHtmlOptions($map) {
+		$this->assign('generatedShortcode', $this->getModule()->generateShortcode($map));
 		$this->assign('map', $map);
 		return parent::getContent('mapListHtmlOptions');
 	}

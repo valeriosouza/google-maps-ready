@@ -19,8 +19,6 @@
     color: rgb(68, 68, 68);
     background-color: rgba(255, 255, 255, 0.49);
 }
-
-
 .map-preview-iumg-container img {
     width: 175px;
     cursor:pointer;
@@ -29,7 +27,6 @@
     float: left;
 	margin:5px 0;
 	clear:both;
-
 }
 .map_container {
     float: left;
@@ -39,10 +36,7 @@
     float: right;
     display: block;
     margin: -17px -21px 10px 0px;
-    
     padding: 2px 8px !important;
-   
-
 }
 .close_button{
     color: #ffffff;
@@ -66,5 +60,5 @@
 	font-size: 0.857142857rem;
 }
 .gmp_map_opts{
-font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
+	font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
 }

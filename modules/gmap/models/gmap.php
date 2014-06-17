@@ -30,17 +30,18 @@ class gmapModelGmp extends modelGmp {
 		foreach($htmlKeys as $k){
 			$htmlOpts[$k] = isset($params[$k]) ? $params[$k] : null;
 		}
-		$mapOptKeys = array('enable_zoom', 'enable_mouse_zoom', 'zoom', 'type', 'language', 'map_display_mode', 'map_center', 'infowindow_height', 'infowindow_width');
+		$mapOptKeys = dispatcherGmp::applyFilters('mapParamsKeys', 
+				array('enable_zoom', 'enable_mouse_zoom', 'zoom', 'type', 'language', 'map_display_mode', 'map_center', 'infowindow_height', 'infowindow_width'));
 		$mapOpts = array();
 		foreach($mapOptKeys as $k){
-			$mapOpts[$k]=isset($params[$k])?$params[$k]:null;
+			$mapOpts[$k] = isset($params[$k]) ? $params[$k] : null;
 		}
 		$insert = array(
 			'title'			=> $params['title'],
 			'description'	=> $params['description'],
 			'html_options'	=> utilsGmp::serialize($htmlOpts),
 			'params'		=> utilsGmp::serialize($mapOpts),
-			'create_date'	=> date("Y-m-d H:i:s")	
+			'create_date'	=> date('Y-m-d H:i:s')
 		);
 		return $insert;
 	}

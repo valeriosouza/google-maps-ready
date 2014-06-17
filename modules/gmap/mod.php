@@ -2,10 +2,10 @@
 class  gmapGmp extends moduleGmp {
 	public function init() {
 		if(frameGmp::isAdminPlugPage()){
-			frameGmp::_()->addScript('gmp',GMP_JS_PATH."gmp.js",array(),false,false);			 
-			frameGmp::_()->addScript('mutal_opts',GMP_JS_PATH."mutal.js",array(),false,false);			 
+			frameGmp::_()->addScript('gmp', GMP_JS_PATH. 'gmp.js', array(), false, false);
+			frameGmp::_()->addScript('mutal_opts', GMP_JS_PATH. 'mutal.js', array(), false, false);	
+			frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');  
 		}
-		frameGmp::_()->addStyle('map_std', $this->getModPath() .'css/map.css');  
 		dispatcherGmp::addFilter('adminOptionsTabs', array($this, 'addOptionsTab'));
 		dispatcherGmp::addAction('tplHeaderBegin',array($this,'showFavico'));
 		dispatcherGmp::addAction('tplBodyEnd',array($this,'GoogleAnalitics'));
@@ -34,5 +34,15 @@ class  gmapGmp extends moduleGmp {
     }
 	public function getMapsTab() {
 		return $this->getView()->getMapsTab();
+	}
+	public function generateShortcode($map) {
+		$shortcodeParams = array();
+		$shortcodeParams['id'] = $map['id'];
+		// For PRO version
+		$shortcodeParamsArr = array();
+		foreach($shortcodeParams as $k => $v) {
+			$shortcodeParamsArr[] = $k. "='". $v. "'";
+		}
+		return '[ready_google_map '. implode(' ', $shortcodeParamsArr). ']';
 	}
 }

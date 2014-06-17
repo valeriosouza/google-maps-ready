@@ -49,16 +49,18 @@ class langGmp {
 	 * @return string if found translation - return translated string, if no - return string $name
 	 */
 	static public function _($name) {
-            return __($name,GMP_LNG_CODE); 
+            
 		if(is_array($name)) {
 			$res = array();
 			foreach($name as $n) {
 				$res[] = self::_($n);
 			}
 			return implode(' ', $res);
-		} elseif(isset(self::$_data[$name])) {
+		} else {
+			return __($name, GMP_LNG_CODE);	// Maybe not wery correct usage of wp localizations, but for now let it be like that
+		} /*elseif(isset(self::$_data[$name])) {
 			return self::$_data[$name];
-		}
+		}*/
 		return $name;
 	}
 	/**

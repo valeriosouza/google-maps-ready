@@ -58,6 +58,8 @@ class markerModelGmp extends modelGmp {
 			}
 			if(!isset($marker['params']['title_is_link']))
 				$marker['params']['title_is_link'] = false;
+			// Go to absolute path as "../wp-content/" will not work on frontend
+			$marker['description'] = str_replace('../wp-content/', GMP_SITE_URL. 'wp-content/', $marker['description']);
 		}
 		return $marker;
 	}
@@ -113,22 +115,22 @@ class markerModelGmp extends modelGmp {
     }
     public function updateMarker($marker){
         $insert = array(
-                        'marker_group_id'   =>  $marker['goup_id'],
-                        'title'             =>  $marker['title'],
-                        'address'           =>  $marker['address'],
-                        'description'       =>  $marker['desc'],
-                        'coord_x'           =>  $marker['position']['coord_x'],
-                        'coord_y'           =>  $marker['position']['coord_y'],
-                        'animation'         =>  $marker['animation'],
-                        'icon'              =>  $marker['icon']['id'],
-						'params'			=>  utilsGmp::serialize(array('titleLink'=>$marker['titleLink']))
-        );
-       return self::$tableObj->update($insert," `id`='".$marker['id']."'");
+			'marker_group_id'   =>  $marker['goup_id'],
+			'title'             =>  $marker['title'],
+			'address'           =>  $marker['address'],
+			'description'       =>  $marker['desc'],
+			'coord_x'           =>  $marker['position']['coord_x'],
+			'coord_y'           =>  $marker['position']['coord_y'],
+			'animation'         =>  $marker['animation'],
+			'icon'              =>  $marker['icon']['id'],
+			'params'			=>  utilsGmp::serialize(array('titleLink'=>$marker['titleLink']))
+		);
+		return self::$tableObj->update($insert," `id`='".$marker['id']."'");
     }
     public function getMapMarkers($mapId, $withGroup = false) {
         $markers = frameGmp::_()->getTable('marker')->get('*',array('map_id'=>$mapId));
         $iconsModel =  frameGmp::_()->getModule('icons')->getModel();
-		$groupModel = frameGmp::_()->getModule("marker_groups")->getModel();
+		$groupModel = frameGmp::_()->getModule('marker_groups')->getModel();
         foreach($markers as $i => $m) {
             /*$markers[$i]['icon'] = $iconsModel->getIconFromId($markers[$i]['icon']);
 			if($markers[$i]['params']) {

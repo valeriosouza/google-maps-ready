@@ -313,7 +313,7 @@ var gmpMapsTable = null;
 var gmpMapsTblColumns = [];
 var gmpMapEditMarkersTable = null;
 
-function gmpIsMapFormIsEditing(){
+/*function gmpIsMapFormIsEditing(){
 	if(disableFormCheck){
 		return true;
 	}
@@ -339,8 +339,8 @@ function gmpIsMapFormIsEditing(){
 	  }
 	}
   return false;
-}
-function gmpClearMap(mapObj){
+}*/
+/*function gmpClearMap(mapObj){
 	if(typeof(mapObj)=="undefined"){
 		mapObj = currentMap;
 	}
@@ -351,7 +351,7 @@ function gmpClearMap(mapObj){
 		delete markerArr[i].markerObj;
 		delete markerArr[i]["__e3_"];
 	}
-}
+}*/
 function getInfoWindow(title, content, markerItem) {
 	if(markerItem && parseInt(markerItem.params.title_is_link) && markerItem.params.marker_title_link) {
 		title = '<a href="'+ markerItem.params.marker_title_link+ '" target="_blank" class="gmpInfoWIndowTitleLink">'+ title+ '</a>'
@@ -363,13 +363,11 @@ function getInfoWindow(title, content, markerItem) {
 	text += '</div></div>';
 	return text;
 }
-function clearAddNewMapData(mapForm) {
+/*function clearAddNewMapData(mapForm) {
 	if(mapForm==undefined){
 		mapForm = jQuery("#gmpAddNewMapForm");
 	}
-	/*
-	 * clear map form
-	 */
+
 	mapForm.clearForm();
 	mapForm.find("#gmpNewMap_title").val("");
 	mapForm.find("#gmpNewMap_description").val("");
@@ -399,16 +397,14 @@ function clearAddNewMapData(mapForm) {
 		}
 	})	
 	 
-	/*
-	 * Clear marker form
-	 */
+
 	jQuery("#gmpAddMarkerToNewForm").clearForm();
 	mapForm.find("#gmpNewMap_marker_group").val(1);
 	markerArr	   =   new Object; 
 	infoWindows	 =   new Array();
 	gmpNewMapOpts   =   new Object;
 	jQuery("#gmpNewMap_title").css('border','');
-}
+}*/
 
 function gmpGetRandomid(){
 	var num = Math.random();
@@ -440,13 +436,13 @@ function gmpDrawMap(params) {
 	currentMap = map;	
 	google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
 		gmpAddLicenzeBlock(params.mapContainerId);
-	});
-	google.maps.event.addListener(map, 'zoom_changed', function() {
-		if(gmpAddMapForm.is(':visible')){
-		   gmpAddMapForm.find('.gmpMap_zoom').val(map.getZoom());
-		}
-		if(gmpEditMapForm.is(':visible')){
-		   gmpEditMapForm.find(".gmpMap_zoom").val(map.getZoom());
+		google.maps.event.addListener(map, 'zoom_changed', function() {
+			jQuery('#gmpEditMapForm').find('[name="map_opts[zoom]"]').val( map.getZoom() );
+		});
+		if(jQuery('#gmpEditMapForm').is(':visible')) {
+			// It trigger after form data fill, but at that moment - map can be not loaded, 
+			// so let's trigger it here again - to make sure that map will have correct zoom
+			jQuery('#gmpEditMapForm').find('[name="map_opts[zoom]"]').trigger('change');
 		}
 	});
 	gmpMapsArr[params.mapContainerId] = map;
@@ -507,7 +503,6 @@ function gmpEditMap(mapId) {
 			,	data: objToOneDimension(mapData, {exclude: ['markers']})
 			,	arrayInset: 'map_opts'
 			});
-			
 			if(mapData && mapData.markers) {
 				for(var i in mapData.markers) {
 					gmpAddMarkerToMapMarkersTable(mapData.markers[i]);
@@ -1452,7 +1447,7 @@ jQuery('.gmpAutocompleteArrow').click(function(){
 	}
 });
 
-function gmpCancelMapEdit(params){
+/*function gmpCancelMapEdit(params){
 	clearMarkerForm(jQuery('#gmpAddMarkerToEditMap'));
 	clearMarkerForm();
 	clearAddNewMapData(jQuery('#gmpEditMapForm'));
@@ -1466,4 +1461,4 @@ function gmpCancelMapEdit(params){
 		return true;
 	}
 	//gmpChangeTab(jQuery('.nav.nav-tabs li.gmpAddNewMap a'));
-}
+}*/

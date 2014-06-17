@@ -94,9 +94,9 @@
 		   <div class='gmpFormElemCon'>
 		   <?php
 			echo htmlGmp::selectbox('map_opts[type]',
-					array('attrs'=>" class='gmpMap_type gmpInputSmall gmpMapTypeOpt gmpHintElem' id='gmpMap_type' ",
-						'options'=>$this->map_opts['type'],
-						"hint"=>langGmp::_("Select Map Display Mode")))
+					array('attrs' => 'class="gmpMap_type gmpInputSmall gmpMapTypeOpt gmpHintElem" id="gmpMap_type"',
+						'options' => $this->map_opts['type'],
+						'hint' => langGmp::_('Select Map Display Mode')));
 		   ?>
 			</div>
 			<label for="gmpMap_type" class="gmpFormLabel">
@@ -106,9 +106,11 @@
 	   <div class='gmpFormRow'>
 			<div class='gmpFormElemCon'>
 			   <?php
-					echo htmlGmp::selectbox('map_opts[language]',
-							array('attrs'=>" class='gmpMap_language gmpInputSmall gmpMapLngOpt gmpHintElem' id='gmpMap_language' ",
-								'options'=>$this->map_opts['language'],'value'=>'en',"hint"=>langGmp::_("Select Map Display Language")));
+					echo htmlGmp::selectbox('map_opts[language]', array(
+						'attrs' => 'class="gmpMap_language gmpInputSmall gmpMapLngOpt gmpHintElem" id="gmpMap_language"',
+						'options' => $this->map_opts['language'],
+						'value' => 'en',
+						'hint' => langGmp::_('Select Map Display Language')));
 			   ?>
 			   </div>
 		   <label for="gmpMap_language" class="gmpFormLabel">
@@ -179,7 +181,10 @@
 		<div class="gmpFormRow">
 			<div class="gmpFormElemCon">
 			<?php
-				echo htmlGmp::text('map_opts[infowindow_width]', array('attrs'=>" class='gmpInputSmall gmpMapInfoWindowWidthOpt gmpHintElem'  id='gmpNewMap_Infowindow_width' ","hint"=>langGmp::_("InfoWindow Width"),"value"=>"200"));
+				echo htmlGmp::text('map_opts[infowindow_width]', array(
+					'attrs' => 'class="gmpInputSmall gmpMapInfoWindowWidthOpt gmpHintElem" id="gmpNewMap_Infowindow_width"',
+					'hint' => langGmp::_('InfoWindow Width'),
+					'value' => '200'));
 			?>
 			</div>
 			<label for="gmpNewMap_Infowindow_width" class="gmpFormLabel">
@@ -191,7 +196,7 @@
 			<div class="gmpFormElemCon">
 			<?php
 				echo htmlGmp::text('map_opts[infowindow_height]', array(
-					'attrs' => " class='gmpInputSmall gmpMapInfoWindowHeightOpt gmpHintElem'  id='gmpNewMap_Infowindow_height' ",
+					'attrs' => 'class="gmpInputSmall gmpMapInfoWindowHeightOpt gmpHintElem"  id="gmpNewMap_Infowindow_height"',
 					'hint' => langGmp::_('InfoWindow Height'),
 					'value' => '100'));
 			?>
@@ -201,6 +206,8 @@
 			</label>
 		</div>
 	</div>
+	<?php dispatcherGmp::doAction('editMapFormEnd')?>
+	
 	<?php echo htmlGmp::hidden('map_opts[id]')?>
 	<?php echo htmlGmp::hidden('map_opts[map_center][coord_x]')?>
 	<?php echo htmlGmp::hidden('map_opts[map_center][coord_y]')?>

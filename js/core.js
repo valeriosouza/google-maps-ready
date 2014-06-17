@@ -335,8 +335,6 @@ function fillFormData(params) {
 	for(var key in data) {
 		var formElementName = arrayInset ? arrayInset+ '['+ key+ ']' : key
 		,	formElement = form.find('[name="'+ formElementName+ '"]');
-		if(arrayInset == 'marker_opts[params]')
-		console.log(key, formElementName);
 		if(formElement.size()) {
 			var type = detectInputType(formElement);
 			switch(type) {
@@ -349,13 +347,15 @@ function fillFormData(params) {
 				case 'hidden_check':
 					var checkboxId = formElement.attr('id').substr(0, toeStrlen(formElement.attr('id')) - toeStrlen('_text'))+ '_check'
 					,	checkboxElement = form.find('#'+ checkboxId);
-
 					parseInt(data[key]) ? checkboxElement.attr('checked', 'checked') : checkboxElement.removeAttr('checked');
 					checkboxElement.trigger('change');
 					break;
 				default:
 					formElement.val( data[key] );
 					break;
+			}
+			if(toeInArray(type, ['colorpicker', 'hidden_check', 'hidden']) === -1) {
+				formElement.trigger('change');
 			}
 		}
 	}

@@ -47,6 +47,14 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 
 == Changelog ==
 
+= 0.6.2 =
+ * Fix bug with images in markers description on frontend
+ * Fix bug with array usage and wordpress localization
+ * Fix bug with map.css loading on each page, now it will load only on pages, where map is present
+ * Fix zoom problems in add/edit map on admin area
+ * Fix bug with zoom changing in select box on add/edit map screen, when markers tab is activ
+ * Code improove
+
 = 0.6.1 =
 * We've totally redevelop Google Maps plugin. Fixed so many bugs and improoved a lot of features with pointers and markers description, sorting and searching
 
@@ -72,7 +80,7 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 * Change CSS style to show large markers description
 
 = 0.5.0.8 =
-* Fix bug with phpbb è unnited compatability
+* Fix bug with phpbb ï¿½ unnited compatability
 
 = 0.5.0.7 =
 * Fix marker saving bug

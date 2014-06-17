@@ -13,6 +13,7 @@ class frameGmp {
     private $_scripts = array();
     private $_scriptsInitialized = false;
     private $_styles = array();
+	private $_stylesInitialized = false;
     
     private $_scriptsVars = array();
     private $_mod = '';
@@ -345,15 +346,19 @@ class frameGmp {
         }
     }
     
-        public function addStyle($handle, $src = false, $deps = array(), $ver = false, $media = 'all') {
+	public function addStyle($handle, $src = false, $deps = array(), $ver = false, $media = 'all') {
 		$src = empty($src) ? $src : uriGmp::_($src);
-        $this->_styles[] = array(
-            'handle' => $handle,
-            'src' => $src,
-            'deps' => $deps,
-            'ver' => $ver,
-            'media' => $media 
-        );
+		if($this->_stylesInitialized) {
+			wp_enqueue_style($handle, $src, $deps, $ver, $media);
+		} else {
+			$this->_styles[] = array(
+				'handle' => $handle,
+				'src' => $src,
+				'deps' => $deps,
+				'ver' => $ver,
+				'media' => $media 
+			);
+		}
     }
     public function addStyles() {
         if(!empty($this->_styles)) {
@@ -362,6 +367,7 @@ class frameGmp {
 
             }
         }
+		$this->_stylesInitialized = true;
     }
     //Very interesting thing going here.............
     public function loadPlugins() {

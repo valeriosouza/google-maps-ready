@@ -3,12 +3,12 @@
 		echo langGmp::_('Map not found');
 		return;
 	}
-    $width=trim($this->currentMap['html_options']['width']);
+    $width = trim($this->currentMap['html_options']['width']);
 	if($width{strlen($width)-1} != '%' && $width{strlen($width)-1} != 'x' ){
 		$width = (int)$width . 'px';
 	}
-    $height=$this->currentMap['html_options']['height'];
-    $classname= @$this->currentMap['html_options']['classname'];
+    $height = $this->currentMap['html_options']['height'];
+    $classname = @$this->currentMap['html_options']['classname'];
     $align = $this->currentMap['html_options']['align'];
 	$map_id = $this->currentMap['id'];
     $mapId = 'ready_google_map_'. $this->currentMap['id'];
@@ -75,7 +75,7 @@
 	</style>
 	<?php if($this->currentMap['params']['map_display_mode'] == 'popup'){ ?>
 		<div class="map-preview-iumg-container">
-			<img src='<?php echo GMP_IMG_PATH."gmap_preview.png" ?>' id="show_map_icon" data_val="<?php echo $this->currentMap['id']; ?>" class="map_num_<?php echo $this->currentMap['id']; ?>" title = "Click to preview map">
+			<img src='<?php echo GMP_IMG_PATH. 'gmap_preview.png' ?>' id="show_map_icon" data_val="<?php echo $this->currentMap['id']; ?>" class="map_num_<?php echo $this->currentMap['id']; ?>" title = "Click to preview map">
 		</div>
 	<?php } ?>
 <div class="gmp_map_opts <?php echo $class_name;?>" id="mapConElem_<?php echo $this->currentMap['id'];?>">
@@ -86,6 +86,9 @@
 		<div class="gmp_MapPreview <?php echo $classname;?>" id="<?php echo $mapId ;?>"></div>
 	</div>
 	<div class="gmpMapProControlsCon" id="gmpMapProControlsCon_<?php echo $map_id;?>">
-		<?php dispatcherGmp::doAction('addMapBottomControls', array('mapId' => $this->currentMap['id'], 'display_type' => $this->display_theme)); ?>
+		<?php dispatcherGmp::doAction('addMapBottomControls', array(
+			'mapId' => $this->currentMap['id'], 
+			'markersDisplayType' => $this->markersDisplayType,
+			'map' => $this->currentMap)); ?>
 	</div>
 </div>

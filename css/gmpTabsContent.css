@@ -1043,3 +1043,7 @@ div.gmp-undermap-pic img {
     background-image: url(../img/glyphicons-halflings-white.png) !important;
     background-position: -289px -142px;
 }
+
+.paginate_button_disabled {
+	display: none !important; /*hide unused pagination buttons*/
+}

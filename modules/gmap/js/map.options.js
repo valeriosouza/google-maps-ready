@@ -1,4 +1,4 @@
-function getInfoWindow(title, content, markerItem) {
+function getInfoWindow(title, content, markerItem, mapParams) {
 	if(markerItem && parseInt(markerItem.params.title_is_link) && markerItem.params.marker_title_link) {
 		title = '<a href="'+ markerItem.params.marker_title_link+ '" target="_blank" class="gmpInfoWIndowTitleLink">'+ title+ '</a>'
 	}
@@ -7,6 +7,9 @@ function getInfoWindow(title, content, markerItem) {
 	text += '</div>';
 	text += '<div class="gmpInfoWindowContent">'+ content;
 	text += '</div></div>';
+	if(typeof(gmpAddMarkerAdditionalLinks) === 'function') {
+		text = gmpAddMarkerAdditionalLinks(text, title, content, markerItem, mapParams);
+	}
 	var infoWindow = new google.maps.InfoWindow({
 		content: text
 	});
@@ -112,7 +115,7 @@ var gmapPreview = {
 			};
 		}*/
 		//console.log(this.maps[mapId].markerArr[markerItem.id]);
-		var infoWindow = getInfoWindow(markerItem.title, markerItem.description, markerItem);
+		var infoWindow = getInfoWindow(markerItem.title, markerItem.description, markerItem, this.maps[mapId].mapParams);
 		google.maps.event.addListener(this.maps[mapId].markerArr[markerItem.id], 'click', function(){
 			for(var i in gmapPreview.maps[mapId].infoWindows) {
 				gmapPreview.maps[mapId].infoWindows[i].close();
