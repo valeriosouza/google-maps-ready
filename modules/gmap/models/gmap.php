@@ -70,10 +70,10 @@ class gmapModelGmp extends modelGmp {
 		  * remove map
 		  */
 	 }
-	 public function getMapById($id=false,$withMarkers=true,$withGroups = false){
-		 if(!$id){
-			 return false;
-		 }
+	 public function getMapById($id = false, $withMarkers = true, $withGroups = false){
+		if(!$id){
+			return false;
+		}
 		$map = frameGmp::_()->getTable('maps')->get('*',array('id'=>(int)$id));
 		if(!empty($map)){
 			$markerModule = frameGmp::_()->getModule('marker');	

@@ -132,23 +132,23 @@
 						</div>
 					</div>
 			   </div>
-			   <div class="gmpIconsList">
-			 <?php
-				 $defIcon = false;
-				 $activeClassName = '';
-  				 foreach($this->marker_opts['icons'] as $icon){
-					   if(!$defIcon){
-						   $defIcon=$icon['id'];
-						   $activeClassName=' active';
-					   }
-			   ?>
-			   <a class='markerIconItem <?php echo $activeClassName;?>' data_name='<?php echo $icon['title'];?>' data_desc="<?php echo $icon['description']; ?>" title='<?php echo $icon['title'];?>' data_val='<?php echo $icon['id'];?>'>
-						<img src="<?php echo $icon['path'];?>" class='gmpMarkerIconFile' />   
-				   </a>   
-						   <?php
-						   $activeClassName="";
-						}
-					 ?>
+				<div class="gmpIconsList">
+				<?php
+					 $defIcon = false;
+					 $activeClassName = '';
+					 foreach($this->marker_opts['icons'] as $icon){
+						   if(!$defIcon){
+							   $defIcon=$icon['id'];
+							   $activeClassName=' active';
+						   }
+				?>
+						<a class="markerIconItem <?php echo $activeClassName;?>" data_name="<?php echo $icon['title'];?>" data_desc="<?php echo $icon['description']; ?>" title="<?php echo $icon['title'];?>" data_val="<?php echo $icon['id'];?>">
+							<img src="<?php echo $icon['path'];?>" class="gmpMarkerIconFile" />
+						</a>   
+						<?php
+							   $activeClassName = '';
+					}
+				?>
 				</div>  
 				<input type="hidden" name="marker_opts[icon]" value="<?php echo $defIcon;?>" id="gmpSelectedIcon" class="right gmpMarkerSelectedIconOpt">
 			</div>   
@@ -204,6 +204,14 @@
 							'hint' => 'Coordinate Y(Latitude)'));
 					?>
 				</div>
+			</div>
+		</div>
+		<div class="gmpFormRow">
+			<label for="marker_opts[more_info_link]"><?php langGmp::_e('Add "More info" in description window')?></label> 
+			<div class="gmpFormElemCon">
+				<?php echo htmlGmp::checkboxHiddenVal('marker_opts[params][more_info_link]', array(
+					'attrs' => 'class="gmpHintElem"',
+					'hint' => langGmp::_('If enabled - in description window by default will be only image or part of description, and added "More Info" link, when click on it - there will be full descrtiption')));?>
 			</div>
 		</div>
 		<?php echo htmlGmp::hidden('marker_opts[id]')?>

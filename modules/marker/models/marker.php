@@ -42,7 +42,7 @@ class markerModelGmp extends modelGmp {
 	public function getById($id) {
 		return $this->_afterGet(frameGmp::_()->getTable('marker')->get('*', array('id' => $id), '', 'row'));
 	}
-	public function _afterGet($marker) {
+	public function _afterGet($marker, $widthMapData = false) {
 		if(!empty($marker)) {
 			$marker['icon_data'] = frameGmp::_()->getModule('icons')->getModel()->getIconFromId($marker['icon']);
 			$marker['params'] = utilsGmp::unserialize($marker['params']);
@@ -60,6 +60,8 @@ class markerModelGmp extends modelGmp {
 				$marker['params']['title_is_link'] = false;
 			// Go to absolute path as "../wp-content/" will not work on frontend
 			$marker['description'] = str_replace('../wp-content/', GMP_SITE_URL. 'wp-content/', $marker['description']);
+			if($widthMapData && !empty($marker['map_id']))
+				$marker['map'] = frameGmp::_()->getModule('gmap')->getModel()->getMapById($marker['map_id'], false);
 		}
 		return $marker;
 	}
@@ -183,7 +185,7 @@ class markerModelGmp extends modelGmp {
     public function removeMarkersFromMap($mapId){
         return frameGmp::_()->getTable('marker')->delete("`map_id`='".$mapId."'");
     }
-    public function getAllMarkers($d = array()) {
+    public function getAllMarkers($d = array(), $widthMapData = false) {
 		if(isset($d['limitFrom']) && isset($d['limitTo']))
 			frameGmp::_()->getTable('marker')->limitFrom($d['limitFrom'])->limitTo($d['limitTo']);
 		if(isset($d['orderBy']) && !empty($d['orderBy'])) {
@@ -191,10 +193,9 @@ class markerModelGmp extends modelGmp {
 		}
         $markerList = frameGmp::_()->getTable('marker')->get('*', $d);
         $iconsModel = frameGmp::_()->getModule('icons')->getModel();
-        $mapModel = frameGmp::_()->getModule('gmap')->getModel();
         $markerGroupModel = frameGmp::_()->getModule('marker_groups')->getModule()->getModel();
         foreach($markerList as $i => &$m) {
-			$markerList[$i] = $this->_afterGet($markerList[$i]);
+			$markerList[$i] = $this->_afterGet($markerList[$i], $widthMapData);
            /* $m['icon'] = $iconsModel->getIconFromId($m['icon']);
             $m['map'] = $mapModel->getMapById($m['map_id'],false);*/
             $m['marker_group'] = $markerGroupModel->getGroupById($m['marker_group_id']);

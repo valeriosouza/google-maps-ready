@@ -77,6 +77,7 @@
 			<div class="gmpDrawedNewMapOpts"></div>
 			<div class="gmpNewMapPreview" id="gmpEditMapsContainer"></div>
 			<div style="clear:both"></div>
+			<?php if(!frameGmp::_()->getModule('license')) {?>
 			<div class="gmpUnderMapPic">
 				<div class="gmp-pic-title">
 					<h4><a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php langGmp::_e('PRO version img');?></a></h4>	
@@ -86,7 +87,8 @@
 						<img src='<?php echo GMP_IMG_PATH ;?>underMapPic.jpg' />
 					</a>
 				</div>	
-			</div>	
+			</div>
+			<?php }?>
 			<div class="gmpNewMapShortcodePreview">
 				<pre class="gmpPre"></pre>
 			</div>

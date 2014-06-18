@@ -896,6 +896,10 @@ function editMarker(marker){
 		gmpMarkerDescSetContent(marker.description);
 	
 	jQuery('#gmpAddMarkerToEditMap').find('[name="marker_opts[params][title_is_link]"]').trigger('change');
+	// For prev. versions - this parameter is just undefined, and will not be in fillFormData(), so uncheck this manualy here
+	if(typeof(marker.params.more_info_link) === 'undefined') {
+		jQuery('#marker_optsparamsmore_info_link_check').removeAttr('checked').trigger('change');
+	}
 	return;
 	/*var mapForm	  = jQuery("#gmpAddNewMapForm");
 	var markerForm   = jQuery("#gmpAddMarkerToNewForm");
@@ -1144,7 +1148,10 @@ jQuery(document).ready(function() {
 		return false;
 	});*/
 	jQuery('#gmpAddMarkerToEditMap').submit(function(){
-		jQuery(this).find('[name="marker_opts[map_id]"]').val( jQuery('#gmpEditMapForm').find('[name="map_opts[id]"]').val() );
+		// For new markers, that are created from add/edit map form, we should set this value to current editable map ID
+		if(!parseInt(jQuery(this).find('[name="marker_opts[map_id]"]').val())) {
+			jQuery(this).find('[name="marker_opts[map_id]"]').val( jQuery('#gmpEditMapForm').find('[name="map_opts[id]"]').val() );
+		}
 		jQuery(this).find('[name="marker_opts[description]"]').val( gmpMarkerDescGetContent() );
 		
 		var lat = jQuery(this).find('[name="marker_opts[coord_y]"]').val()

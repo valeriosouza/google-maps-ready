@@ -24,6 +24,7 @@
 
 		</div>
 		<div style="clear:both"></div>
+		<?php if(!frameGmp::_()->getModule('license')) {?>
 		<div class="gmpUnderMapPic">
 			<div class="gmp-pic-title">
 				<h4><a target="_blank"  href="http://readyshoppingcart.com/product/google-maps-plugin/"><?php langGmp::_e('PRO version img');?></a></h4>	
@@ -34,6 +35,7 @@
 				</a>
 			</div>
 		</div>
+		<?php }?>
 	</div>
 </div>
      

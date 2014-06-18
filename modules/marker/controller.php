@@ -121,7 +121,6 @@ class markerControllerGmp extends controllerGmp {
 	}
 	private function _convertDataForDatatable($list) {
 		foreach($list as $i => $marker) {
-			
 			$list[$i]['list_icon'] = $this->getView()->getListIcon($list[$i]);
 			$list[$i]['list_title'] = $this->getView()->getListTitle($list[$i]);
 			$list[$i]['group_title'] = $list[$i]['marker_group']['title'];

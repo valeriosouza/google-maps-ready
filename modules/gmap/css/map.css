@@ -62,3 +62,7 @@
 .gmp_map_opts{
 	font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
 }
+
+.gmpFullContent {
+	display: none;
+}
