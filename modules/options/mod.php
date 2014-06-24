@@ -61,7 +61,7 @@ class optionsGmp extends moduleGmp {
 			return array(
 			1 => array('label' => 'Google'),
 			2 => array('label' => 'Wordpress.org'),
-			3 => array('label' => 'Reffer a friend'),
+			3 => array('label' => 'Refer a friend'),
 			4 => array('label' => 'Find on the web'),
 			5 => array('label' => 'Other way...'),
 		);

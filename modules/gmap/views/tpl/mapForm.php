@@ -22,11 +22,19 @@
 	</div>
 	<div class="gmpFormRow">
 		<div class="gmpFormElemCon">
-		 <?php
+		<?php
 			echo htmlGmp::text('map_opts[width]', array(
-				'value' => '600',
-				'attrs' => "class='gmpInputSmall gmpMapWidthOpt gmpHintElem' required='required' id='gmpNewMap_width' ",
+				'value' => '100',
+				'attrs' => 'class="gmpInputSmall gmpMapWidthOpt gmpHintElem" required="required" id="gmpNewMap_width" style="float: left;"',
 				'hint' => langGmp::_('Width for map in pixels or percent')));?>
+		&nbsp;
+		<?php 
+			echo htmlGmp::selectbox('map_opts[width_units]', array(
+				'value' => '%',
+				'options' => array('%' => '%', 'px' => 'px'),
+				'attrs' => 'class="gmpInputSmall gmpHintElem" style="width: 45px !important;"',
+				'hint' => langGmp::_('Width measure units, height will always be in px'),
+			));?>
 		</div>
 		<label for="gmpNewMap_width" class="gmpFormLabel">
 			<?php langGmp::_e('Map Width')?>
@@ -37,9 +45,9 @@
 		<?php
 			echo htmlGmp::text('map_opts[height]', array(
 				'value' => '250', 
-				'attrs' => " class='gmpInputSmall gmpMapHeightOpt gmpHintElem'  required='required'  id='gmpNewMap_height' ",
+				'attrs' => 'class="gmpInputSmall gmpMapHeightOpt gmpHintElem" required="required" id="gmpNewMap_height" style="float: left;"',
 				'hint' => langGmp::_('Height For Map In Pixels')));
-		?>
+		?>&nbsp;<span style="margin-right: 30px;">px</span>
 		</div>
 		<label for="gmpNewMap_height" class="gmpFormLabel">
 			<?php langGmp::_e('Map Height')?>

@@ -31,13 +31,13 @@ class gmapModelGmp extends modelGmp {
 			$htmlOpts[$k] = isset($params[$k]) ? $params[$k] : null;
 		}
 		$mapOptKeys = dispatcherGmp::applyFilters('mapParamsKeys', 
-				array('enable_zoom', 'enable_mouse_zoom', 'zoom', 'type', 'language', 'map_display_mode', 'map_center', 'infowindow_height', 'infowindow_width'));
+				array('enable_zoom', 'enable_mouse_zoom', 'zoom', 'type', 'language', 'map_display_mode', 'map_center', 'infowindow_height', 'infowindow_width', 'width_units'));
 		$mapOpts = array();
 		foreach($mapOptKeys as $k){
 			$mapOpts[$k] = isset($params[$k]) ? $params[$k] : null;
 		}
 		$insert = array(
-			'title'			=> $params['title'],
+			'title'			=> trim($params['title']),
 			'description'	=> $params['description'],
 			'html_options'	=> utilsGmp::serialize($htmlOpts),
 			'params'		=> utilsGmp::serialize($mapOpts),
@@ -45,18 +45,29 @@ class gmapModelGmp extends modelGmp {
 		);
 		return $insert;
 	}
+	private function _validateSaveMap($map) {
+		if(empty($map['title'])) {
+			$this->pushError(langGmp::_('Please enter Map Name'), 'map_opts[title]');
+		}
+		return !$this->haveErrors();
+	}
 	public function updateMap($params){
 		$data = $this->prepareParams($params);
-		return frameGmp::_()->getTable('maps')->update($data, array('id' => (int)$params['id']));
+		if($this->_validateSaveMap($data)) {
+			return frameGmp::_()->getTable('maps')->update($data, array('id' => (int)$params['id']));
+		}
+		return false;
 	}
 	public function saveNewMap($params){
 		if(!empty($params)) {
 			$insertData = $this->prepareParams($params);
-			$newMapId = frameGmp::_()->getTable('maps')->insert($insertData);
-			if($newMapId){
-				return $newMapId;
-			} else {
-				$this->pushError(frameGmp::_()->getTable('maps')->getErrors());
+			if($this->_validateSaveMap($insertData)) {
+				$newMapId = frameGmp::_()->getTable('maps')->insert($insertData);
+				if($newMapId){
+					return $newMapId;
+				} else {
+					$this->pushError(frameGmp::_()->getTable('maps')->getErrors());
+				}
 			}
 		} else
 			$this->pushError(langGmp::_('Empty Params'));

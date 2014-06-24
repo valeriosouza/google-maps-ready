@@ -34,7 +34,7 @@ class gmapViewGmp extends viewGmp {
 		if(empty(self::$_mapsData)) {
 			self::$_mapsData = array();
 		}
-		self::$_mapsData[] =$params;
+		self::$_mapsData[] = $params;
 	}
 	public function drawMap($params){
 		$ajaxurl = admin_url('admin-ajax.php');
@@ -77,7 +77,10 @@ class gmapViewGmp extends viewGmp {
 		}
 		frameGmp::_()->addScript('google_maps_api_'. $mapObj['params']['language'], $this->getApiUrl(). $mapObj['params']['language']);
 		frameGmp::_()->addScript('map.options', $this->getModule()->getModPath(). 'js/map.options.js', array('jquery'));
+		
 		frameGmp::_()->addStyle('map_params', $this->getModule()->getModPath(). 'css/map.css');
+		
+		frameGmp::_()->getModule('marker')->connectAssets();
 		if(empty($mapObj['params']['map_display_mode'])){
 			$mapObj['params']['map_display_mode'] = 'map';
 		}

@@ -2,18 +2,20 @@
 class promo_readyControllerGmp extends controllerGmp {
 	public function welcomePageSaveInfo() {
 		$res = new responseGmp();
-		if($this->getModel()->welcomePageSaveInfo(reqGmp::get('post'))) {
+		// Start usage in any case
+		installerGmp::setUsed();
+		if($this->getModel()->welcomePageSaveInfo(reqGmp::get('get'))) {
 			$res->addMessage(langGmp::_('Information was saved. Thank you!'));
-			$originalPage = reqGmp::getVar('original_page');
-			$returnArr = explode('|', $originalPage);
-			$return = $this->getModule()->decodeSlug(str_replace('return=', '', $returnArr[1]));
-			$return = admin_url( strpos($return, '?') ? $return : 'admin.php?page='. $return);
-			$res->addData('redirect', $return);
-			installerGmp::setUsed();
-		}else{
+		} else {
 			$res->pushError($this->getModel()->getErrors());
 		}
-		return $res->ajaxExec();
+		$originalPage = reqGmp::getVar('original_page');
+		//$returnArr = explode('|', $originalPage);
+		//$return = $this->getModule()->decodeSlug(str_replace('return=', '', $returnArr[1]));
+		$return = admin_url( strpos($originalPage, '?') ? $return : 'admin.php?page='. $originalPage);
+		// Start usage in any case
+		redirectGmp($return);
+		//return $res->ajaxExec();
 	}
 	public function saveUsageStat() {
 		$res = new responseGmp();

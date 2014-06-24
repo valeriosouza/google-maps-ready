@@ -1,26 +1,26 @@
 var gmpGroupForm ;
 jQuery(document).ready(function(){
     gmpGroupForm = jQuery("#gmpGroupForm");
-})
+});
 function gmpRefreshGroupList(){
-    var sendData ={
-        mod     :   'marker_groups',
-        action  :   'refreshGroupsList',
-        reqType :   'ajax'
-    }
-    jQuery("#GmpTableGroups").remove();
-    jQuery(".gmpGTablecon").addClass("gmpMapsTableListLoading");
+    var sendData = {
+        mod: 'marker_groups'
+	,	action: 'refreshGroupsList'
+	,	reqType: 'ajax'
+    };
+    jQuery('#GmpTableGroups').remove();
+    jQuery('.gmpGTablecon').addClass('gmpMapsTableListLoading');
     jQuery.sendFormGmp({
-        msgElID:"",
-        data:sendData,
-        onSuccess:function(res){
+        msgElID: ''
+	,	data: sendData
+	,	onSuccess:function(res){
             if(!res.error){
-                jQuery(".gmpGTablecon").removeClass("gmpMapsTableListLoading")
-                jQuery(".gmpGTablecon").html(res.html)
+                jQuery('.gmpGTablecon').removeClass('gmpMapsTableListLoading');
+                jQuery('.gmpGTablecon').html(res.html);
                 datatables.reCreateTable("GmpTableGroups");
             }
         }
-    })     
+    });
 }
 function gmpEditGroupItem(groupId){
     var currentGroup;

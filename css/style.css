@@ -133,6 +133,12 @@ table.gmpTable td,table.items td {
     vertical-align: middle;
     border: 1px solid #e8e8e8;
 }
+/*table.gmpTable td.description {
+	width: 100px !important;
+	word-break: break-all !important;
+	word-wrap: break-word !important;
+}*/
+
 table.gmpTable tr{background-color: #fff}
 .gmpTable th a{text-decoration: none}
 

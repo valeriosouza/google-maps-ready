@@ -149,8 +149,29 @@ a{
     clear:both;
     float: left;
     width:100%;
-	/*border: 1px solid #87CEEB;*/
+	/*border: 1px solid #61b5fe;*/
+	position: relative;
+	/*height: 1300px;*/
 }
+/*Gradient vorder for edit map forms, maybe it will be beautifull .......*/
+.gmpNewMapForms { 
+	position: relative; 
+	border-top: 1px solid #61b5fe; } 
+.gmpNewMapForms:before, .gmpNewMapForms:after { 
+	content: ""; 
+	position: absolute; 
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#61b5fe), to(transparent)); 
+	background-image: -webkit-linear-gradient(#61b5fe, transparent); 
+	background-image: -moz-linear-gradient(#61b5fe, transparent); 
+	background-image: -o-linear-gradient(#61b5fe, transparent); 
+	background-image: linear-gradient(#61b5fe, transparent); 
+	top: -1px; 
+	bottom: -1px; 
+	width: 1px; 
+}
+.gmpNewMapForms:before { left: -1px; }
+.gmpNewMapForms:after { right: -1px; }
+/*****/
 .newMapForm{
     float: left;
     margin-bottom: 20px;
@@ -230,11 +251,11 @@ a{
     padding: 3px 7px;
 }
 .gmpMapContainer {
-    float: right;
-    width: 63%;
-    border: 1px solid #C0C5D1;
+    /*float: left;
+    width: 53%;*/
+    /*border: 1px solid #C0C5D1;*/
     margin: 0 0 0 8px;
-    padding: 0;
+    padding: 0 0 0 437px;
 }
 #gmpAddNewMapForm{
     float:left;width:100%;
@@ -381,9 +402,30 @@ a{
 }
 .gmpNewMapTabs {
     float:left;
-    width: 32%;
+    width: 437px;
     overflow: hidden;
+    margin-left: -442px;
+    margin-top:-430px;
+	
+    /*
+	position: absolute;
+	top: 0;
+	left: 0;
+    */
 }
+
+/*Gradient vorder for edit map forms, maybe it will be beautifull .......*/
+.gmpNewMapTabs { 
+	border-width: 0 1px 0 0; 
+	border-style: solid; 
+	-webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(#61b5fe), to(rgba(0, 0, 0, 0))) 1 100%; 
+	-webkit-border-image: -webkit-linear-gradient(#61b5fe, rgba(0, 0, 0, 0)) 1 100%; 
+	-moz-border-image: -moz-linear-gradient(#61b5fe, rgba(0, 0, 0, 0)) 1 100%; 
+	-o-border-image: -o-linear-gradient(#61b5fe, rgba(0, 0, 0, 0)) 1 100%; 
+	border-image: linear-gradient(to bottom, #61b5fe, rgba(0, 0, 0, 0)) 1 100%;
+}
+/*****/
+
 .gmpNewMapOptsTab li.ui-state-active > a {
     color:white !important;
     background-color: rgba(86, 177, 255, 0.92) !important;
@@ -428,7 +470,7 @@ li.active .gmp-tabs-data{
 #gmpTabForNewMapMarkerOpts {
     text-decoration: none !important;
     width: 440px;
-    margin-right: 40px;
+    margin-right: 5px;
 }
 .gmpTabElemSimpTxt {
     min-width: 74px;
@@ -488,10 +530,10 @@ div.refreshMapsList {
     float: left;
 }
 #newMapSubmitBtn {
-    margin-top: -41px;
+    margin-top: -21px;
     position: absolute;
-    right: 72px;
-    width: 250px;
+    /*right: 72px;
+    width: 450px;*/
 }
 .btn.paginate_button{
   
@@ -566,7 +608,7 @@ ul.gmpMainTab>li.gmpAddNewMap{
 }
 .gmpExistsMapOperations {
     float: left;
-    margin-top: -13px;
+    margin-top: -23px;
     padding-top: 4px;
 }
 .gmpNewMapOperations {
@@ -576,7 +618,7 @@ ul.gmpMainTab>li.gmpAddNewMap{
     font-size: 15px;
     font-weight: bold;
     color: #31708f;
-    float: right;
+    /*float: right;*/
     min-width: 200px;
     line-height: 32px;
 }

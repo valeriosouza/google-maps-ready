@@ -33,7 +33,7 @@ class gmapControllerGmp extends controllerGmp {
 			$res->addData('map_id', $mapId);
 			//$res->addData('updateMarkers', $updateMarkers);
 		} else {
-			$res->pushError(langGmp::_('Cannot save map'));
+			$res->pushError( $this->getModel()->getErrors() );
 		}
 		frameGmp::_()->getModule('promo_ready')->getModel()->saveUsageStat('map.edit');
 		return $res->ajaxExec();

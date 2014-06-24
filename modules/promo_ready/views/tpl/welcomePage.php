@@ -69,7 +69,7 @@ jQuery(document).ready(function(){
 				break;
 		}
 	});
-	jQuery('#gmpWelcomePageFindUsForm').submit(function(){
+	/*jQuery('#gmpWelcomePageFindUsForm').submit(function(){
 		jQuery(this).sendFormGmp({
 			msgElID: 'toeWelcomePageFindUsMsg'
 		,	onSuccess: function(res) {
@@ -79,12 +79,12 @@ jQuery(document).ready(function(){
 			}
 		});
 		return false;
-	});
+	});*/
 });
 // -->
 </script>
 <div class="container">
-	<form id="gmpWelcomePageFindUsForm">
+	<form id="gmpWelcomePageFindUsForm" method="GET">
 		<h1>
 			<?php langGmp::_e('Welcome to')?>
 			<?php echo GMP_WP_PLUGIN_NAME?>
@@ -153,13 +153,11 @@ jQuery(document).ready(function(){
 		<?php echo htmlGmp::hidden('pl', array('value' => 'gmp'))?>
 		<?php echo htmlGmp::hidden('mod', array('value' => 'promo_ready'))?>
 		<?php echo htmlGmp::hidden('action', array('value' => 'welcomePageSaveInfo'))?>
-		<?php echo htmlGmp::hidden('reqType', array('value' => 'ajax'))?>
 		
-                <br/>
-                <br/>
-                <?php echo htmlGmp::submit('gonext', array('value' => 'Thank for check info. Start using plugin.', 'attrs' => 'class="button button-primary button-hero"'))?>
+		<br />
+		<br />
+		<?php echo htmlGmp::submit('gonext', array('value' => 'Thank for check info. Start using plugin.', 'attrs' => 'class="button button-primary button-hero"'))?>
 		<?php echo htmlGmp::hidden('original_page', array('value' => reqGmp::getVar('page')))?>
-		
 		<span id="toeWelcomePageFindUsMsg"></span>
 	</form>
 </div>

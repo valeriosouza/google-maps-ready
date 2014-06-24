@@ -19,7 +19,7 @@ class installerDbUpdaterGmp {
 	}
 	public static function update_05(){
 		$query = "ALTER TABLE `@__markers` ADD column `params` text;";
-		dbGmp::query($query);		
+		dbGmp::query($query);
 		
 		$query = "insert into `@__options` (`code`,`value`,`label`) VALUES('save_statistic','0','Save Statistic')";
 		dbGmp::query($query);
@@ -28,6 +28,4 @@ class installerDbUpdaterGmp {
 				utilsGmp::serialize(array('width'=>'100','height'=>'100'))."','Info Window Size')";
 		dbGmp::query($query);
 	}
-        
-		
 }

@@ -175,6 +175,9 @@ function gmpOpenMapForm() {
 	gmpCreateMapMarkersTable();
 	gmpAddMarkerFormToMap();
 	gmpClearMarkerForm();
+	// Make All Maps tab - deactivated, as we now in edit map form
+	jQuery('#gmpAdminOptionsTabs li a[href="#gmpAllMaps"]').parents('li:first').removeClass('ui-tabs-active');
+	jQuery('.removeMarkerFromForm').attr('disabled', 'disabled');
 }
 function gmpOpenMapLists() {
 	jQuery('#gmpAllMapsListShell').show();
@@ -190,21 +193,47 @@ function gmpShowEditMap(id) {
 	gmpOpenMapForm();
 	gmpEditMap(id);
 }
+jQuery(document).ready(function(){
+	/*setTimeout(function(){
+		tinymce.get('marker_opts_description').onChange.add(function (ed, e) {
+			changeAdminFormGmp('gmpAddMarkerToEditMap');
+		});
+	}, 500);*/
+	
+});
+var gmpChangeEventBindedToMarkerDesc = false;
+function gmpBindChangeEventToMarkerDesc() {
+	if(!gmpChangeEventBindedToMarkerDesc) {
+		tinymce.get('marker_opts_description').onChange.add(function (ed, e) {
+			changeAdminFormGmp('gmpAddMarkerToEditMap');
+		});
+		gmpChangeEventBindedToMarkerDesc = true;
+	}
+}
+function gmpUnbindChangeEventToMarkerDesc() {
+	gmpChangeEventBindedToMarkerDesc = false;
+}
 function gmpAddMarkerFormToMap() {
 	if(!jQuery('#gmpMarkerMapFormShell').find('form').size()) {
+		gmpUnbindChangeEventToMarkerDesc();
 		gmpMarkerDescSetContent('');	// Clear editor content
 		tinyMCE.execCommand('mceRemoveEditor', false, 'marker_opts_description');	// Deatach all events from editor
 		jQuery('#gmpMarkerMapFormShell').append( jQuery('#gmpAddMarkerToEditMap') );// Move full form. with editor
 		tinyMCE.execCommand('mceAddEditor', false, 'marker_opts_description');	// Attach events to editor - re-activa it
 	}
+	// Try to bind it each time we swith between markers forms
+	gmpBindChangeEventToMarkerDesc();
 }
 function gmpAddMarkerFormToMarker() {
 	if(!jQuery('#gmpMarkerSingleFormShell').find('form').size()) {
+		gmpUnbindChangeEventToMarkerDesc();
 		gmpMarkerDescSetContent('');	// Clear editor content
 		tinyMCE.execCommand('mceRemoveEditor', false, 'marker_opts_description');	// Deatach all events from editor
 		jQuery('#gmpMarkerSingleFormShell').append( jQuery('#gmpAddMarkerToEditMap') );	// Move full form. with editor
 		tinyMCE.execCommand('mceAddEditor', false, 'marker_opts_description');	// Attach events to editor - re-activa it
 	}
+	// Try to bind it each time we swith between markers forms
+	gmpBindChangeEventToMarkerDesc();
 }
 function gmpClearMapForm() {
 	jQuery('#gmpEditMapForm')[0].reset();
@@ -219,6 +248,7 @@ function gmpClearMapForm() {
 	if(gmpMapEditMarkersTable) {
 		gmpMapEditMarkersTable.fnClearTable();
 	}
+	gmpMapNameTitleShow('');
 }
 function gmpFormatAddress(addressObj){
 	var finishAddr = [];

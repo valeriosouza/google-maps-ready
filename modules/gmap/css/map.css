@@ -66,3 +66,7 @@
 .gmpFullContent {
 	display: none;
 }
+.gmpMarkerDescTblWrap, .marker_desc_itm {
+	word-wrap: break-word; 
+	max-width: 300px;
+}

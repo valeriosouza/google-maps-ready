@@ -3,7 +3,7 @@ Contributors: Google Maps plugin
 Donate link: http://readyshoppingcart.com/product/google-maps-plugin/
 Tags: google map, google maps, map, maps, location, direction, marker, geocoder, post map, widget map, widget, google map widget, custom marker icons and text, custom marker text, geo, google map short code,  google map styles, openstreetmap, latitude, longitude, placemarker, pronamic, reverse geocode, v3, wp map, wp maps
 Tested up to: 3.9.1
-Stable tag: 0.6.3
+Stable tag: 1.0.2
 License: GPLv2 or later
 
 Display custom Google Maps. Set markers and locations with text, images, categories and links. Customize google map without any programming skills
@@ -46,6 +46,24 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 2. [Markers sorting](http://readyshoppingcart.com/product/google-maps-plugin/ "WordPress Google Maps plugin")
 
 == Changelog ==
+
+= 1.0.2 =
+ * Make admin and fronted interface more comfortable
+ * Fixed issues with markers categories saving
+ * Map name preview on map add/edit fix (small issue)
+ * Added possibility to set 100% for map - select to set width in "px" or "%"
+ * Fixed issue when trying to edit marker selected from map markers list on maps list
+ * Added ask question before markers removing
+ * Disable remove marker button before it was saved
+ * Ask before map/marker form was saved and user want to go to other tab/page - "Are you sure?" - to prevent data lost
+ * Fixed small spelling issues
+ * More comfortable work with markers on map add/edit form - select markers to edit/remove from bottom list
+ * Added turkey lang
+ * PRO version - added new markers list view - slider - http://readyshoppingcart.com/product/google-maps-plugin/
+ * PRO version - show small description in tables/slider, mouse over will trigger to show full description - http://readyshoppingcart.com/product/google-maps-plugin/
+ * PRO version - search case insensitive - http://readyshoppingcart.com/product/google-maps-plugin/
+ * PRO version - new options - "Disable search", "Additional links" and more - http://readyshoppingcart.com/product/google-maps-plugin/
+ * PRO version - some small re-design of markers info window - http://readyshoppingcart.com/product/google-maps-plugin/
 
 = 0.6.3 =
  * In PRO version - hide AD in admin area

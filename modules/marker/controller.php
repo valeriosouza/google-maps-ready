@@ -130,4 +130,17 @@ class markerControllerGmp extends controllerGmp {
 		}
 		return $list;
 	}
+	public function getMarker() {
+		$res = new responseGmp();
+		$id = (int) reqGmp::getVar('id');
+		if($id) {
+			$marker = $this->getModel()->getById($id);
+			if(!empty($marker)) {
+				$res->addData('marker', $marker);
+			} else
+				$res->pushError ($this->getModel()->getErrors());
+		} else
+			$res->pushError (langGmp::_('Empty or invalid marker ID'));
+		return $res->ajaxExec();
+	}
 }

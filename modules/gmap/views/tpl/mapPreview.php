@@ -5,7 +5,7 @@
 	}
     $width = trim($this->currentMap['html_options']['width']);
 	if($width{strlen($width)-1} != '%' && $width{strlen($width)-1} != 'x' ){
-		$width = (int)$width . 'px';
+		$width = (int)$width . (isset($this->currentMap['params']['width_units']) ? $this->currentMap['params']['width_units'] : 'px');
 	}
     $height = $this->currentMap['html_options']['height'];
     $classname = @$this->currentMap['html_options']['classname'];

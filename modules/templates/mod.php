@@ -53,6 +53,8 @@ class templatesGmp extends moduleGmp {
 			frameGmp::_()->addScript('farbtastic',get_bloginfo('wpurl'). '/wp-admin/js/farbtastic.js', array('jquery'));
 			
 			frameGmp::_()->addScript('jquery-ui-tabs', '', array('jquery'), false, true);
+			
+			frameGmp::_()->getModule('marker')->connectAssets();
 		}
 
         if (is_admin()) {

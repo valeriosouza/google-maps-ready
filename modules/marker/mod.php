@@ -12,4 +12,7 @@ class  markerGmp extends moduleGmp {
 		}
 		return $tabs;
 	}
+	public function connectAssets() {
+		frameGmp::_()->addScript('marker', $this->getModPath(). 'js/marker.js');
+	}
 }

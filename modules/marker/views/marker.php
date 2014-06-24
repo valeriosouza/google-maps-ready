@@ -8,8 +8,9 @@ class markerViewGmp extends viewGmp {
         }
 		$this->assign('displayColumns', $this->getDisplayColumns());
         $this->assign('tableContent', parent::getContent('markerTable'));
-		$markerForm = $this->getMarkerForm(array('page' => 'editMarker','formId' => 'gmpEditMarkerForm', 'formName' => 'addMarkerForm'));
-		$this->assign('markerForm', $markerForm);
+		// We don't need this anymore - we will insert here form from map add/edit in js
+		/*$markerForm = $this->getMarkerForm(array('page' => 'editMarker','formId' => 'gmpEditMarkerForm', 'formName' => 'addMarkerForm'));
+		$this->assign('markerForm', $markerForm);*/
 		return parent::getContent('markerList');             
     }
 	public function getMarkerForm($params){

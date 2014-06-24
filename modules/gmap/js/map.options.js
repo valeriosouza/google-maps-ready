@@ -4,14 +4,7 @@ function getInfoWindow(title, content, markerItem, mapParams) {
 	}
 
 	if(parseInt(markerItem.params.more_info_link) && content && content != '') {
-		var previewContent = gmpGetPreviewContent(content)
-		,	contentShell = jQuery('<div class="gmpMarkerDescShell"/>')
-		,	previewHtmlObj = jQuery('<div />').addClass('gmpPreviewContent').html( previewContent )
-		,	fullHtmlObj = jQuery('<div />').addClass('gmpFullContent').html( content )
-		,	moreInfoButt = jQuery('<a href="#" onclick="gmpToggleInfowndMoreInfoClickButt(this); return false;"/>').html(toeLangGmp('More Info')).addClass('gmpMarkerMoreInfoButt');
-		
-		contentShell.append(previewHtmlObj).append(fullHtmlObj).append(moreInfoButt);
-		content = contentShell.get(0).outerHTML;
+		content = gmpContentPrevFull(content);
 	}
 	var text = '<div class="gmpMarkerInfoWindow">';
 	text += '<div class="gmpInfoWindowtitle">'+ title;
@@ -26,22 +19,49 @@ function getInfoWindow(title, content, markerItem, mapParams) {
 	});
 	return infoWindow;
 }
+function gmpContentPrevFull(content, params) {
+	params = params || {};
+	var previewContent = gmpGetPreviewContent(content)
+	,	contentShell = jQuery('<div class="gmpMarkerDescShell"/>')
+	,	previewHtmlObj = jQuery('<div />').addClass('gmpPreviewContent').html( previewContent )
+	,	fullHtmlObj = jQuery('<div />').addClass('gmpFullContent').html( content )
+	,	moreInfoButt = jQuery('<a href="#" onclick="gmpToggleInfowndMoreInfoClickButt(this); return false;"/>').html(toeLangGmp('Read more')).addClass('gmpMarkerMoreInfoButt');
+
+	contentShell.append(previewHtmlObj).append(fullHtmlObj);
+	if(!params.withoutMoreLink)
+		contentShell.append(moreInfoButt);
+	content = contentShell.get(0).outerHTML;
+	return content;
+}
 function gmpGetPreviewContent(content) {
 	var tmpDiv = jQuery('<div />').html(content);
 	if(tmpDiv.find('img').size()) {
 		return tmpDiv.find('img:first').get(0).outerHTML;
-	} else {
+	} else if(content && content != '') {
 		return jQuery('<span />').html(content.substring(0, 30)+ ' ...').get(0).outerHTML;
 	}
+	return content;
 }
 function gmpToggleInfowndMoreInfoClickButt(link) {
 	var contentShell = jQuery(link).parents('.gmpMarkerDescShell:first');
 	if(contentShell.find('.gmpPreviewContent').is(':visible')) {
 		contentShell.find('.gmpPreviewContent').hide(100);
-		contentShell.find('.gmpFullContent').show(100);
+		contentShell.find('.gmpFullContent').show(100, function(){
+			var infoWnd = contentShell.parents('.gmpMarkerInfoWindow:first');
+			// If infoWnd have scroll - move more link to the left
+			if(infoWnd.get(0).scrollHeight > infoWnd.height()) {
+				jQuery(link).css({
+					'right': '30px'
+				});
+			}
+		});
+		jQuery(link).html(toeLangGmp('Hide'));
 	} else {
 		contentShell.find('.gmpFullContent').hide(100);
 		contentShell.find('.gmpPreviewContent').show(100);
+		jQuery(link).css({
+			'right': '0px'
+		}).html(toeLangGmp('Read more'));
 	}
 }
 var gmapPreview = {
@@ -62,6 +82,14 @@ var gmapPreview = {
 		} else if(currentMap.params.map_display_mode == 'map') {
 			this.drawMap(currentMap);
 		}
+	}
+,	getMapById: function(id) {
+		for(var i in gmapPreview.maps) {
+			if(gmapPreview.maps[i].mapParams.id == id)
+				return gmapPreview.maps[i];
+		}
+		console.log('CAN NOT FIND MAP BY ID', id, '!!!');
+		return false;
 	}
 ,	drawMap: function(mapForPreview) {
 		if(typeof(mapForPreview) == 'undefined') {
@@ -151,6 +179,9 @@ var gmapPreview = {
 			}
 			infoWindow.open(gmapPreview.maps[mapId].mapObject, gmapPreview.maps[mapId].markerArr[markerItem.id]);
 			toggleBounce(gmapPreview.maps[mapId].markerArr[markerItem.id], animType);
+			if(typeof(gmpGoToMarkerInList) === 'function') {
+				gmpGoToMarkerInList(gmapPreview.maps[mapId].mapParams, gmapPreview.maps[mapId].markerArr[markerItem.id]);
+			}
 		});
 		this.maps[mapId].infoWindows[markerItem.id] = infoWindow;
 	}

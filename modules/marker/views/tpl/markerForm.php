@@ -102,7 +102,7 @@
 				foreach($this->marker_opts['groups'] as $item){
 					$groupArr[$item['id']]=$item['title'];
 				}
-				echo htmlGmp::selectbox('marker_opts[group]', array(
+				echo htmlGmp::selectbox('marker_opts[marker_group_id]', array(
 					'options' => $groupArr,
 					'value' => '1' ,
 					'attrs' => 'id="gmpNewMap_marker_group" class="gmpInputLarge gmpMarkerGroupSelect gmpMarkerGroupOpt gmpHintElem"',
@@ -113,7 +113,10 @@
 		</div>
 		<div class="gmpFormRow">
 			<label for="gmpNewMap_marker_desc" class="gmpFormLabel"><?php langGmp::_e('Marker Description')?></label>
-			<?php wp_editor('', 'marker_opts_description' , array('quicktags' => false) );?>
+			<?php wp_editor('', 'marker_opts_description' , array(
+				'quicktags' => false,
+				'dfw' => true,
+			));?>
 		</div>
 		<div class="gmpMarkericonOptions">
 			<h3><?php langGmp::_e('Marker Icon')?></h3>

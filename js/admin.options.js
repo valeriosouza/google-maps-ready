@@ -7,18 +7,23 @@ window.onbeforeunload = function(){
 };
 jQuery(document).ready(function(){
 	jQuery('#gmpAdminOptionsTabs').tabs({
-		/*beforeActivate: function( event, ui ) {
-		   if(typeof(gmpChangeTab)==typeof(Function)){
-			   return gmpChangeTab(event,ui) 
-		   }
-		}*/
+		beforeActivate: function( event, ui ) {
+		   if(!checkAdminFormSaved())
+			   return false;
+		}
 	});
     jQuery('#gmpAdminOptionsTabs li').removeClass('ui-corner-top').addClass('ui-corner-left');
 	jQuery('#gmpAdminOptionsTabs li a[href="#gmpAllMaps"]').click(function(){
-		gmpOpenMapLists();
+		if(checkAdminFormSaved()) {
+			gmpOpenMapLists();
+			// Mark tab as active, as we marked it as deactivated when went to edit map form
+			jQuery(this).parents('li:first').addClass('ui-tabs-active');
+		}
 	});
 	jQuery('#gmpAdminOptionsTabs li a[href="#gmpMarkerList"]').click(function(){
-		jQuery('.gmpCancelMarkerEditing').trigger('click');
+		if(checkAdminFormSaved()) {
+			jQuery('.gmpCancelMarkerEditing').trigger('click');
+		}
 	});
 	jQuery('#gmpAdminOptionsSaveMsg').submit(function(){
 		return false;
@@ -69,16 +74,22 @@ jQuery(document).ready(function(){
 		return false;
     });
 	// If some changes was made in those forms and they were not saved - show message for confirnation before page reload
-	/*var formsPreventLeave = ['gmpAdminTemplateOptionsForm', 'gmpSubAdminOptsForm', 'gmpAdminSocOptionsForm'];
-	jQuery('#'+ formsPreventLeave.join(', #')).find('input,select').change(function(){
-		var formId = jQuery(this).parents('form:first').attr('id');
-		changeAdminFormGmp(formId);
+	var formsPreventLeave = ['gmpAddMarkerToEditMap', 'gmpEditMapForm'];
+	jQuery('#'+ formsPreventLeave.join(', #')).find('input,select').change(function(e){
+		if(e.originalEvent) {
+			var formId = jQuery(this).parents('form:first').attr('id');
+			changeAdminFormGmp(formId);
+		}
 	});
-	jQuery('#'+ formsPreventLeave.join(', #')).find('input[type=text],textarea').keyup(function(){
-		var formId = jQuery(this).parents('form:first').attr('id');
-		changeAdminFormGmp(formId);
+	jQuery('#'+ formsPreventLeave.join(', #')).find('input[type=text],textarea').keyup(function(e){
+		if(e.originalEvent) {
+			var formId = jQuery(this).parents('form:first').attr('id');
+			changeAdminFormGmp(formId);
+		}
 	});
-	jQuery('#'+ formsPreventLeave.join(', #')).submit(function(){
+	//adminFormSavedGmp
+	/*jQuery('#'+ formsPreventLeave.join(', #')).onFirst('submit', function(){
+		console.log(gmpAdminFormChanged);
 		if(gmpAdminFormChanged.length) {
 			var id = jQuery(this).attr('id');
 			for(var i in gmpAdminFormChanged) {
@@ -106,7 +117,6 @@ jQuery(document).ready(function(){
 					break;
 			}
 		}, 500);
-		
 	}
 	
 	jQuery('#toeModActivationPopupFormGmp').submit(function(){
@@ -163,6 +173,34 @@ function toeShowModuleActivationPopupGmp(plugName, action, goto) {
 function changeAdminFormGmp(formId) {
 	if(jQuery.inArray(formId, gmpAdminFormChanged) == -1)
 		gmpAdminFormChanged.push(formId);
+}
+function adminFormSavedGmp(formId) {
+	if(gmpAdminFormChanged.length) {
+		for(var i in gmpAdminFormChanged) {
+			if(gmpAdminFormChanged[i] == formId) {
+				gmpAdminFormChanged.pop(i);
+			}
+		}
+	}
+}
+function checkAdminFormSaved() {
+	if(gmpAdminFormChanged.length) {
+		if(!confirm(toeLangGmp('Some changes were not-saved. Are you sure you want to leave?'))) {
+			return false;
+		}
+		gmpAdminFormChanged = [];	// Clear unsaved forms array - if user wanted to do this
+	}
+	return true;
+}
+function isAdminFormChanged(formId) {
+	if(gmpAdminFormChanged.length) {
+		for(var i in gmpAdminFormChanged) {
+			if(gmpAdminFormChanged[i] == formId) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 function toeShowDialogCustomized(element, options) {
 	options = jQuery.extend({

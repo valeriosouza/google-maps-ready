@@ -88,7 +88,7 @@ class promo_readyGmp extends moduleGmp {
 	public function showWelcomePage() {
 		$firstTimeLookedToPlugin = !installerGmp::isUsed();
 		if($firstTimeLookedToPlugin){
-					$this->getView()->showWelcomePage();
+			$this->getView()->showWelcomePage();
 		}
 	}
 	public function saveUsageStat($code) {
