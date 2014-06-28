@@ -191,7 +191,13 @@ class htmlGmp {
         return $out;
     }
     static public function button($params = array('attrs' => '', 'value' => '')) {
-        return '<button '.$params['attrs'].'>'.$params['value'].'</button>';
+		$params['attrs'] = isset($params['attrs']) ? $params['attrs'] : '';
+		$params['value'] = isset($params['value']) ? $params['value'] : '';
+        $res =  '<button '. $params['attrs']. '>'. $params['value']. '</button>';
+		if(isset($params['hint'])){
+			$res .= '<label  class="hiddenLabelHint">'. $params['hint']. '</label>';
+		}
+		return $res;
     }
     static public function inputButton($params = array('attrs' => '', 'value' => '')) {
 		if(!is_array($params))

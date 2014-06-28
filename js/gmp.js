@@ -241,6 +241,7 @@ function gmpClearMapForm() {
 	jQuery('#gmpEditMapForm').find('[name="map_opts[id]"]').val(0);
 	jQuery('#gmpEditMapForm').find('[name="map_opts[map_center][coord_y]"]').val(0);
 	jQuery('#gmpEditMapForm').find('[name="map_opts[map_center][coord_y]"]').val(0);
+	jQuery('#gmpEditMapForm').find('[name="map_opts[custom_map_controls]"]').val('');
 	// For PRO version
 	if(jQuery('#gmpNewMap_Infowindow_markers_list_type').size()) {
 		jQuery('#gmpNewMap_Infowindow_markers_list_type').trigger('change');

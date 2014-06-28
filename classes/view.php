@@ -27,12 +27,12 @@ abstract class viewGmp extends baseObjectGmp {
 		$plTemplate = frameGmp::_()->getModule('options')->get('template');		// Current plugin template
 		if(empty($plTemplate) || !frameGmp::_()->getModule($plTemplate))
 			$plTemplate = '';
-		if(file_exists(utilsGmp::getCurrentWPThemeDir(). 'gmp'. DS. $code. DS. $tpl. '.php')) {
-            $path = utilsGmp::getCurrentWPThemeDir(). 'gmp'. DS. $code. DS. $tpl. '.php';
-        } elseif($plTemplate && file_exists(frameGmp::_()->getModule($plTemplate)->getModDir(). 'templates'. DS. $code. DS. $tpl. '.php')) {
+		if(file_exists($parentModule->getModDir(). 'views'. DS. 'tpl'. DS. $tpl. '.php')) { // Try to find it in module directory
+			$path = $parentModule->getModDir(). DS. 'views'. DS. 'tpl'. DS. $tpl. '.php';
+        } /*elseif($plTemplate && file_exists(frameGmp::_()->getModule($plTemplate)->getModDir(). 'templates'. DS. $code. DS. $tpl. '.php')) {
 			$path = frameGmp::_()->getModule($plTemplate)->getModDir(). 'templates'. DS. $code. DS. $tpl. '.php';
-		} elseif(file_exists($parentModule->getModDir(). 'views'. DS. 'tpl'. DS. $tpl. '.php')) { //Then try to find it in module directory
-            $path = $parentModule->getModDir(). DS. 'views'. DS. 'tpl'. DS. $tpl. '.php';
+		} */elseif(file_exists(utilsGmp::getCurrentWPThemeDir(). 'gmp'. DS. $code. DS. $tpl. '.php')) { // Look in WP template folder
+            $path = utilsGmp::getCurrentWPThemeDir(). 'gmp'. DS. $code. DS. $tpl. '.php';
         }
 		return $path;
 	}

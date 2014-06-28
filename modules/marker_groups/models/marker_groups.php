@@ -1,16 +1,24 @@
 <?php
 class marker_groupsModelGmp extends modelGmp {
-    public static $tableObj;
-    function __construct(){
-        if(empty(self::$tableObj)){
-            self::$tableObj=frameGmp::_()->getTable('marker_groups');  
-        }
-    }
     public function getMarkerGroups($params = array()){
-        return self::$tableObj->get('*');
+        return frameGmp::_()->getTable('marker_groups')->get('*', $params);
     }
+	public function getListForMarkers($markers) {
+		if($markers) {
+			$goupIds = array();
+			foreach($markers as $m) {
+				if((int) $m['marker_group_id'])
+					$goupIds[ $m['marker_group_id'] ] = 1;
+			}
+			if(!empty($goupIds)) {
+				$goupIds = array_keys($goupIds);
+				return $this->getMarkerGroups(array('additionalCondition' => 'id IN ('. implode(',', $goupIds). ')'));
+			}
+		}
+		return false;
+	}
     public function getGroupById($id){
-        $group = self::$tableObj->get("*"," `id`='".$id."' ");
+        $group = frameGmp::_()->getTable('marker_groups')->get("*"," `id`='".$id."' ");
         if(!empty($group)){
             return $group[0];
         }
@@ -26,14 +34,14 @@ class marker_groupsModelGmp extends modelGmp {
             $id = $params['id'];
             unset($params['id']);
             frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("group.edit");
-            return self::$tableObj->update($params," `id`='".$id."'");
+            return frameGmp::_()->getTable('marker_groups')->update($params," `id`='".$id."'");
         }else{
             unset($params['mode']);      
             frameGmp::_()->getModule("promo_ready")->getModel()->saveUsageStat("group.save");
-            return self::$tableObj->insert($params);
+            return frameGmp::_()->getTable('marker_groups')->insert($params);
         }
     }
     public function removeGroup($groupId){
-      return self::$tableObj->delete(" `id`='".$groupId."' ");
+      return frameGmp::_()->getTable('marker_groups')->delete(" `id`='".$groupId."' ");
     }
 }

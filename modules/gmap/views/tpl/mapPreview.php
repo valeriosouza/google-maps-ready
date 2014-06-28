@@ -49,18 +49,24 @@
 		<?php
 			if($this->currentMap['params']['infowindow_width'] != ""){
 				$infoWindowWidth = $this->currentMap['params']['infowindow_width'];
-			}else{
+			} else {
 				$infoWindowWidth = $this->indoWindowSize['width'];
 			}
 			if($this->currentMap['params']['infowindow_height'] != ""){
 				$infoWindowHeight = $this->currentMap['params']['infowindow_height'];
-			}else{
+			} else {
 				$infoWindowHeight = $this->indoWindowSize['height'];
+			}
+			if(!strpos($infoWindowWidth, 'px') && !strpos($infoWindowWidth, '%')) {
+				$infoWindowWidth .= 'px';
+			}
+			if(!strpos($infoWindowHeight, 'px') && !strpos($infoWindowHeight, '%')) {
+				$infoWindowHeight .= 'px';
 			}
 		?>
 		 #<?php echo $mapId;?> .gmpMarkerInfoWindow{
-			width:<?php echo (int)$infoWindowWidth;?>px;
-			height:<?php echo (int)$infoWindowHeight;?>px;
+			width:<?php echo $infoWindowWidth;?>;
+			height:<?php echo $infoWindowHeight;?>;
 		}
 		.gmpMapDetailsContainer#gmpMapDetailsContainer_<?php echo $map_id;?>{
 			height:<?php echo (int)$height;?>px;
@@ -89,6 +95,7 @@
 		<?php dispatcherGmp::doAction('addMapBottomControls', array(
 			'mapId' => $this->currentMap['id'], 
 			'markersDisplayType' => $this->markersDisplayType,
-			'map' => $this->currentMap)); ?>
+			'map' => $this->currentMap,
+			'categories' => $this->mapCategories)); ?>
 	</div>
 </div>

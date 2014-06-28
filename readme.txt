@@ -1,9 +1,9 @@
 === Google Maps Ready! ===
 Contributors: Google Maps plugin
 Donate link: http://readyshoppingcart.com/product/google-maps-plugin/
-Tags: google map, google maps, map, maps, location, direction, marker, geocoder, post map, widget map, widget, google map widget, custom marker icons and text, custom marker text, geo, google map short code,  google map styles, openstreetmap, latitude, longitude, placemarker, pronamic, reverse geocode, v3, wp map, wp maps
+Tags: google map, google maps, map, maps, location, direction, marker, geocoder, post map, widget map, widget, google map widget, custom marker icons and text, custom marker text, geo, google map short code,  google map styles, openstreetmap, latitude, longitude, placemarker, pronamic, reverse geocode, v3, wp map, wp maps, google maps ready!
 Tested up to: 3.9.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 
 Display custom Google Maps. Set markers and locations with text, images, categories and links. Customize google map without any programming skills
@@ -46,6 +46,12 @@ For more information review google maps plugin [FAQ section](http://readyshoppin
 2. [Markers sorting](http://readyshoppingcart.com/product/google-maps-plugin/ "WordPress Google Maps plugin")
 
 == Changelog ==
+= 1.0.3 =
+ * Possibility to set full width of marker info window (100%)
+ * "Fit icon in standard size" option for markers - for correct display on retina devices
+ * Some corrections for admin UI
+ * Fixed some problems with multisite
+ * Code optimizations (round 1)
 
 = 1.0.2 =
  * Make admin and fronted interface more comfortable

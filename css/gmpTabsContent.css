@@ -1044,6 +1044,8 @@ div.gmpUnderMapPic {
     padding: 7px;
     margin: 10px 0 0 0;
     margin-top: 15px;
+	float: right;
+	width: 100%;
 }
 div.gmp-undermap-pic img {
     border: none;

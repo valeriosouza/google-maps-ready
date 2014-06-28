@@ -176,8 +176,10 @@ class frameGmp {
                     && !empty($permissions[GMP_USERLEVELS])
                 ) {
                     $currentUserPosition = frameGmp::_()->getModule('user')->getCurrentUserPosition();
-                  
-                   
+					// For multi-sites network admin role is undefined, let's do this here
+					if(is_multisite() && is_admin()) {
+						$currentUserPosition = GMP_ADMIN;
+					}
                     foreach($permissions[GMP_USERLEVELS] as $userlevel => $methods) {
                         if(is_array($methods)) {
                             $lowerMethods = array_map('strtolower', $methods);          // Make case-insensitive

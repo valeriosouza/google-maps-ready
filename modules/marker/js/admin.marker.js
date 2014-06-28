@@ -135,7 +135,10 @@ function gmpEditMarkerItem(markerId) {
 			if(currentMarker.description)
 				gmpMarkerDescSetContent(currentMarker.description);
 			jQuery('#gmpAddMarkerToEditMap').find('[name="marker_opts[params][title_is_link]"]').trigger('change');
-			// For prev. versions - this parameter is just undefined, and will not be in fillFormData(), so uncheck this manualy here
+			// For prev. versions - those parameters is just undefined, and will not be in fillFormData(), so uncheck this manualy here
+			if(typeof(currentMarker.params.more_info_link) === 'undefined') {
+				jQuery('#marker_optsparamsmore_info_link_check').removeAttr('checked').trigger('change');
+			}
 			if(typeof(currentMarker.params.more_info_link) === 'undefined') {
 				jQuery('#marker_optsparamsmore_info_link_check').removeAttr('checked').trigger('change');
 			}

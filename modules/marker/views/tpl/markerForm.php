@@ -210,11 +210,19 @@
 			</div>
 		</div>
 		<div class="gmpFormRow">
-			<label for="marker_opts[more_info_link]"><?php langGmp::_e('Add "More info" in description window')?></label> 
+			<label for="marker_opts[params][more_info_link]"><?php langGmp::_e('Add "More info" in description window')?></label> 
 			<div class="gmpFormElemCon">
 				<?php echo htmlGmp::checkboxHiddenVal('marker_opts[params][more_info_link]', array(
 					'attrs' => 'class="gmpHintElem"',
 					'hint' => langGmp::_('If enabled - in description window by default will be only image or part of description, and added "More Info" link, when click on it - there will be full descrtiption')));?>
+			</div>
+		</div>
+		<div class="gmpFormRow">
+			<label for="marker_opts[params][icon_fit_standard_size]"><?php langGmp::_e('Fit icon in standard size')?></label> 
+			<div class="gmpFormElemCon">
+				<?php echo htmlGmp::checkboxHiddenVal('marker_opts[params][icon_fit_standard_size]', array(
+					'attrs' => 'class="gmpHintElem"',
+					'hint' => langGmp::_('If enabled - icon size will always be standard - 18x30, this parameter is for retina display')));?>
 			</div>
 		</div>
 		<?php echo htmlGmp::hidden('marker_opts[id]')?>

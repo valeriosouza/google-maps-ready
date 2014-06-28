@@ -89,9 +89,9 @@ class gmapModelGmp extends modelGmp {
 		if(!empty($map)){
 			$markerModule = frameGmp::_()->getModule('marker');	
 			if($withMarkers){
-			   $map[0]['markers']=$markerModule->getModel()->getMapMarkers($map[0]['id'],$withGroups);				
+			   $map[0]['markers'] = $markerModule->getModel()->getMapMarkers($map[0]['id'],$withGroups);				
 			}
-			$map[0]['html_options']= utilsGmp::unserialize($map[0]['html_options']);				
+			$map[0]['html_options'] = utilsGmp::unserialize($map[0]['html_options']);				
 			$map[0]['params']= utilsGmp::unserialize($map[0]['params']);				
 			return $map[0];
 		}

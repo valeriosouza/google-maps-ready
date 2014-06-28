@@ -47,7 +47,7 @@
     
     
     define('GMP_PLUGIN_INSTALLED', true);
-    define('GMP_VERSION', '1.0.2');
+    define('GMP_VERSION', '1.0.3');
     define('GMP_USER', 'user'); 
     
     

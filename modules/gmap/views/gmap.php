@@ -98,6 +98,8 @@ class gmapViewGmp extends viewGmp {
 			$markersDisplayType = $mapObj['params']['markers_list_type'];
 		}
 		$this->assign('markersDisplayType', $markersDisplayType);
+		// This will require only in PRO, but we will make it here - to avoid code doubling
+		$this->assign('mapCategories', frameGmp::_()->getModule('marker_groups')->getModel()->getListForMarkers(isset($mapObj['markers']) ? $mapObj['markers'] : false));
 		return parent::getContent('mapPreview');
 	}
 	/*public function addNewMapData(){

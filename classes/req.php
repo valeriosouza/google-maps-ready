@@ -2,13 +2,9 @@
 class reqGmp {
     static protected $_requestData;
     static protected $_requestMethod;
-    public function __construct() {
 
-    }
     static public function init() {
-        session_start();
-        //parse_str(file_get_contents('php://input'), self::$_requestData);
-        //self::getMethod();
+        //session_start();
     }
 /**
  * @param string $name key in variables array
@@ -19,9 +15,7 @@ class reqGmp {
     static public function getVar($name, $from = 'all', $default = NULL) {
         $from = strtolower($from);
         if($from == 'all') {
-            /*if(isset(self::$_requestData[$name])) {	
-                $from = 'input';
-            } else*/if(isset($_GET[$name])) {
+            if(isset($_GET[$name])) {
                 $from = 'get';
             } elseif(isset($_POST[$name])) {
                 $from = 'post';
@@ -29,10 +23,6 @@ class reqGmp {
         }
         
         switch($from) {
-            /*case 'input':
-                if(isset(self::$_requestData[$name]))
-                    return self::$_requestData[$name];
-            break;*/
             case 'get':
                 if(isset($_GET[$name]))
                     return $_GET[$name];
@@ -73,10 +63,6 @@ class reqGmp {
             case 'session':
                 $_SESSION[$name] = $val;
             break;
-            /*case 'input':
-            default:
-                self::$_requestData[$name] = $val;
-            break;*/
         }
     }
     static public function clearVar($name, $in = 'input') {
@@ -94,11 +80,6 @@ class reqGmp {
                 if(isset($_SESSION[$name]))
                     unset($_SESSION[$name]);
             break;
-            /*case 'input':
-            default:
-                if(isset(self::$_requestData[$name]))
-                    unset(self::$_requestData[$name]);
-            break;*/
         }
     }
     static public function get($what) {

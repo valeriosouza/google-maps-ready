@@ -220,14 +220,15 @@ function toeShowDialogCustomized(element, options) {
 			,	'height': '27px'
 			});
 			jQuery('.ui-dialog-titlebar-close').css({
-				'background': 'url("../wp-includes/js/thickbox/tb-close.png") no-repeat scroll 0 0 transparent'
+				'background': 'url("'+ GMP_DATA.cssPath+ 'img/tb-close.png") no-repeat scroll 0 0 transparent'
 			,	'border': '0'
 			,	'width': '15px'
 			,	'height': '15px'
 			,	'padding': '0'
 			,	'border-radius': '0'
-			,	'margin': '-7px 0 0'
-			}).html('');
+			,	'margin': '6px 6px 0'
+			,	'float': 'right'
+			}).html('').removeClass('ui-dialog-titlebar-close');
 			jQuery('.ui-dialog').css({
 				'border-radius': '3px'
 			,	'background-color': '#FFFFFF'
@@ -245,6 +246,15 @@ function toeShowDialogCustomized(element, options) {
 			});
 			if(options.openCallback && typeof(options.openCallback) == 'function') {
 				options.openCallback(event, ui);
+			}
+			jQuery('.ui-widget-overlay').css({
+				'z-index': jQuery( event.target ).parents('.ui-dialog:first').css('z-index') - 1
+			,	'background-image': 'none'
+			});
+			if(options.modal && options.closeOnBg) {
+				jQuery('.ui-widget-overlay').unbind('click').bind('click', function() {
+					jQuery( element ).dialog('close');
+				});
 			}
 		}
 	}, options);

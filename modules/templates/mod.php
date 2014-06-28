@@ -20,6 +20,9 @@ class templatesGmp extends moduleGmp {
 				'styleGmp'				=> array('path' => GMP_CSS_PATH. 'style.css'), 
 				'adminStylesGmp'		=> array('path' => GMP_CSS_PATH. 'adminStyles.css'), 
 				'farbtastic'			=> array(),
+				'wp-jquery-ui-dialog'	=> array(),
+				// Our corrections for ui dialog
+				'jquery-dialog'			=> array('path' => GMP_CSS_PATH. 'jquery-dialog.css'),
 				//'jquery-tabs'			=> array('path' => GMP_CSS_PATH. 'jquery-tabs.css', 'for' => 'admin'),
 			);
 		}
@@ -31,6 +34,7 @@ class templatesGmp extends moduleGmp {
         $jsData = array(
             'siteUrl'					=> GMP_SITE_URL,
             'imgPath'					=> GMP_IMG_PATH,
+			'cssPath'					=> GMP_CSS_PATH,
             'loader'					=> GMP_LOADER_IMG, 
             'close'						=> GMP_IMG_PATH. 'cross.gif', 
             'ajaxurl'					=> $ajaxurl,
@@ -55,12 +59,11 @@ class templatesGmp extends moduleGmp {
 			frameGmp::_()->addScript('jquery-ui-tabs', '', array('jquery'), false, true);
 			
 			frameGmp::_()->getModule('marker')->connectAssets();
+			frameGmp::_()->addScript('jquery-ui-dialog', '', array('jquery'));
+			frameGmp::_()->addScript('adminOptionsGmp', GMP_JS_PATH. 'admin.options.js');
 		}
 
         if (is_admin()) {
-			if(frameGmp::isAdminPlugPage()){
-				frameGmp::_()->addScript('adminOptionsGmp', GMP_JS_PATH. 'admin.options.js');				
-			}
 			frameGmp::_()->addScript('ajaxupload', GMP_JS_PATH. 'ajaxupload.js');
 			frameGmp::_()->addScript('postbox', get_bloginfo('wpurl'). '/wp-admin/js/postbox.js');
 			add_thickbox();

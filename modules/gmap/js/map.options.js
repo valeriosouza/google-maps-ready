@@ -1,3 +1,10 @@
+var gmpGeocoder;
+function gmpGetGeocoder() {
+	if(!gmpGeocoder) {
+		gmpGeocoder = new google.maps.Geocoder();
+	}
+	return gmpGeocoder;
+}
 function getInfoWindow(title, content, markerItem, mapParams) {
 	if(markerItem && parseInt(markerItem.params.title_is_link) && markerItem.params.marker_title_link) {
 		title = '<a href="'+ markerItem.params.marker_title_link+ '" target="_blank" class="gmpInfoWIndowTitleLink">'+ title+ '</a>'
@@ -122,9 +129,12 @@ var gmapPreview = {
 			mapOptions.draggable = true;
 		}
 		
-		mapOptions.mapTypeId= google.maps.MapTypeId[mapForPreview.params.type];
+		mapOptions.mapTypeId = google.maps.MapTypeId[mapForPreview.params.type];
 
-		var map = new google.maps.Map(document.getElementById(mapElemId),mapOptions);
+		if(typeof(gmpCmcPrepareMapOptions) !== 'undefined') {
+			mapOptions = gmpCmcPrepareMapOptions(mapOptions, mapForPreview);
+		}
+		var map = new google.maps.Map(document.getElementById(mapElemId), mapOptions);
 		this.maps[mapForPreview.id].mapObject = map;
 
 		if(mapForPreview.markers.length > 0) {
@@ -145,10 +155,17 @@ var gmapPreview = {
 		if(markerItem.icon_data != undefined && markerItem.icon_data.path != undefined) {
 			iconUrl = markerItem.icon_data.path;
 		}
-		var markerIcon = {
-			url: iconUrl
-		,	origin: new google.maps.Point(0,0)
-		};
+		var markerIcon;
+		if(parseInt(markerItem.params.icon_fit_standard_size)) {
+			markerIcon = new google.maps.MarkerImage(iconUrl, null, null, null, new google.maps.Size(18, 30));
+		} else {
+			markerIcon = {
+				url: iconUrl
+			,	origin: new google.maps.Point(0,0)
+			};
+			console.log(iconUrl);
+		}
+
 		var markerLatLng = new google.maps.LatLng(markerItem.coord_y, markerItem.coord_x)
 		,	animType = 2;
 		if(markerItem.animation == 1) {
@@ -204,3 +221,34 @@ jQuery(document).ready(function(){
 		}         
 	}
 });
+/**
+ * Convert angel - to radians
+ * @param {number} a angel to convert
+ * @return {number} angel in Rad
+ */
+function gmpToRad(a) {
+	return a * Math.PI / 180;
+}
+/**
+ * Get distance, in meter, betweent two point positions
+ * @param {object} p1 google maps API position of first point
+ * @param {object} p2 google maps API position of second point
+ * @return {number} distance in meter
+ */
+function gmpGetDistance(p1, p2) {
+	var R = 6378137; // Earth’s mean radius in meter
+	var dLat = gmpToRad(p2.lat() - p1.lat());
+	var dLong = gmpToRad(p2.lng() - p1.lng());
+	var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(gmpToRad(p1.lat())) * Math.cos(gmpToRad(p2.lat())) *
+		Math.sin(dLong / 2) * Math.sin(dLong / 2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	var d = R * c;
+	return d; // returns the distance in meter
+}
+function gmpM2Km(d) {
+	return d / 1000;
+}
+function gmpKm2M(d) {
+	return d * 1000;
+}
